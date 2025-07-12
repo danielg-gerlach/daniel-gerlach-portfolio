@@ -12,24 +12,26 @@
           </div>
           
           <div class="p-6">
-            <pre class="font-mono text-sm text-gray-300 overflow-x-auto">
-              <code>{{ displayedCode }}<span v-if="currentLineIndex < pythonCode.length && showCursor" class="inline-block w-2 h-4 bg-blue-400 ml-1" /></code>
-            </pre>
+            <pre class="font-mono text-sm text-gray-300 overflow-x-auto"><code>{{ displayedCode }}<span v-if="currentLineIndex < pythonCode.length && showCursor" class="inline-block w-2 h-4 bg-blue-400 ml-1" /></code></pre>
           </div>
         </div>
         
         <div class="mt-12 text-center">
           <!-- Profile Picture Placeholder -->
-          <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gray-800 border-2 border-blue-500 flex items-center justify-center">
-            <User class="w-16 h-16 text-gray-600" />
-          </div>
+          <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gray-800 border-2 border-blue-500 overflow-hidden">
+            <img 
+                src="/profile.jpg" 
+                alt="Daniel Gerlach" 
+                class="w-full h-full object-cover"
+            />
+            </div>
           
           <h1 class="text-5xl md:text-7xl font-bold mb-4">
             <span class="text-white">Daniel </span>
             <span class="text-blue-400">Gerlach</span>
           </h1>
           <p class="text-xl text-gray-400 mb-8">
-            Data Engineering Student • Building Scalable Data Infrastructure
+            Business Informatics Student • Data Engineering & AI
           </p>
           
           <div class="flex items-center justify-center space-x-4">

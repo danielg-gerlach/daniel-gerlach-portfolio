@@ -1,5 +1,5 @@
 <template>
-    <section id="about" class="py-32 px-6 border-t border-gray-900">
+    <section id="about" class="py-32 px-6"> <!-- Removed border-t border-gray-900 -->
       <div class="max-w-4xl mx-auto">
         <h2 class="font-mono text-blue-400 text-sm mb-4">[1] ABOUT</h2>
         <div class="space-y-6 text-gray-300 text-lg leading-relaxed">

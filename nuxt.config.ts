@@ -1,6 +1,7 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// nuxt.config.ts
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  compatibilityDate: '2024-04-03',
   modules: ['@nuxtjs/tailwindcss'],
   css: ['~/assets/css/main.css'],
   app: {
@@ -14,6 +15,13 @@ export default defineNuxtConfig({
         { property: 'og:description', content: 'Data Engineering Portfolio - Building scalable data infrastructure that powers intelligent decision-making' },
         { property: 'og:type', content: 'website' }
       ]
+    }
+  },
+  nitro: {
+    esbuild: {
+      options: {
+        target: 'esnext'
+      }
     }
   }
 })

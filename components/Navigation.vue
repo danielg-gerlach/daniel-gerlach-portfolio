@@ -14,7 +14,7 @@
             <button
               v-for="(section, index) in sections"
               :key="section"
-              @click="scrollToSection(section.toLowerCase())"
+              @click="scrollToSection(section.toLowerCase(), index)"
               :class="[
                 'px-4 py-2 font-mono text-xs transition-all duration-300',
                 activeSection === index 
@@ -32,15 +32,58 @@
   
   <script setup>
   import { Terminal } from 'lucide-vue-next'
-  import { ref } from 'vue'
+  import { ref, onMounted, onUnmounted } from 'vue'
   
   const sections = ['INIT', 'ABOUT', 'PROJECTS', 'SKILLS', 'ARTICLES', 'RESUME']
   const activeSection = ref(0)
   
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId, index) => {
+    activeSection.value = index
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const offset = 80 // Account for fixed header height
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth'
+      })
     }
   }
+  
+  const updateActiveSection = () => {
+    const scrollPosition = window.scrollY + 100 // Offset for header and some margin
+    
+    // Get all sections and find which one we're currently viewing
+    const sectionElements = sections.map(section => ({
+      id: section.toLowerCase(),
+      element: document.getElementById(section.toLowerCase())
+    }))
+    
+    for (let i = sectionElements.length - 1; i >= 0; i--) {
+      const section = sectionElements[i]
+      if (section.element) {
+        const offsetTop = section.element.offsetTop
+        if (scrollPosition >= offsetTop) {
+          activeSection.value = i
+          break
+        }
+      }
+    }
+    
+    // If we're at the very top, set to INIT
+    if (window.scrollY < 100) {
+      activeSection.value = 0
+    }
+  }
+  
+  onMounted(() => {
+    // Update active section on scroll
+    window.addEventListener('scroll', updateActiveSection)
+    // Set initial active section
+    updateActiveSection()
+  })
+  
+  onUnmounted(() => {
+    window.removeEventListener('scroll', updateActiveSection)
+  })
   </script>

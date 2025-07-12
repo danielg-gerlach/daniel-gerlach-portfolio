@@ -6,12 +6,13 @@
         
         <!-- Resume Preview Placeholder -->
         <div class="mb-12 mx-auto max-w-md">
-          <div class="bg-gray-900 border border-gray-800 rounded-lg p-8 aspect-[8.5/11] flex items-center justify-center">
-            <div class="text-center">
-              <FileText class="w-24 h-24 text-gray-700 mx-auto mb-4" />
-              <p class="text-gray-500">Resume Preview</p>
+            <div class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden aspect-[8.5/11]">
+                <img 
+                src="/resume-preview.png" 
+                alt="Resume Preview" 
+                class="w-full h-full object-cover"
+                />
             </div>
-          </div>
         </div>
         
         <p class="text-gray-400 mb-8 text-lg">
