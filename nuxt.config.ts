@@ -1,0 +1,19 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  devtools: { enabled: true },
+  modules: ['@nuxtjs/tailwindcss'],
+  css: ['~/assets/css/main.css'],
+  app: {
+    head: {
+      title: 'Daniel Gerlach | Data Engineer',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'description', content: 'Data Engineering Student specializing in scalable data infrastructure, real-time processing, and cloud-native solutions.' },
+        { property: 'og:title', content: 'Daniel Gerlach | Data Engineer' },
+        { property: 'og:description', content: 'Data Engineering Portfolio - Building scalable data infrastructure that powers intelligent decision-making' },
+        { property: 'og:type', content: 'website' }
+      ]
+    }
+  }
+})
