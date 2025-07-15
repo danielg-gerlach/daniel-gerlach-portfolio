@@ -1,4 +1,3 @@
-// nuxt.config.ts
 export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: '2024-04-03',
@@ -14,6 +13,15 @@ export default defineNuxtConfig({
         { property: 'og:title', content: 'Daniel Gerlach | Data Engineer' },
         { property: 'og:description', content: 'Data Engineering Portfolio - Building scalable data infrastructure that powers intelligent decision-making' },
         { property: 'og:type', content: 'website' }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ],
+      script: [
+        {
+          innerHTML: `history.scrollRestoration = 'manual';`,
+          type: 'text/javascript'
+        }
       ]
     }
   },
@@ -23,5 +31,8 @@ export default defineNuxtConfig({
         target: 'esnext'
       }
     }
+  },
+  experimental: {
+    appManifest: false
   }
 })

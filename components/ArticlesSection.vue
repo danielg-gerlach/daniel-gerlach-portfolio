@@ -2,7 +2,7 @@
     <section id="articles" class="py-32 px-6 bg-gray-950">
       <div class="max-w-6xl mx-auto">
         <h2 class="font-mono text-blue-400 text-sm mb-2">[4] ARTICLES</h2>
-        <p class="text-3xl font-bold mb-12">Technical Writing</p>
+        <p class="text-3xl font-bold mb-12">My Posts on Medium</p>
         
         <div class="space-y-4">
           <a

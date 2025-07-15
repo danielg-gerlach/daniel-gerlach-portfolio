@@ -11,21 +11,6 @@
               <ArrowLeft class="w-5 h-5" />
               <span>Back to Portfolio</span>
             </NuxtLink>
-            
-            <div class="flex items-center space-x-4">
-              <a v-if="project?.links?.github" :href="project.links.github" target="_blank" rel="noopener noreferrer" 
-                 class="p-2 hover:text-blue-400 transition-colors">
-                <Github class="w-5 h-5" />
-              </a>
-              <a v-if="project?.links?.demo" :href="project.links.demo" target="_blank" rel="noopener noreferrer" 
-                 class="p-2 hover:text-blue-400 transition-colors">
-                <Play class="w-5 h-5" />
-              </a>
-              <a v-if="project?.links?.documentation" :href="project.links.documentation" target="_blank" rel="noopener noreferrer" 
-                 class="p-2 hover:text-blue-400 transition-colors">
-                <BookOpen class="w-5 h-5" />
-              </a>
-            </div>
           </div>
         </div>
       </nav>
@@ -85,21 +70,51 @@
         <!-- Tabs Navigation -->
         <section class="sticky top-[73px] z-40 bg-black/95 backdrop-blur-md border-b border-gray-800">
           <div class="max-w-7xl mx-auto px-6">
-            <div class="flex space-x-8 overflow-x-auto">
-              <button
-                v-for="tab in tabs"
-                :key="tab.id"
-                @click="activeTab = tab.id"
-                :class="[
-                  'flex items-center space-x-2 py-4 border-b-2 transition-all whitespace-nowrap',
-                  activeTab === tab.id
-                    ? 'border-blue-400 text-white'
-                    : 'border-transparent text-gray-400 hover:text-white'
-                ]"
-              >
-                <component :is="tab.icon" class="w-4 h-4" />
-                <span>{{ tab.label }}</span>
-              </button>
+            <div class="flex items-center justify-between">
+              <!-- Tabs -->
+              <div class="flex space-x-8 overflow-x-auto">
+                <button
+                  v-for="tab in tabs"
+                  :key="tab.id"
+                  @click="activeTab = tab.id"
+                  :class="[
+                    'flex items-center space-x-2 py-4 border-b-2 transition-all whitespace-nowrap',
+                    activeTab === tab.id
+                      ? 'border-blue-400 text-white'
+                      : 'border-transparent text-gray-400 hover:text-white'
+                  ]"
+                >
+                  <component :is="tab.icon" class="w-4 h-4" />
+                  <span>{{ tab.label }}</span>
+                </button>
+              </div>
+              
+              <!-- Action Buttons (GitHub & Demo) -->
+              <div class="flex items-center space-x-3 ml-8">
+                <!-- GitHub Button -->
+                <a 
+                  v-if="project?.links?.github" 
+                  :href="project.links.github" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="flex items-center space-x-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all duration-300 text-sm"
+                >
+                  <Github class="w-4 h-4" />
+                  <span>View Code</span>
+                </a>
+                
+                <!-- Demo Button -->
+                <a 
+                  v-if="project?.links?.demo" 
+                  :href="project.links.demo" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all duration-300 text-sm"
+                >
+                  <Play class="w-4 h-4" />
+                  <span>Live Demo</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -208,8 +223,12 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div v-for="(screenshot, index) in project.screenshots" :key="index" 
                        class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
-                    <div class="aspect-video bg-gray-800 flex items-center justify-center">
-                      <Database class="w-16 h-16 text-gray-700" />
+                    <div class="aspect-video bg-gray-800 overflow-hidden">
+                      <img 
+                        :src="screenshot.url" 
+                        :alt="screenshot.title" 
+                        class="w-full h-full object-cover"
+                      />
                     </div>
                     <div class="p-4">
                       <h3 class="font-medium">{{ screenshot.title }}</h3>

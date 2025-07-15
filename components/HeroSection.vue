@@ -17,8 +17,8 @@
         </div>
         
         <div class="mt-12 text-center">
-          <!-- Profile Picture Placeholder -->
-          <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gray-800 border-2 border-blue-500 overflow-hidden">
+          <!-- Profile Picture -->
+            <div class="w-48 h-48 mx-auto mb-8 rounded-full bg-gray-800 border-2 border-blue-500 overflow-hidden">
             <img 
                 src="/profile.jpg" 
                 alt="Daniel Gerlach" 
@@ -35,15 +35,15 @@
           </p>
           
           <div class="flex items-center justify-center space-x-4">
-            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" 
+            <a href="https://github.com/danielg-gerlach" target="_blank" rel="noopener noreferrer" 
                class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 transition-all">
               <Github class="w-5 h-5" />
             </a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" 
+            <a href="https://linkedin.com/in/danielg-gerlach/" target="_blank" rel="noopener noreferrer" 
                class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 transition-all">
               <Linkedin class="w-5 h-5" />
             </a>
-            <a href="mailto:your.email@example.com" 
+            <a href="mailto:danielg-gerlach@outlook.de" 
                class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 transition-all">
               <Mail class="w-5 h-5" />
             </a>

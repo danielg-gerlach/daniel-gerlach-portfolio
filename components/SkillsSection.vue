@@ -107,6 +107,7 @@
                  class="p-4 bg-gray-900 border border-gray-800 rounded-lg">
               <Award class="w-8 h-8 text-blue-400 mb-3" />
               <h4 class="font-medium mb-1">{{ cert.title }}</h4>
+              <p class="text-sm text-gray-500 mt-2">{{ cert.content }}</p>
               <p class="text-sm text-gray-400">{{ cert.issuer }}</p>
               <p class="text-sm text-gray-500 mt-2">{{ cert.year }}</p>
             </div>
@@ -205,18 +206,21 @@
   
   const certifications = [
     {
-      title: "AWS Certified Data Analytics - Specialty",
-      issuer: "Amazon Web Services",
+      title: "Data Scientist",
+      content: "Python, SQL, Machine Learning, LLM Application Development",
+      issuer: "DataCamp",
+      year: "2025"
+    },
+    {
+      title: "Data Engineer",
+      content: "Python, SQL, Database Design, ETL/ELT",
+      issuer: "DataCamp",
       year: "2024"
     },
     {
-      title: "Google Cloud Professional Data Engineer",
-      issuer: "Google Cloud",
-      year: "2023"
-    },
-    {
-      title: "Databricks Certified Data Engineer",
-      issuer: "Databricks",
+      title: "DevOps & Software Engineering",
+      content: "Python, Microservices, TDD, Agile Software Development",
+      issuer: "IBM - Coursera",
       year: "2023"
     }
   ]
