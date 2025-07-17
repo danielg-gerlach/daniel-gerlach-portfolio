@@ -2,7 +2,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/80 border-b border-gray-800">
       <div class="max-w-7xl mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
-          <NuxtLink to="/" class="flex items-center space-x-3">
+          <NuxtLink to="/" @click="scrollToSection('init', 0)" class="flex items-center space-x-3">
             <div class="text-2xl font-bold flex">
               <span class="text-white">D</span>
               <span class="text-blue-500">G</span>
@@ -15,15 +15,15 @@
             <button
               v-for="(section, index) in sections"
               :key="section"
-              @click="scrollToSection(section.toLowerCase(), index)"
+              @click="scrollToSection(section.id, index)"
               :class="[
-                'px-4 py-2 font-mono text-xs transition-all duration-300',
+                'px-4 py-2 font-mono text-xs transition-all duration-300 rounded-md',
                 activeSection === index 
                   ? 'text-blue-400 bg-blue-400/10' 
-                  : 'text-gray-500 hover:text-blue-400'
+                  : 'text-gray-500 hover:text-blue-400 hover:bg-gray-800/50'
               ]"
             >
-              [{{ index }}] {{ section }}
+              [{{ index }}] {{ section.name }}
             </button>
           </div>
   
@@ -31,7 +31,8 @@
           <button
             @click="toggleMobileMenu"
             class="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
-            aria-label="Toggle menu"
+            :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+            aria-expanded="false"
           >
             <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
             <X v-else class="w-6 h-6" />
@@ -56,7 +57,7 @@
             <button
               v-for="(section, index) in sections"
               :key="section"
-              @click="handleMobileNavClick(section.toLowerCase(), index)"
+              @click="handleMobileNavClick(section.id, index)"
               :class="[
                 'block w-full text-left px-4 py-3 font-mono text-sm transition-all duration-300 rounded',
                 activeSection === index 
@@ -64,7 +65,7 @@
                   : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
               ]"
             >
-              [{{ index }}] {{ section }}
+              [{{ index }}] {{ section.name }}
             </button>
           </div>
         </div>
@@ -75,16 +76,32 @@
   <script setup>
   import { Terminal, Menu, X } from 'lucide-vue-next'
   import { ref, onMounted, onUnmounted } from 'vue'
+  import { useRouter } from 'vue-router'
   
-  const sections = ['INIT', 'ABOUT', 'PROJECTS', 'SKILLS', 'ARTICLES', 'RESUME']
+  const sections = [
+    { id: 'init', name: 'INIT' },
+    { id: 'about', name: 'ABOUT' },
+    { id: 'projects', name: 'PROJECTS' },
+    { id: 'skills', name: 'SKILLS' },
+    { id: 'articles', name: 'ARTICLES' },
+    { id: 'resume', name: 'RESUME' }
+  ]
+  
   const activeSection = ref(0)
   const isMobileMenuOpen = ref(false)
+  const router = useRouter()
   
   const toggleMobileMenu = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value
   }
   
   const scrollToSection = (sectionId, index) => {
+    // If we're on a different page, navigate home first
+    if (router.currentRoute.value.path !== '/') {
+      router.push({ path: '/', hash: `#${sectionId}` })
+      return
+    }
+  
     activeSection.value = index
     const element = document.getElementById(sectionId)
     if (element) {
@@ -107,8 +124,8 @@
     
     // Get all sections and find which one we're currently viewing
     const sectionElements = sections.map(section => ({
-      id: section.toLowerCase(),
-      element: document.getElementById(section.toLowerCase())
+      id: section.id,
+      element: document.getElementById(section.id)
     }))
     
     for (let i = sectionElements.length - 1; i >= 0; i--) {
@@ -128,12 +145,23 @@
     }
   }
   
+  // Handle navigation from project detail page
   onMounted(() => {
-    // Force scroll to top on mount
-    window.scrollTo(0, 0)
-    
-    // Set initial active section to INIT
-    activeSection.value = 0
+    // Check if there's a hash in the URL
+    const hash = window.location.hash
+    if (hash) {
+      const sectionId = hash.substring(1)
+      const sectionIndex = sections.findIndex(s => s.id === sectionId)
+      if (sectionIndex !== -1) {
+        setTimeout(() => {
+          scrollToSection(sectionId, sectionIndex)
+        }, 100)
+      }
+    } else {
+      // Force scroll to top on mount
+      window.scrollTo(0, 0)
+      activeSection.value = 0
+    }
     
     // Add scroll listener after a small delay to avoid conflicts
     setTimeout(() => {

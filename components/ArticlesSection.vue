@@ -8,7 +8,9 @@
           <a
             v-for="(article, index) in articles"
             :key="index"
-            href="#"
+            :href="article.url"
+            target="_blank"
+            rel="noopener noreferrer"
             class="block group p-6 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 transition-all duration-300"
           >
             <div class="flex items-center justify-between">
@@ -38,24 +40,16 @@
   
   const articles = [
     {
-      title: "Building Petabyte-Scale Data Lakes on AWS",
+      title: "From Data Warehouse to Data Lakehouse",
       readTime: "8 min",
-      year: "2024"
+      year: "2024",
+      url: "https://medium.com/@danielowitch97/from-data-warehouse-to-data-lakehouse-8b93eee02497"
     },
     {
-      title: "Real-time ML: From Prototype to Production",
-      readTime: "12 min",
-      year: "2024"
-    },
-    {
-      title: "The Art of Data Pipeline Optimization",
-      readTime: "10 min",
-      year: "2023"
-    },
-    {
-      title: "Event-Driven Architecture for Modern Data Stacks",
-      readTime: "15 min",
-      year: "2023"
+      title: "Graph Databases & Knowledge Graphs",
+      readTime: "6 min",
+      year: "2024",
+      url: "https://medium.com/@danielowitch97/graph-databases-knowledge-graphs-powering-recommendation-systems-and-advanced-analytics-2260c69850aa"
     }
   ]
   </script>

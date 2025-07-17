@@ -16,8 +16,19 @@
               <span class="font-mono text-xs text-gray-500">tech_stack.sh</span>
             </div>
             
-            <div class="p-6 h-[500px] overflow-y-auto" ref="terminalContainer">
+            <div class="p-6 h-[500px] overflow-y-auto custom-scrollbar" ref="terminalContainer">
               <div class="font-mono text-sm text-gray-300">
+                <!-- Welcome message -->
+                <div v-if="terminalHistory.length === 3" class="mb-4 p-4 bg-blue-900/20 border border-blue-800/50 rounded">
+                  <div class="text-blue-400 mb-2">💡 Quick Commands:</div>
+                  <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div><span class="text-green-400">show tech stack</span> - View all technologies</div>
+                    <div><span class="text-green-400">skills --category cloud</span> - Filter by category</div>
+                    <div><span class="text-green-400">clear</span> - Clear terminal</div>
+                    <div><span class="text-green-400">help</span> - Show all commands</div>
+                  </div>
+                </div>
+                
                 <!-- Terminal History -->
                 <div v-for="(line, index) in terminalHistory" :key="index" class="mb-1">
                   <!-- Input lines -->
@@ -36,10 +47,9 @@
                     <div class="text-green-400 mb-2">━━━ {{ line.category.name }} ━━━</div>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                       <div v-for="tech in line.category.technologies" :key="tech.name"
-                           class="flex items-center space-x-2 text-gray-300">
+                           class="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
                         <span class="text-xl">{{ tech.icon }}</span>
                         <span>{{ tech.name }}</span>
-                        <span v-if="tech.level" class="text-xs text-gray-500">[{{ tech.level }}%]</span>
                       </div>
                     </div>
                   </div>
@@ -54,62 +64,129 @@
                     @keydown.enter="handleCommand"
                     @keydown.up="navigateHistory(-1)"
                     @keydown.down="navigateHistory(1)"
+                    @keydown.tab.prevent="handleTabComplete"
                     type="text"
                     class="flex-1 bg-transparent outline-none text-gray-300"
-                    :placeholder="showPlaceholder ? 'Type a command...' : ''"
+                    :placeholder="showPlaceholder ? 'Type a command or click a suggestion...' : ''"
                     spellcheck="false"
+                    autocomplete="off"
                   />
                   <span v-if="showCursor" class="inline-block w-2 h-4 bg-blue-400 ml-1 animate-blink" />
                 </div>
                 
-                <!-- Help Text -->
-                <div v-if="showHelp" class="mt-4 text-gray-500 text-xs">
-                  Try: <span class="text-blue-400">help</span>, 
-                  <span class="text-blue-400">show tech stack</span>, 
-                  <span class="text-blue-400">skills --category [name]</span>,
-                  <span class="text-blue-400">whoami</span>
+                <!-- Autocomplete suggestions -->
+                <div v-if="suggestions.length > 0" class="mt-2 flex flex-wrap gap-2">
+                  <button
+                    v-for="suggestion in suggestions"
+                    :key="suggestion"
+                    @click="applySuggestion(suggestion)"
+                    class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded text-xs text-gray-400 hover:text-white transition-all"
+                  >
+                    {{ suggestion }}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        
-        <!-- Traditional View Toggle -->
-        <div class="text-center mt-6">
-          <button 
-            @click="showTraditionalView = !showTraditionalView"
-            class="text-sm text-gray-500 hover:text-gray-300 transition-colors"
-          >
-            {{ showTraditionalView ? 'Hide' : 'Show' }} traditional view →
-          </button>
-        </div>
-        
-        <!-- Traditional Grid View (Hidden by default) -->
-        <div v-if="showTraditionalView" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-          <div v-for="category in techCategories" :key="category.name"
-               class="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 transition-all">
-            <h3 class="text-sm font-mono text-gray-400 mb-4">{{ category.name }}</h3>
-            <div class="space-y-3">
-              <div v-for="tech in category.technologies" :key="tech.name"
-                   class="flex items-center space-x-3">
-                <span class="text-2xl">{{ tech.icon }}</span>
-                <span class="font-medium">{{ tech.name }}</span>
-              </div>
-            </div>
+          
+          <!-- Quick Action Buttons -->
+          <div class="mt-6 flex flex-wrap gap-3 justify-center">
+            <button 
+              @click="executeCommand('show tech stack')"
+              class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all flex items-center space-x-2"
+            >
+              <Layers class="w-4 h-4" />
+              <span>Show All Tech</span>
+            </button>
+            <button 
+              @click="showTraditionalView = !showTraditionalView"
+              class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all flex items-center space-x-2"
+            >
+              <Grid class="w-4 h-4" />
+              <span>{{ showTraditionalView ? 'Hide' : 'Show' }} Grid View</span>
+            </button>
           </div>
         </div>
         
-        <!-- Certifications remain the same -->
-        <div class="mt-16">
-          <h3 class="text-lg font-semibold mb-6 text-blue-400">Certifications</h3>
-          <div class="grid md:grid-cols-3 gap-6">
-            <div v-for="cert in certifications" :key="cert.title" 
-                 class="p-4 bg-gray-900 border border-gray-800 rounded-lg">
-              <Award class="w-8 h-8 text-blue-400 mb-3" />
-              <h4 class="font-medium mb-1">{{ cert.title }}</h4>
-              <p class="text-sm text-gray-500 mt-2">{{ cert.content }}</p>
-              <p class="text-sm text-gray-400">{{ cert.issuer }}</p>
-              <p class="text-sm text-gray-500 mt-2">{{ cert.year }}</p>
+        <!-- Traditional Grid View (Hidden by default) -->
+        <transition name="slide-fade">
+          <div v-if="showTraditionalView" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
+            <div v-for="category in techCategories" :key="category.name"
+                 class="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500/50 transition-all group">
+              <h3 class="text-sm font-mono text-gray-400 mb-4 group-hover:text-blue-400 transition-colors">
+                {{ category.name }}
+              </h3>
+              <div class="space-y-3">
+                <div v-for="tech in category.technologies" :key="tech.name"
+                     class="flex items-center space-x-3">
+                  <span class="text-2xl transform group-hover:scale-110 transition-transform">{{ tech.icon }}</span>
+                  <span class="font-medium">{{ tech.name }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+        
+        <!-- Certifications Section -->
+        <div class="mt-32">
+          <h2 class="text-4xl font-bold text-center mb-3">Certifications</h2>
+          <div class="w-20 h-1 bg-blue-500 mx-auto mb-8"></div>
+          <p class="text-xl text-gray-400 text-center mb-16">
+            During my studies, I've also gained some experience through certifications & online courses.
+          </p>
+          
+          <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div v-for="cert in certifications" :key="cert.id" 
+                 class="bg-gray-900/50 border border-gray-800 rounded-lg p-8 hover:border-gray-700 transition-all group">
+              <!-- Header with Logo and Title -->
+              <div class="flex items-start gap-6 mb-6">
+                <div class="flex-shrink-0 w-16 h-16 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                  <img 
+                    v-show="cert.logoUrl && !logoErrors[cert.id]"
+                    :src="cert.logoUrl" 
+                    :alt="cert.issuer + ' logo'"
+                    class="w-full h-full object-contain"
+                    @error="() => logoErrors[cert.id] = true"
+                  />
+                  <Award v-show="!cert.logoUrl || logoErrors[cert.id]" class="w-8 h-8 text-blue-400" />
+                </div>
+                <div>
+                  <h3 class="text-2xl font-bold mb-1 group-hover:text-blue-400 transition-colors">{{ cert.title }}</h3>
+                  <p class="text-gray-400">{{ cert.issuer }}</p>
+                </div>
+              </div>
+              
+              <!-- Divider -->
+              <div class="border-b border-gray-800 mb-6"></div>
+              
+              <!-- Details -->
+              <div class="space-y-4 mb-6">
+                <p class="text-gray-400">Issued: {{ cert.issued }}</p>
+                <p class="text-gray-400" v-if="cert.credentialId">Credential ID: {{ cert.credentialId }}</p>
+              </div>
+              
+              <!-- Skills -->
+              <div class="mb-8">
+                <h4 class="text-lg font-semibold mb-4">Skills</h4>
+                <div class="grid gap-2">
+                  <div v-for="skill in cert.skills" :key="skill" 
+                       class="flex items-center gap-3">
+                    <CheckIcon class="w-5 h-5 text-blue-400" />
+                    <span class="text-gray-300">{{ skill }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Verify Link -->
+              <div class="border-t border-gray-800 pt-6">
+                <a :href="cert.verifyUrl" 
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors group">
+                  <span>Verify Certificate</span>
+                  <ExternalLinkIcon class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -118,8 +195,12 @@
   </template>
   
   <script setup>
-  import { Database, Cloud, GitBranch, Award } from 'lucide-vue-next'
-  import { ref, onMounted, nextTick } from 'vue'
+  import { Database, Cloud, GitBranch, Award, ExternalLink, Check, Layers, Grid } from 'lucide-vue-next'
+  import { ref, onMounted, nextTick, computed, watch } from 'vue'
+  
+  // Icon components
+  const ExternalLinkIcon = ExternalLink
+  const CheckIcon = Check
   
   const terminalInput = ref(null)
   const terminalContainer = ref(null)
@@ -135,47 +216,49 @@
   const showHelp = ref(true)
   const showPlaceholder = ref(true)
   const showTraditionalView = ref(false)
+  const logoErrors = ref({})
   
   const techCategories = [
     {
       name: 'LANGUAGES',
       technologies: [
-        { name: 'Python', icon: '🐍', level: 95 },
-        { name: 'SQL', icon: '🗃️', level: 92 },
-        { name: 'Java', icon: '☕', level: 85 }
+        { name: 'Python', icon: '🐍' },
+        { name: 'SQL', icon: '🗃️' },
+        { name: 'Java', icon: '☕' }
       ]
     },
     {
       name: 'BIG DATA',
       technologies: [
-        { name: 'Spark', icon: '⚡', level: 88 },
-        { name: 'Kafka', icon: '📊', level: 85 },
-        { name: 'Airflow', icon: '🔄', level: 87 }
+        { name: 'Spark', icon: '⚡' },
+        { name: 'Kafka', icon: '📊' },
+        { name: 'Airflow', icon: '🔄' }
       ]
     },
     {
       name: 'DATABASES',
       technologies: [
-        { name: 'PostgreSQL', icon: '🐘', level: 90 },
-        { name: 'Snowflake', icon: '❄️', level: 85 },
-        { name: 'MongoDB', icon: '🍃', level: 82 },
-        { name: 'BigQuery', icon: '📊', level: 86 }
+        { name: 'PostgreSQL', icon: '🐘' },
+        { name: 'Snowflake', icon: '❄️' },
+        { name: 'MongoDB', icon: '🍃' },
+        { name: 'BigQuery', icon: '📊' }
       ]
     },
     {
       name: 'CLOUD',
       technologies: [
-        { name: 'AWS', icon: '☁️', level: 88 },
-        { name: 'GCP', icon: '🌐', level: 85 },
-        { name: 'Docker', icon: '🐳', level: 90 }
+        { name: 'Azure', icon: '☁️' },
+        { name: 'GCP', icon: '🌐' },
+        { name: 'AWS', icon: '🌐' },
+        { name: 'Docker', icon: '🐳' }
       ]
     },
     {
       name: 'DATA TOOLS',
       technologies: [
-        { name: 'dbt', icon: '🔧', level: 86 },
-        { name: 'Pandas', icon: '🐼', level: 94 },
-        { name: 'InfluxDB', icon: '📈', level: 80 }
+        { name: 'dbt', icon: '🔧' },
+        { name: 'Pandas', icon: '🐼' },
+        { name: 'InfluxDB', icon: '📈' }
       ]
     },
     {
@@ -189,9 +272,9 @@
     {
       name: 'DEVOPS',
       technologies: [
-        { name: 'Git', icon: '🌿', level: 92 },
-        { name: 'Kubernetes', icon: '☸️', level: 82 },
-        { name: 'Terraform', icon: '🏗️', level: 84 }
+        { name: 'Git', icon: '🌿' },
+        { name: 'Kubernetes', icon: '☸️' },
+        { name: 'Terraform', icon: '🏗️' }
       ]
     },
     {
@@ -206,24 +289,87 @@
   
   const certifications = [
     {
-      title: "Data Scientist",
-      content: "Python, SQL, Machine Learning, LLM Application Development",
-      issuer: "DataCamp",
-      year: "2025"
-    },
-    {
+      id: 'ztm-data-engineer',
       title: "Data Engineer",
-      content: "Python, SQL, Database Design, ETL/ELT",
-      issuer: "DataCamp",
-      year: "2024"
+      issuer: "ZTM",
+      issued: "August 2025",
+      credentialId: "#12345",
+      logoUrl: "/images/logos/ztm-logo.png",
+      skills: [
+        "Python",
+        "SQL", 
+        "Apache Spark",
+        "AWS",
+        "RAG",
+        "HuggingFace"
+      ],
+      verifyUrl: "https://zerotomastery.io/certificate/verify/12345"
     },
     {
-      title: "DevOps & Software Engineering",
-      content: "Python, Microservices, TDD, Agile Software Development",
-      issuer: "IBM - Coursera",
-      year: "2023"
+      id: 'datacamp-data-scientist',
+      title: "Associate Data Scientist in Python",
+      issuer: "DataCamp",
+      issued: "September 2025",
+      credentialId: "#67890",
+      logoUrl: "/images/logos/datacamp-logo.png",
+      skills: [
+        "Python",
+        "SQL",
+        "Machine Learning",
+        "LLM Application Development",
+        "Data Visualization"
+      ],
+      verifyUrl: "https://www.datacamp.com/certificate/verify/67890"
+    },
+    {
+      id: 'datacamp-data-engineer',
+      title: "Data Engineer",
+      issuer: "DataCamp",
+      issued: "January 2024",
+      credentialId: "#434995",
+      logoUrl: "/images/logos/datacamp-logo.png",
+      skills: [
+        "Python",
+        "SQL",
+        "ETL/ELT Data Pipeline Development",
+        "Data Warehousing",
+        "Database Design",
+        "Data Modeling"
+      ],
+      verifyUrl: "https://www.datacamp.com/certificate/verify/434995"
+    },
+    {
+      id: 'ibm-devops',
+      title: "Data Engineering Bootcamp",
+      issuer: "DataExpert.io",
+      issued: "September 2025",
+      credentialId: "EFGH5678",
+      logoUrl: "/images/logos/dataexpert-logo.png",
+      skills: [
+        "4 week bootcamp",
+        "Python",
+        "SQL",
+        "Data Modeling",
+        "Data Engineering Best Practices",
+        "Capstone Project: Streaming Data Dashboard"
+      ],
+      verifyUrl: "https://www.coursera.org/verify/EFGH5678"
     }
   ]
+  
+  // Autocomplete suggestions
+  const suggestions = computed(() => {
+    if (!currentInput.value) return []
+    
+    const allCommands = [
+      'help', 'show tech stack', 'skills', 'clear', 'whoami', 'contact',
+      ...techCategories.map(cat => `skills --category ${cat.name.toLowerCase()}`)
+    ]
+    
+    return allCommands
+      .filter(cmd => cmd.startsWith(currentInput.value.toLowerCase()))
+      .slice(0, 5)
+  })
   
   const scrollToBottom = () => {
     nextTick(() => {
@@ -231,6 +377,22 @@
         terminalContainer.value.scrollTop = terminalContainer.value.scrollHeight
       }
     })
+  }
+  
+  const applySuggestion = (suggestion) => {
+    currentInput.value = suggestion
+    terminalInput.value?.focus()
+  }
+  
+  const handleTabComplete = () => {
+    if (suggestions.value.length === 1) {
+      currentInput.value = suggestions.value[0]
+    }
+  }
+  
+  const executeCommand = (command) => {
+    currentInput.value = command
+    handleCommand()
   }
   
   const commands = {
@@ -243,12 +405,16 @@
         { type: 'output', content: '  clear              - Clear terminal' },
         { type: 'output', content: '  whoami             - About me' },
         { type: 'output', content: '  contact            - Get contact info' },
+        { type: 'output', content: '' },
+        { type: 'output', content: 'Tips: Use ↑/↓ for history, Tab for autocomplete' },
         { type: 'output', content: '' }
       ]
     },
     
     'show tech stack': () => {
       const output = [
+        { type: 'output', content: 'These are the technologies that I already worked with.' },
+        { type: 'output', content: '' },
         { type: 'output', content: 'Initializing tech stack visualization...' },
         { type: 'output', content: 'Loading categories...' },
         { type: 'output', content: '' }
@@ -287,7 +453,7 @@
             { type: 'output', content: `━━━ ${category.name} ━━━` },
             ...category.technologies.map(tech => ({
               type: 'output',
-              content: `  ${tech.icon} ${tech.name}${tech.level ? ` [${tech.level}%]` : ''}`
+              content: `  ${tech.icon} ${tech.name}`
             })),
             { type: 'output', content: '' }
           ]
@@ -302,9 +468,10 @@
       
       return [
         { type: 'output', content: 'Tech Stack Summary:' },
+        { type: 'output', content: 'These are technologies I have worked with during my studies and projects.' },
+        { type: 'output', content: '' },
         { type: 'output', content: `  Total Technologies: ${techCategories.reduce((acc, cat) => acc + cat.technologies.length, 0)}` },
         { type: 'output', content: `  Categories: ${techCategories.length}` },
-        { type: 'output', content: `  Expertise Level: Senior` },
         { type: 'output', content: '' },
         { type: 'output', content: 'Use "show tech stack" for detailed view' },
         { type: 'output', content: '' }
@@ -312,21 +479,21 @@
     },
     
     clear: () => {
-  terminalHistory.value = [
-    { type: 'output', content: 'Tech Stack Terminal v2.0.0' },
-    { type: 'output', content: 'Type "help" for available commands' },
-    { type: 'output', content: '' }
-    ]
-    showHelp.value = true
-    return []
+      terminalHistory.value = [
+        { type: 'output', content: 'Tech Stack Terminal v2.0.0' },
+        { type: 'output', content: 'Type "help" for available commands' },
+        { type: 'output', content: '' }
+      ]
+      showHelp.value = true
+      return []
     },
     
     whoami: () => {
       return [
         { type: 'output', content: 'Daniel Gerlach' },
-        { type: 'output', content: 'Role: Data Engineering Student' },
-        { type: 'output', content: 'Focus: Building scalable data infrastructure' },
-        { type: 'output', content: 'Mission: Transform data into insights' },
+        { type: 'output', content: 'Role: Business Informatics Student' },
+        { type: 'output', content: 'Focus: Data Engineering & AI' },
+        { type: 'output', content: 'Mission: Building scalable data infrastructure' },
         { type: 'output', content: '' }
       ]
     },
@@ -335,8 +502,8 @@
       return [
         { type: 'output', content: 'Contact Information:' },
         { type: 'output', content: '  GitHub:   github.com/danielg-gerlach' },
-        { type: 'output', content: '  LinkedIn: linkedin.com/in/danielgerlach' },
-        { type: 'output', content: '  Email:    daniel.gerlach@example.com' },
+        { type: 'output', content: '  LinkedIn: linkedin.com/in/danielg-gerlach' },
+        { type: 'output', content: '  Email:    danielg-gerlach@outlook.de' },
         { type: 'output', content: '' }
       ]
     }
@@ -396,28 +563,52 @@
   </script>
   
   <style scoped>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  /* Custom scrollbar for terminal */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #4a5568 #1a202c;
   }
   
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-out forwards;
-    opacity: 0;
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #1a202c;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4a5568;
+    border-radius: 4px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #718096;
+  }
+  
+  /* Animations */
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
   }
   
   .animate-blink {
     animation: blink 1s infinite;
   }
   
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+  /* Slide fade transition */
+  .slide-fade-enter-active,
+  .slide-fade-leave-active {
+    transition: all 0.3s ease;
+  }
+  
+  .slide-fade-enter-from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  
+  .slide-fade-leave-to {
+    transform: translateY(20px);
+    opacity: 0;
   }
   </style>

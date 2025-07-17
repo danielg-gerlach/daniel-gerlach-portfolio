@@ -7,7 +7,7 @@ export const projectsData = {
       duration: '3 months',
       role: 'Full Stack Data Engineer',
       team: 'Solo project',
-      status: 'Production',
+      status: 'In Development',
       
       overview: `Built a scalable enterprise-grade RAG (Retrieval-Augmented Generation) system that enables intelligent document search and conversational AI over company knowledge bases. The system processes various document formats (PDF, DOCX, Markdown) and provides semantic search capabilities with context-aware responses.`,
       
@@ -158,7 +158,7 @@ export const projectsData = {
       duration: '2 months',
       role: 'AI Engineer',
       team: 'Solo project',
-      status: 'Production',
+      status: 'In Development',
       
       overview: `Developed an AI-powered analytics assistant that transforms natural language queries into SQL, executes them safely, and automatically generates appropriate visualizations. The system uses GPT-4o with few-shot learning for accurate SQL generation across multiple database types.`,
       
@@ -382,7 +382,7 @@ export const projectsData = {
       title: 'Google Cloud Data Pipeline',
       subtitle: 'Data pipeline, warehousing & analysis with BigQuery and Looker',
       year: '2025',
-      duration: 'In Progress',
+      duration: 'In Development',
       role: 'Data Engineer',
       team: 'Solo project',
       status: 'In Development',
