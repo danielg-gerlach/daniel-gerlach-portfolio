@@ -5,7 +5,7 @@ export const projectsData = {
       subtitle: 'Production-ready Retrieval-Augmented Generation system with vector search',
       year: '2025',
       duration: '3 months',
-      role: 'Full Stack Data Engineer',
+      role: 'E2E Data Engineer',
       team: 'Solo project',
       status: 'In Development',
       
@@ -259,6 +259,134 @@ export const projectsData = {
         github: 'https://github.com/yourusername/ai-analytics-assistant',
         demo: 'https://analytics-assistant.streamlit.app',
         documentation: null
+      }
+    },
+
+    'rag-pipeline-aws': {
+      id: 'rag-pipeline-aws',
+      title: 'RAG Pipeline with AWS & Databricks',
+      subtitle: 'Building a Q&A bot from documents using vector embeddings',
+      year: '2025',
+      duration: '1 month',
+      role: 'Data Engineer for AI',
+      team: 'Solo project',
+      status: 'In Development',
+      
+      overview: 'Developed a full-cycle Retrieval-Augmented Generation (RAG) pipeline to transform a collection of unstructured documents into an interactive question-and-answer bot. The project leverages cloud services for storage and a distributed computing engine for processing, creating a scalable foundation for AI-powered knowledge retrieval.',
+      
+      problem: 'Valuable information is often locked away in unstructured documents (like PDFs and text files), making it difficult to search and query with precision. Standard keyword search cannot understand the semantic meaning of the content.',
+      
+      solution: 'Built a data engineering pipeline that ingests documents from cloud storage, processes and chunks them, converts the text into numerical vector embeddings, and stores them in a queryable format. An application layer then uses this vectorized data to find the most relevant document snippets to answer a user\'s question.',
+      
+      techStack: {
+        'Data Engineering': ['Python', 'Apache Spark', 'Databricks', 'Delta Lake'],
+        'Cloud Infrastructure': ['AWS S3'],
+        'AI/ML': ['Hugging Face Transformers', 'Vector Embeddings', 'Sentence-Transformers'],
+        'Core Concepts': ['ETL/ELT', 'Data Lake Architecture', 'Semantic Search']
+      },
+      
+      architecture: {
+        components: [
+          { name: 'Data Lake Storage', description: 'AWS S3 for storing raw documents and processed Delta tables.' },
+          { name: 'Processing Engine', description: 'Databricks for Spark-based data ingestion and transformation.' },
+          { name: 'Feature Engineering', description: 'Generating vector embeddings from text chunks using Hugging Face models.' },
+          { name: 'Vector Store', description: 'Delta Lake table acting as a simple, scalable vector database.' },
+          { name: 'Application Logic', description: 'Python function for semantic search via cosine similarity.' }
+        ]
+      },
+      
+      metrics: {
+        'Data Sources': 'PDF, TXT',
+        'Processing Engine': 'Apache Spark 3.5',
+        'Vector Dimension': '384',
+        'Search Metric': 'Cosine Similarity',
+        'Cloud Services': '2 (AWS, Databricks)',
+        'Status': 'Processing pipeline complete'
+      },
+      
+      challenges: [
+        {
+          challenge: 'Handling unstructured data from PDFs efficiently.',
+          solution: 'Utilized the `pypdf` library within a Spark UDF to parallelize document reading and text extraction.'
+        },
+        {
+          challenge: 'Managing Python dependencies in a distributed environment.',
+          solution: 'Leveraged Databricks notebook-scoped libraries (`%pip`) for easy and isolated package management.'
+        },
+        {
+          challenge: 'Performing vector similarity search at scale.',
+          solution: 'Used Spark to broadcast the query vector and perform a distributed cosine similarity calculation across all chunk embeddings.'
+        }
+      ],
+      
+      impact: [
+        'Successfully unlocked knowledge from unstructured document archives.',
+        'Created a foundational data engineering pattern for building modern AI applications.',
+        'Demonstrated proficiency in combining cloud data storage with distributed computing for AI workloads.',
+        'Enabled semantic search capabilities without relying on a dedicated vector database.'
+      ],
+      
+      learnings: [
+        'The process of creating and manipulating vector embeddings for semantic meaning.',
+        'How to integrate cloud storage (S3) with Databricks for seamless data access.',
+        'The power of Delta Lake for bringing reliability and structure to a data lake.',
+        'Practical application of data engineering principles to solve a real-world AI problem.'
+      ],
+      
+      screenshots: [
+        { title: 'Databricks Processing Notebook', url: '/projects/rag-databricks-notebook.png' },
+        { title: 'S3 Data Lake Structure', url: '/projects/rag-s3-structure.png' },
+        { title: 'Delta Lake Vector Table', url: '/projects/rag-delta-table.png' }
+      ],
+      
+      codeSnippets: {
+        'Vector Embedding Generation': `
+  from pyspark.sql.functions import pandas_udf, col
+  from sentence_transformers import SentenceTransformer
+  
+  # Broadcast the model to all worker nodes
+  model = SentenceTransformer('all-MiniLM-L6-v2')
+  bc_model_weights = spark.sparkContext.broadcast(model)
+  
+  @pandas_udf('array<float>')
+  def embed_text_udf(series: pd.Series) -> pd.Series:
+      model = bc_model_weights.value
+      embeddings = model.encode(series.tolist(), show_progress_bar=False)
+      return pd.Series(list(embeddings))
+  
+  # Apply the UDF to create an embeddings column
+  chunked_df = chunked_df.withColumn(
+      "embedding",
+      embed_text_udf(col("text_chunk"))
+  )
+        `,
+        'Semantic Search in Spark': `
+  from pyspark.sql.functions import udf
+  from scipy.spatial.distance import cosine
+  
+  # User query and its embedding
+  query_text = "What is the importance of data governance?"
+  query_embedding = model.encode(query_text)
+  
+  @udf('float')
+  def cosine_similarity_udf(vec):
+      # Calculate 1 - cosine distance, since higher is better
+      return float(1 - cosine(query_embedding, vec))
+  
+  # Find the most relevant documents
+  results = vector_table.withColumn(
+      "similarity",
+      cosine_similarity_udf(col("embedding"))
+  ).orderBy(col("similarity").desc()).limit(5)
+  
+  results.select("text_chunk", "similarity").show(truncate=False)
+        `
+      },
+      
+      links: {
+        github: 'https://github.com/yourusername/databricks-rag-pipeline',
+        demo: null,
+        documentation: 'https://github.com/yourusername/databricks-rag-pipeline/blob/main/README.md'
       }
     },
   

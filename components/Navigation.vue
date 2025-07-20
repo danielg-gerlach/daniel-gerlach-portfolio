@@ -7,7 +7,6 @@
               <span class="text-white">D</span>
               <span class="text-blue-500">G</span>
             </div>
-            <Terminal class="w-5 h-5 text-blue-500" />
           </NuxtLink>
           
           <!-- Desktop Navigation -->
@@ -74,7 +73,7 @@
   </template>
   
   <script setup>
-  import { Terminal, Menu, X } from 'lucide-vue-next'
+  import { Menu, X } from 'lucide-vue-next'
   import { ref, onMounted, onUnmounted } from 'vue'
   import { useRouter } from 'vue-router'
   
