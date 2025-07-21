@@ -10,9 +10,9 @@
             building robust, scalable data infrastructure that powers intelligent decision-making.
           </p>
           <p>
-            My expertise spans the entire data lifecycle - from ingesting and processing terabytes 
+            My expertise spans the entire data lifecycle - from ingesting and processing 
             of raw data to building machine learning pipelines that deliver real-time insights. 
-            I thrive on solving complex distributed systems challenges and optimizing data architectures 
+            I really like solving complex data challenges and optimizing data architectures 
             for performance and reliability.
           </p>
           <p>

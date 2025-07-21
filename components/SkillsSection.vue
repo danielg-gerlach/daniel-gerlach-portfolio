@@ -307,6 +307,7 @@
       credentialId: "#67890",
       logoUrl: "/images/logos/datacamp-logo.png",
       skills: [
+        "Data Science Best Practices",
         "Python",
         "SQL",
         "Machine Learning",
