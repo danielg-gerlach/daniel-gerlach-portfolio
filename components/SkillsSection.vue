@@ -159,12 +159,6 @@
               <!-- Divider -->
               <div class="border-b border-gray-800 mb-6"></div>
               
-              <!-- Details -->
-              <div class="space-y-4 mb-6">
-                <p class="text-gray-400">Issued: {{ cert.issued }}</p>
-                <p class="text-gray-400" v-if="cert.credentialId">Credential ID: {{ cert.credentialId }}</p>
-              </div>
-              
               <!-- Skills -->
               <div class="mb-8">
                 <h4 class="text-lg font-semibold mb-4">Skills</h4>
@@ -347,8 +341,8 @@
       logoUrl: "/images/logos/dataexpert-logo.png",
       skills: [
         "4 week bootcamp",
-        "Python",
-        "SQL",
+        "Python & SQL",
+        "Apache Spark",
         "Data Modeling",
         "Data Engineering Best Practices",
         "Capstone Project: Streaming Data Dashboard"

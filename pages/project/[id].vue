@@ -45,7 +45,7 @@
   
       <template v-else>
         <!-- Hero Section with improved spacing -->
-        <section class="pt-32 pb-16 px-6 border-b border-gray-900">
+        <section class="pt-24 pb-16 px-6 border-b border-gray-900">
           <div class="max-w-7xl mx-auto">
             <div class="mb-4 flex items-center space-x-2 text-sm text-gray-400">
               <NuxtLink to="/" class="hover:text-white transition-colors">Portfolio</NuxtLink>
@@ -122,16 +122,20 @@
               <button
                 v-for="tab in tabs"
                 :key="tab.id"
-                @click="activeTab = tab.id"
+                @click="handleTabClick(tab.id)"
+                :disabled="isTabDisabled(tab.id)"
                 :class="[
                   'flex items-center space-x-2 py-4 px-2 md:px-0 border-b-2 transition-all whitespace-nowrap text-sm md:text-base',
                   activeTab === tab.id
                     ? 'border-blue-400 text-white'
-                    : 'border-transparent text-gray-400 hover:text-white'
+                    : isTabDisabled(tab.id)
+                      ? 'border-transparent text-gray-600 cursor-not-allowed'
+                      : 'border-transparent text-gray-400 hover:text-white cursor-pointer'
                 ]"
               >
                 <component :is="tab.icon" class="w-4 h-4" />
                 <span>{{ tab.label }}</span>
+                <span v-if="isTabDisabled(tab.id)" class="text-xs ml-1">(Coming Soon)</span>
               </button>
             </div>
           </div>
@@ -140,6 +144,21 @@
         <!-- Tab Content -->
         <section class="py-16 px-6">
           <div class="max-w-7xl mx-auto">
+            <!-- In Development Notice -->
+            <div v-if="project.status === 'In Development'" 
+                 class="mb-8 p-6 bg-yellow-900/20 border border-yellow-800/50 rounded-lg">
+              <div class="flex items-start space-x-3">
+                <AlertCircle class="w-5 h-5 text-yellow-400 mt-0.5" />
+                <div>
+                  <p class="text-yellow-400 font-semibold mb-1">Project In Development</p>
+                  <p class="text-gray-400 text-sm">
+                    This project is currently in development. Technical details, results, and code samples 
+                    will be available once the project is completed.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
             <!-- Overview Tab -->
             <div v-if="activeTab === 'overview'" class="space-y-16 animate-fadeIn">
               <!-- Problem & Solution -->
@@ -426,6 +445,21 @@
     setTimeout(() => {
       codeCopied.value = false
     }, 2000)
+  }
+  
+  // Check if tab should be disabled for "In Development" projects
+  const isTabDisabled = (tabId) => {
+    if (project.value?.status === 'In Development' && tabId !== 'overview') {
+      return true
+    }
+    return false
+  }
+  
+  // Handle tab click with disabled check
+  const handleTabClick = (tabId) => {
+    if (!isTabDisabled(tabId)) {
+      activeTab.value = tabId
+    }
   }
   </script>
   

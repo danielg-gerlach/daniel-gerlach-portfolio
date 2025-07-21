@@ -19,7 +19,18 @@ export default defineNuxtConfig({
       ],
       script: [
         {
-          innerHTML: `history.scrollRestoration = 'manual';`,
+          innerHTML: `
+            // Disable automatic scroll restoration
+            if ('scrollRestoration' in history) {
+              history.scrollRestoration = 'manual';
+            }
+            // Always start at top
+            window.addEventListener('load', function() {
+              setTimeout(function() {
+                window.scrollTo(0, 0);
+              }, 0);
+            });
+          `,
           type: 'text/javascript'
         }
       ]
@@ -34,5 +45,6 @@ export default defineNuxtConfig({
   },
   experimental: {
     appManifest: false
-  }
+  },
+  // Router options are now configured in a separate file
 })

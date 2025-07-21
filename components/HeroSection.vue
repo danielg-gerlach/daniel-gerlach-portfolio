@@ -17,6 +17,17 @@
           </div>
         </div>
         
+        <!-- Replay Animation Button (nur wenn Animation bereits gelaufen ist) -->
+        <div v-if="hasAnimated" class="text-center mt-4">
+          <button 
+            @click="replayAnimation"
+            class="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+          >
+            <RefreshCw class="w-3 h-3 inline mr-1" />
+            Replay animation
+          </button>
+        </div>
+        
         <div class="mt-12 text-center">
           <!-- Profile Picture -->
           <div class="w-48 h-48 mx-auto mb-8 rounded-full bg-gray-800 border-2 border-blue-500 overflow-hidden">
@@ -68,12 +79,13 @@
   </template>
   
   <script setup>
-  import { User, Github, Linkedin, Mail, ChevronDown } from 'lucide-vue-next'
+  import { User, Github, Linkedin, Mail, ChevronDown, RefreshCw } from 'lucide-vue-next'
   import { ref, onMounted } from 'vue'
   
   const displayedCode = ref('')
   const currentLineIndex = ref(0)
   const showCursor = ref(true)
+  const hasAnimated = ref(false)
   
   const pythonCode = [
     ">>> import pandas as pd",
@@ -102,8 +114,14 @@
     "Portfolio status: INITIALIZED"
   ]
   
-  onMounted(() => {
-    // Faster, smoother typing animation
+  const replayAnimation = () => {
+    // Reset animation state
+    displayedCode.value = ''
+    currentLineIndex.value = 0
+    hasAnimated.value = false
+    sessionStorage.removeItem('terminalAnimated')
+    
+    // Start animation again
     let charIndex = 0
     let lineIndex = 0
     
@@ -114,19 +132,64 @@
         if (charIndex < currentLine.length) {
           displayedCode.value += currentLine[charIndex]
           charIndex++
-          setTimeout(typeCode, 20) // Faster typing
+          setTimeout(typeCode, 20)
         } else {
           displayedCode.value += '\n'
           charIndex = 0
           lineIndex++
           currentLineIndex.value = lineIndex
-          setTimeout(typeCode, 100) // Pause between lines
+          setTimeout(typeCode, 100)
         }
+      } else {
+        // Animation complete
+        sessionStorage.setItem('terminalAnimated', 'true')
+        hasAnimated.value = true
       }
     }
     
-    // Start typing after a short delay
-    setTimeout(typeCode, 500)
+    setTimeout(typeCode, 100)
+  }
+  
+  onMounted(() => {
+    // Force scroll to top
+    window.scrollTo(0, 0)
+    
+    // Check if animation has already played in this session
+    hasAnimated.value = sessionStorage.getItem('terminalAnimated') === 'true'
+    
+    if (hasAnimated.value) {
+      // Show full terminal immediately
+      displayedCode.value = pythonCode.join('\n')
+      currentLineIndex.value = pythonCode.length
+    } else {
+      // Animate terminal
+      let charIndex = 0
+      let lineIndex = 0
+      
+      const typeCode = () => {
+        if (lineIndex < pythonCode.length) {
+          const currentLine = pythonCode[lineIndex]
+          
+          if (charIndex < currentLine.length) {
+            displayedCode.value += currentLine[charIndex]
+            charIndex++
+            setTimeout(typeCode, 20) // Faster typing
+          } else {
+            displayedCode.value += '\n'
+            charIndex = 0
+            lineIndex++
+            currentLineIndex.value = lineIndex
+            setTimeout(typeCode, 100) // Pause between lines
+          }
+        } else {
+          // Animation complete, save to session
+          sessionStorage.setItem('terminalAnimated', 'true')
+        }
+      }
+      
+      // Start typing after a short delay
+      setTimeout(typeCode, 500)
+    }
     
     // Cursor blink
     setInterval(() => {

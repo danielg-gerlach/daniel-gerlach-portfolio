@@ -146,9 +146,12 @@
   
   // Handle navigation from project detail page
   onMounted(() => {
+    // Force scroll to top first
+    window.scrollTo(0, 0)
+    
     // Check if there's a hash in the URL
     const hash = window.location.hash
-    if (hash) {
+    if (hash && hash !== '#init') {
       const sectionId = hash.substring(1)
       const sectionIndex = sections.findIndex(s => s.id === sectionId)
       if (sectionIndex !== -1) {
@@ -157,8 +160,7 @@
         }, 100)
       }
     } else {
-      // Force scroll to top on mount
-      window.scrollTo(0, 0)
+      // No hash or #init - stay at top
       activeSection.value = 0
     }
     

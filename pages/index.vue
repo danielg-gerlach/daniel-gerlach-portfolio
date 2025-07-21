@@ -41,3 +41,12 @@
       <ResumeSection />
     </div>
   </template>
+  
+  <script setup>
+  import { onMounted } from 'vue'
+  
+  onMounted(() => {
+    // Always scroll to top when page loads
+    window.scrollTo(0, 0)
+  })
+  </script>
