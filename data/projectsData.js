@@ -1,155 +1,4 @@
 export const projectsData = {
-    'enterprise-rag': {
-      id: 'enterprise-rag',
-      title: 'Enterprise RAG Knowledge Base',
-      subtitle: 'Production-ready Retrieval-Augmented Generation system with vector search',
-      year: '2025',
-      duration: '3 months',
-      role: 'E2E Data Engineer',
-      team: 'Solo project',
-      status: 'In Development',
-      
-      overview: `Built a scalable enterprise-grade RAG (Retrieval-Augmented Generation) system that enables intelligent document search and conversational AI over company knowledge bases. The system processes various document formats (PDF, DOCX, Markdown) and provides semantic search capabilities with context-aware responses.`,
-      
-      problem: `Organizations struggle with information retrieval from vast document repositories. Traditional keyword search fails to understand context and semantic meaning, leading to missed insights and inefficient knowledge discovery.`,
-      
-      solution: `Developed a production-ready RAG system using vector embeddings and semantic search. The architecture leverages Qdrant vector database for efficient similarity search, FastAPI for high-performance async API endpoints, and LangChain for orchestrating the RAG pipeline.`,
-      
-      techStack: {
-        'Core Technologies': ['Python', 'LangChain', 'Qdrant', 'FastAPI'],
-        'Infrastructure': ['Docker', 'Railway.app', 'MCP'],
-        'AI/ML': ['OpenAI Embeddings', 'Vector Search', 'Semantic Chunking'],
-        'Frontend': ['React', 'TypeScript', 'Tailwind CSS']
-      },
-      
-      architecture: {
-        components: [
-          { name: 'Document Ingestion Pipeline', description: 'Intelligent chunking strategies for optimal retrieval' },
-          { name: 'Vector Database', description: 'Qdrant for efficient similarity search across embeddings' },
-          { name: 'API Layer', description: 'FastAPI with async/await patterns for high concurrency' },
-          { name: 'RAG Orchestration', description: 'LangChain for managing retrieval and generation pipeline' },
-          { name: 'Admin Dashboard', description: 'Collection management and monitoring interface' }
-        ]
-      },
-      
-      metrics: {
-        'Concurrent Users': '100+',
-        'Response Time': '<1s',
-        'Document Types': '5+',
-        'Accuracy': '94%',
-        'Uptime': '99.9%',
-        'Collections': '10+'
-      },
-      
-      challenges: [
-        {
-          challenge: 'Optimal chunk sizing for diverse documents',
-          solution: 'Implemented adaptive chunking based on document structure and content type'
-        },
-        {
-          challenge: 'Balancing retrieval accuracy with speed',
-          solution: 'Hybrid search combining dense vectors with sparse keyword retrieval'
-        },
-        {
-          challenge: 'Handling concurrent requests efficiently',
-          solution: 'Async FastAPI endpoints with connection pooling and caching'
-        }
-      ],
-      
-      impact: [
-        'Reduced information retrieval time by 80% for enterprise users',
-        'Enabled conversational AI over proprietary knowledge bases',
-        'Demonstrated production-ready deployment with live demo',
-        'Showcased full-stack data engineering capabilities'
-      ],
-      
-      learnings: [
-        'Importance of chunk overlap for maintaining context in retrieval',
-        'Vector database indexing strategies for performance optimization',
-        'Benefits of hybrid search approaches in production systems',
-        'Container optimization techniques for ML workloads'
-      ],
-      
-      screenshots: [
-        { title: 'RAG System Dashboard', url: '/projects/rag-dashboard.png' },
-        { title: 'API Documentation', url: '/projects/rag-api.png' },
-        { title: 'Search Interface', url: '/projects/rag-search.png' }
-      ],
-      
-      codeSnippets: {
-        'Vector Search Implementation': `
-  # Hybrid search combining dense and sparse retrieval
-  async def hybrid_search(
-      query: str, 
-      collection: str,
-      limit: int = 10
-  ) -> List[Document]:
-      # Generate query embedding
-      query_embedding = await embed_text(query)
-      
-      # Dense vector search
-      vector_results = await qdrant_client.search(
-          collection_name=collection,
-          query_vector=query_embedding,
-          limit=limit * 2
-      )
-      
-      # Sparse keyword search
-      keyword_results = await perform_bm25_search(
-          query=query,
-          collection=collection,
-          limit=limit * 2
-      )
-      
-      # Reciprocal Rank Fusion
-      fused_results = reciprocal_rank_fusion(
-          vector_results, 
-          keyword_results,
-          k=60
-      )
-      
-      return fused_results[:limit]
-        `,
-        'Async API Endpoint': `
-  @app.post("/api/v1/query")
-  async def query_knowledge_base(
-      request: QueryRequest,
-      background_tasks: BackgroundTasks,
-      api_key: str = Depends(verify_api_key)
-  ):
-      # Rate limiting check
-      await rate_limiter.check_limit(api_key)
-      
-      # Perform hybrid search
-      relevant_docs = await hybrid_search(
-          query=request.query,
-          collection=request.collection,
-          limit=request.top_k
-      )
-      
-      # Generate response with context
-      response = await generate_rag_response(
-          query=request.query,
-          context=relevant_docs,
-          chat_history=request.chat_history
-      )
-      
-      # Log usage asynchronously
-      background_tasks.add_task(
-          log_usage, api_key, request, response
-      )
-      
-      return {"response": response, "sources": relevant_docs}
-        `
-      },
-      
-      links: {
-        github: 'https://github.com/yourusername/enterprise-rag-knowledge',
-        demo: 'https://rag-demo.railway.app',
-        documentation: null
-      }
-    },
-  
     'ai-analytics-assistant': {
       id: 'ai-analytics-assistant',
       title: 'AI-Powered Analytics Assistant',
@@ -167,7 +16,7 @@ export const projectsData = {
       solution: `Built an intelligent assistant using LangChain and GPT-4o that understands natural language queries, generates secure SQL, and automatically creates appropriate visualizations based on the data characteristics.`,
       
       techStack: {
-        'AI/ML': ['LangChain', 'GPT-4o', 'Few-shot Learning'],
+        'AI/ML': ['LangChain', 'GPT-4o', 'Few-shot Learning', 'Qdrant'],
         'Backend': ['Python', 'FastAPI', 'SQL Alchemy'],
         'Visualization': ['Plotly', 'Streamlit'],
         'Integration': ['Confluence API v2', 'REST APIs']
@@ -519,7 +368,7 @@ export const projectsData = {
       
       problem: `Organizations need efficient, scalable data pipelines to handle growing data volumes and provide real-time insights for decision-making.`,
       
-      solution: `Building a cloud-native data pipeline using Python for orchestration, BigQuery for warehousing, and Looker Studio for visualization.`,
+      solution: `Building a cloud-native data pipeline using Python for orchestration, BigQuery for warehousing and transformation, and Looker Studio for visualization.`,
       
       techStack: {
         'Languages': ['Python', 'SQL'],
@@ -541,10 +390,10 @@ export const projectsData = {
       metrics: {
         'Status': 'In Progress',
         'Completion': '60%',
-        'Data Sources': '3+',
-        'Tables': '15+',
-        'Dashboards': '5 planned',
-        'Update Frequency': 'Real-time'
+        'Data Sources': '3',
+        'Tables': 'X',
+        'Dashboard': '1',
+        'Update Frequency': 'Batch'
       },
       
       challenges: [
@@ -555,7 +404,7 @@ export const projectsData = {
       ],
       
       impact: [
-        'Will enable real-time business intelligence',
+        'Will enable business intelligence',
         'Automated reporting reducing manual work',
         'Scalable architecture for future growth'
       ],
@@ -718,7 +567,7 @@ export const projectsData = {
       title: 'Data Architecture Design',
       subtitle: 'Manufacturing-focused data architecture for real-time analytics',
       year: '2024',
-      duration: '1 month',
+      duration: '2 weeks',
       role: 'Data Architect',
       team: 'Solo project',
       status: 'Completed',
