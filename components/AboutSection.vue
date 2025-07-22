@@ -31,7 +31,7 @@
           <div class="grid md:grid-cols-3 gap-4">
             <div class="p-4 bg-gray-900/30 rounded-lg border border-gray-800 hover:border-blue-500/50 transition-all">
               <h4 class="font-semibold text-blue-400 mb-2">Developing AI Agents</h4>
-              <p class="text-sm text-gray-400">Building Enterprise-ready AI Agents in Python</p>
+              <p class="text-sm text-gray-400">Building business-ready AI Agents in Python</p>
             </div>
             <div class="p-4 bg-gray-900/30 rounded-lg border border-gray-800 hover:border-blue-500/50 transition-all">
               <h4 class="font-semibold text-blue-400 mb-2">Apache Iceberg</h4>

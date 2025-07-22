@@ -508,7 +508,7 @@ export const projectsData = {
     'data-pipeline': {
       id: 'data-pipeline',
       title: 'Google Cloud Data Pipeline',
-      subtitle: 'Data pipeline, warehousing & analysis with BigQuery and Looker',
+      subtitle: 'Data pipeline, warehousing & analysis with BigQuery and Looker Studio',
       year: '2025',
       duration: 'In Development',
       role: 'Data Engineer',
