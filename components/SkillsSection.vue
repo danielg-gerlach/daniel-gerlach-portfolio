@@ -334,7 +334,7 @@
       verifyUrl: "https://www.datacamp.com/certificate/verify/434995"
     },
     {
-      id: 'ibm-devops',
+      id: 'dataexpert',
       title: "Data Engineering Bootcamp",
       issuer: "DataExpert.io",
       issued: "September 2025",
@@ -347,6 +347,23 @@
         "Data Modeling",
         "Data Engineering Best Practices",
         "Capstone Project: Streaming Data Dashboard"
+      ],
+      verifyUrl: "https://www.coursera.org/verify/EFGH5678"
+    },
+    {
+      id: 'prof_dataeng',
+      title: "Professional Data Engineer",
+      issuer: "DataCamp",
+      issued: "September 2025",
+      credentialId: "EFGH5678",
+      logoUrl: "/images/logos/datacamp-logo.png",
+      skills: [
+        "Data Pipelines in the Terminal",
+        "Containerization",
+        "dbt",
+        "NoSQL",
+        "PySpark & SparkSQL",
+        "Introduction to Apache Kafka"
       ],
       verifyUrl: "https://www.coursera.org/verify/EFGH5678"
     }
