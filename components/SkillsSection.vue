@@ -301,15 +301,15 @@
     },
     {
       id: 'datacamp-data-scientist',
-      title: "Associate Data Scientist in Python",
+      title: "Data Scientist",
       issuer: "DataCamp",
       issued: "September 2025",
       credentialId: "#67890",
       logoUrl: "/images/logos/datacamp-logo.png",
       skills: [
         "Data Science Best Practices",
-        "Python",
-        "SQL",
+        "Python & SQL",
+        "Statistical Methods for Data Science",
         "Machine Learning",
         "LLM Application Development",
         "Data Visualization"

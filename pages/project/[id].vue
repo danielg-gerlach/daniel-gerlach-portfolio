@@ -135,7 +135,6 @@
               >
                 <component :is="tab.icon" class="w-4 h-4" />
                 <span>{{ tab.label }}</span>
-                <span v-if="isTabDisabled(tab.id)" class="text-xs ml-1">(Coming Soon)</span>
               </button>
             </div>
           </div>
@@ -144,20 +143,6 @@
         <!-- Tab Content -->
         <section class="py-16 px-6">
           <div class="max-w-7xl mx-auto">
-            <!-- In Development Notice -->
-            <div v-if="project.status === 'In Development'" 
-                 class="mb-8 p-6 bg-yellow-900/20 border border-yellow-800/50 rounded-lg">
-              <div class="flex items-start space-x-3">
-                <AlertCircle class="w-5 h-5 text-yellow-400 mt-0.5" />
-                <div>
-                  <p class="text-yellow-400 font-semibold mb-1">Project In Development</p>
-                  <p class="text-gray-400 text-sm">
-                    This project is currently in development. Technical details, results, and code samples 
-                    will be available once the project is completed.
-                  </p>
-                </div>
-              </div>
-            </div>
             
             <!-- Overview Tab -->
             <div v-if="activeTab === 'overview'" class="space-y-16 animate-fadeIn">
@@ -449,11 +434,8 @@
   
   // Check if tab should be disabled for "In Development" projects
   const isTabDisabled = (tabId) => {
-    if (project.value?.status === 'In Development' && tabId !== 'overview') {
-      return true
-    }
-    return false
-  }
+  return false // All tabs are always enabled
+}
   
   // Handle tab click with disabled check
   const handleTabClick = (tabId) => {
