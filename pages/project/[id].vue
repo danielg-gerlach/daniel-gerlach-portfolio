@@ -4,13 +4,13 @@
       <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/80 border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-6 py-4">
           <div class="flex items-center justify-between">
-            <NuxtLink 
-              to="/#projects" 
+            <button 
+              @click="navigateToProjects"
               class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors group"
             >
               <ArrowLeft class="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
               <span>Back to Projects</span>
-            </NuxtLink>
+            </button>
             
             <!-- Project Navigation (Desktop) -->
             <div class="hidden md:flex items-center space-x-4">
@@ -37,9 +37,9 @@
       <div v-if="!project" class="min-h-screen flex items-center justify-center">
         <div class="text-center">
           <h1 class="text-4xl font-bold mb-4">Project Not Found</h1>
-          <NuxtLink to="/#projects" class="text-blue-400 hover:text-blue-300">
+          <button @click="navigateToProjects" class="text-blue-400 hover:text-blue-300">
             Return to Projects
-          </NuxtLink>
+          </button>
         </div>
       </div>
   
@@ -50,7 +50,7 @@
             <div class="mb-4 flex items-center space-x-2 text-sm text-gray-400">
               <NuxtLink to="/" class="hover:text-white transition-colors">Portfolio</NuxtLink>
               <ChevronRight class="w-4 h-4" />
-              <NuxtLink to="/#projects" class="hover:text-white transition-colors">Projects</NuxtLink>
+              <button @click="navigateToProjects" class="hover:text-white transition-colors">Projects</button>
               <ChevronRight class="w-4 h-4" />
               <span class="text-white">{{ project.title }}</span>
             </div>
@@ -342,13 +342,13 @@
               
               <!-- Back to Projects -->
               <div class="text-center">
-                <NuxtLink 
-                  to="/#projects" 
+                <button 
+                  @click="navigateToProjects"
                   class="inline-flex items-center space-x-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all"
                 >
                   <Layers class="w-5 h-5" />
                   <span>View All Projects</span>
-                </NuxtLink>
+                </button>
               </div>
               
               <!-- Next Project -->
@@ -426,6 +426,11 @@
   const navigateToProject = (projectId) => {
     router.push(`/project/${projectId}`)
     window.scrollTo(0, 0)
+  }
+  
+  const navigateToProjects = () => {
+    // Use hash navigation which the Navigation component will handle
+    router.push('/#projects')
   }
   
   const copyCode = async () => {

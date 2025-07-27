@@ -46,7 +46,12 @@
   import { onMounted } from 'vue'
   
   onMounted(() => {
-    // Always scroll to top when page loads
-    window.scrollTo(0, 0)
+    // Check if there's a hash in the URL
+    const hash = window.location.hash
+    if (!hash || hash === '#init') {
+      // Only scroll to top if no hash or if hash is #init
+      window.scrollTo(0, 0)
+    }
+    // Otherwise, let the Navigation component handle the scrolling
   })
   </script>

@@ -16,7 +16,7 @@
               <span class="font-mono text-xs text-gray-500">tech_stack.sh</span>
             </div>
             
-            <div class="p-6 h-[500px] overflow-y-auto custom-scrollbar" ref="terminalContainer">
+            <div class="p-6 h-[500px] overflow-y-auto custom-scrollbar" ref="terminalContainer" @click="focusTerminal">
               <div class="font-mono text-sm text-gray-300">
                 <!-- Welcome message -->
                 <div v-if="terminalHistory.length === 3" class="mb-4 p-4 bg-blue-900/20 border border-blue-800/50 rounded">
@@ -396,6 +396,10 @@
     terminalInput.value?.focus()
   }
   
+  const focusTerminal = () => {
+    terminalInput.value?.focus()
+  }
+  
   const handleTabComplete = () => {
     if (suggestions.value.length === 1) {
       currentInput.value = suggestions.value[0]
@@ -564,8 +568,8 @@
   }
   
   onMounted(() => {
-    // Focus terminal input
-    terminalInput.value?.focus()
+    // Removed auto-focus to prevent automatic scrolling to this section
+    // Users can click on the terminal to focus it
     
     // Cursor blink
     setInterval(() => {
