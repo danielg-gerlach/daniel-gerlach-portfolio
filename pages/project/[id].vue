@@ -97,26 +97,25 @@
               >
                 <Github class="w-4 h-4" />
                 <span>View Project</span>
-                <ExternalLink class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ExternalLink class="w-3 h-3" />
               </a>
               
               <a 
-                v-if="project?.links?.demo" 
-                :href="project.links.demo" 
+                :href="project?.links?.demo || '#'" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all duration-300 text-sm group"
               >
                 <Play class="w-4 h-4" />
                 <span>Live Demo</span>
-                <ExternalLink class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ExternalLink class="w-3 h-3" />
               </a>
             </div>
           </div>
         </section>
   
         <!-- Tabs Navigation - Simplified for mobile -->
-        <section class="sticky top-[73px] z-40 bg-black/95 backdrop-blur-md border-b border-gray-800">
+        <section class="sticky top-[57px] z-40 bg-black/95 backdrop-blur-md border-b border-gray-800">
           <div class="max-w-7xl mx-auto px-6">
             <div class="flex space-x-2 md:space-x-8 overflow-x-auto scrollbar-hide">
               <button
@@ -247,13 +246,19 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div v-for="(screenshot, index) in project.screenshots" :key="index" 
                        class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden group">
-                    <div class="aspect-video bg-gray-800 overflow-hidden">
+                    <div class="aspect-video bg-gray-800 overflow-hidden cursor-pointer relative" 
+                         @click="openImageInNewTab(screenshot.url)"
+                         title="Click to view full size">
                       <img 
                         :src="screenshot.url" 
                         :alt="screenshot.title" 
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
+                      <!-- Overlay icon to indicate clickability -->
+                      <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                        <ExternalLink class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
                     </div>
                     <div class="p-4">
                       <h3 class="font-medium">{{ screenshot.title }}</h3>
@@ -430,6 +435,10 @@
     setTimeout(() => {
       codeCopied.value = false
     }, 2000)
+  }
+  
+  const openImageInNewTab = (imageUrl) => {
+    window.open(imageUrl, '_blank', 'noopener,noreferrer')
   }
   
   // Check if tab should be disabled for "In Development" projects

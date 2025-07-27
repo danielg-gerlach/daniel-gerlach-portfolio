@@ -138,7 +138,7 @@ export const projectsData = {
 
     links: {
       github: 'https://github.com/danielg-gerlach/ai-analytics-assistant',
-      demo: null,
+      demo: 'https://drive.google.com/your-demo-video-link-here',
       documentation: null
     }
   },
@@ -266,86 +266,265 @@ export const projectsData = {
 
     links: {
       github: 'https://github.com/yourusername/databricks-rag-pipeline',
-      demo: null,
+      demo: 'https://drive.google.com/your-demo-video-link-here',
       documentation: 'https://github.com/yourusername/databricks-rag-pipeline/blob/main/README.md'
+    }
+  },
+
+  'formula1-dbt-analytics': {
+    id: 'formula1-dbt-analytics',
+    title: 'Formula 1 Analytics with dbt & Azure Synapse',
+    subtitle: 'Building a scalable data warehouse for historical F1 racing data',
+    year: '2025',
+    duration: '1 week',
+    role: 'Analytics Engineer',
+    team: 'Solo project',
+    status: 'In Development',
+
+    overview: `Developed a comprehensive analytics engineering project using dbt Core to transform raw, normalized Formula 1 data into a performance-optimized star schema in Azure Synapse Analytics. The project ingests decades of historical race results, drivers, and constructor data from Azure Blob Storage, applying rigorous testing and documentation to build a reliable single source of truth for analysis.`,
+
+    problem: `Raw transactional data, like the publicly available Ergast F1 dataset, is highly normalized and spread across many tables. This structure is inefficient for analytical queries and makes it difficult for data analysts to answer business questions like "Which constructor has the most wins at Monaco?" without writing complex, multi-level joins.`,
+
+    solution: `Built a dbt project that follows analytics engineering best practices. The pipeline starts with defining sources from data staged in a data lake, moves to staging models for basic cleaning and casting, and culminates in fact and dimension tables (a star schema) that are optimized for BI tools. The project includes custom macros, data quality tests, and is fully documented and version-controlled.`,
+
+    techStack: {
+      'Data Transformation': ['dbt Core', 'SQL'],
+      'Data Warehouse': ['Azure Synapse Analytics'],
+      'Data Lake Storage': ['Azure Blob Storage'],
+      'Languages & Tools': ['Python', 'Git', 'YAML'],
+      'CI/CD': ['GitHub Actions']
+    },
+
+    architecture: {
+      components: [
+        { name: 'Data Sources', description: 'Raw F1 data staged in Azure Blob Storage and defined in dbt sources.yml.' },
+        { name: 'Staging Layer', description: 'One-to-one models for cleaning, renaming, and casting raw source data.' },
+        { name: 'Marts Layer', description: 'Dimension tables (dim_drivers, dim_races) and a central fact table (fct_results) forming a star schema.' },
+        { name: 'Data Quality', description: 'Over 50 generic and singular tests to ensure referential integrity and data validity.' },
+        { name: 'Code Abstraction', description: 'Custom dbt macros to generate surrogate keys and perform common transformations.' },
+        { name: 'Documentation', description: 'Generated a full dbt documentation site showing model descriptions and lineage.' }
+      ]
+    },
+
+    metrics: {
+      'Models Created': '15+',
+      'Data Tests': '50+',
+      'Macros': '2',
+      'Sources': '14',
+      'Schema Design': 'Star Schema',
+      'CI/CD': 'Automated dbt build'
+    },
+
+    challenges: [
+      {
+        challenge: 'Modeling complex relationships between drivers, constructors, and race results over time.',
+        solution: 'Used intermediate models to logically group joins and calculations before creating the final fact and dimension tables.'
+      },
+      {
+        challenge: 'Ensuring data quality and referential integrity across decades of historical data.',
+        solution: 'Implemented comprehensive dbt tests (e.g., unique, not_null, relationships) on all primary and foreign keys.'
+      },
+      {
+        challenge: 'Avoiding repetitive SQL code when generating primary keys for models.',
+        solution: 'Created a dbt macro to generate a surrogate key by hashing a column or combination of columns, ensuring a consistent and DRY approach.'
+      }
+    ],
+
+    impact: [
+      'Transformed a complex, normalized dataset into an analytics-ready star schema in the Azure ecosystem.',
+      'Established a robust, tested, and documented single source of truth for F1 analysis.',
+      'Demonstrated advanced dbt skills, including testing, documentation, and macro development.',
+      'Enabled fast and efficient querying for complex analytical questions that were previously difficult to answer.'
+    ],
+
+    learnings: [
+      'The power of dbt for enforcing data quality and building trust in data assets.',
+      'Best practices for structuring a dbt project with staging and marts layers.',
+      'How to leverage dbt macros to write more maintainable and reusable SQL code.',
+      'The value of a well-documented data model and the utility of dbt docs for exploring lineage.'
+    ],
+
+    screenshots: [
+      { title: 'dbt Project Lineage Graph (DAG)', url: '/projects/dbt-dag.png' },
+      { title: 'dbt Test Execution in CLI', url: '/projects/dbt-test-cli.png' },
+      { title: 'Azure Synapse Star Schema Tables', url: '/projects/dbt-synapse-schema.png' }
+    ],
+
+    codeSnippets: {
+      'Fact Table Model (fct_results.sql)': `
+-- This model joins race results with key dimensions to create a central fact table.
+WITH results AS (
+    SELECT * FROM {{ ref('stg_f1_results') }}
+),
+drivers AS (
+    SELECT * FROM {{ ref('dim_drivers') }}
+),
+races AS (
+    SELECT * FROM {{ ref('dim_races') }}
+)
+SELECT
+    -- Surrogate key
+    {{ dbt_utils.generate_surrogate_key(['r.result_id']) }} as result_key,
+    r.result_id,
+    d.driver_key,
+    ra.race_key,
+    r.constructor_id,
+    r.position,
+    r.points,
+    r.laps,
+    r.status
+FROM results r
+JOIN drivers d ON r.driver_id = d.driver_id
+JOIN races ra ON r.race_id = ra.race_id
+      `,
+      'Model & Test Definition (schema.yml)': `
+version: 2
+
+models:
+  - name: dim_drivers
+    description: "Dimension table containing information about each Formula 1 driver."
+    columns:
+      - name: driver_key
+        description: "The surrogate primary key for the drivers dimension."
+        tests:
+          - unique
+          - not_null
+      - name: driver_id
+        description: "The natural key for drivers from the source data."
+        tests:
+          - unique
+          - not_null
+      - name: driver_nationality
+        description: "The nationality of the driver."
+        tests:
+          - not_null
+
+  - name: fct_results
+    description: "Fact table containing race results, linking drivers and races."
+    columns:
+      - name: result_key
+        description: "The surrogate primary key for race results."
+        tests:
+          - unique
+          - not_null
+      - name: driver_key
+        description: "Foreign key to the dim_drivers table."
+        tests:
+          - relationships:
+              to: ref('dim_drivers')
+              field: driver_key
+      `
+    },
+
+    links: {
+      github: 'https://github.com/yourusername/dbt-formula1-analytics-azure',
+      demo: 'https://drive.google.com/your-demo-video-link-here',
+      documentation: null
     }
   },
 
   'data-pipeline': {
     id: 'data-pipeline',
-    title: 'Google Cloud Data Pipeline',
-    subtitle: 'Data pipeline, warehousing & analysis with BigQuery and Looker Studio',
+    title: 'GCP Analytics Pipeline & Dashboard',
+    subtitle: 'Serverless ELT pipeline for SaaS analytics with BigQuery and Looker Studio',
     year: '2025',
-    duration: 'In Development',
+    duration: '3 Days',
     role: 'Data Engineer',
     team: 'Solo project',
-    status: 'In Development',
+    status: 'Completed',
 
-    overview: `Currently developing a comprehensive data pipeline that ingests, transforms, and visualizes data using modern cloud technologies. This project demonstrates end-to-end data engineering skills from extraction to visualization.`,
+    overview: `Built a serverless, event-driven ELT pipeline on Google Cloud Platform to process raw SaaS product usage data. The pipeline automatically ingests CSV files from a GCS bucket, loads them into BigQuery, transforms the raw data into analytics-ready models using SQL, and visualizes key business metrics like MAU and churn in a live Looker Studio dashboard.`,
 
-    problem: `Organizations need efficient, scalable data pipelines to handle growing data volumes and provide real-time insights for decision-making.`,
+    problem: `SaaS companies need to analyze product usage data to understand user behavior, track growth, and reduce churn. Manually processing raw data files is slow, error-prone, and doesn't scale, creating a delay between data availability and actionable insights.`,
 
-    solution: `Building a cloud-native data pipeline using Python for orchestration, BigQuery for warehousing and transformation, and Looker Studio for visualization.`,
+    solution: `Developed a fully automated pipeline where raw CSVs uploaded to a GCS bucket trigger a Python Cloud Function. This function ingests the data into a raw BigQuery schema. A series of SQL scripts then transform this data into clean, aggregated analytical tables, which are connected to an interactive Looker Studio dashboard for business intelligence.`,
 
     techStack: {
-      'Languages': ['Python', 'SQL'],
-      'Cloud': ['Google Cloud Platform', 'BigQuery'],
-      'Databases': ['MySQL', 'BigQuery'],
-      'Visualization': ['Looker Studio'],
-      'Orchestration': ['Apache Airflow']
+      'Cloud Infrastructure': ['Google Cloud Platform', 'Cloud Functions', 'Cloud Storage (GCS)'],
+      'Data Warehouse': ['Google BigQuery'],
+      'Languages & Tools': ['Python', 'SQL', 'Pandas'],
+      'Visualization': ['Looker Studio']
     },
 
     architecture: {
       components: [
-        { name: 'Data Ingestion', description: 'Automated data extraction from multiple sources' },
-        { name: 'Transformation Layer', description: 'Data cleaning and transformation logic' },
-        { name: 'Data Warehouse', description: 'BigQuery for scalable storage and analytics' },
-        { name: 'Visualization', description: 'Looker Studio dashboards for insights' }
+        { name: 'Data Ingestion', description: 'Event-driven Python Cloud Function triggered by GCS file uploads.' },
+        { name: 'Staging Layer', description: 'GCS bucket as a data lake landing zone for raw CSV files.' },
+        { name: 'Data Warehouse', description: 'BigQuery with separate schemas for raw data and transformed analytical models.' },
+        { name: 'Transformation Layer', description: 'SQL scripts run within BigQuery to create aggregated fact and dimension tables.' },
+        { name: 'Visualization', description: 'Interactive Looker Studio dashboard connected directly to the analytics tables.' }
       ]
     },
 
     metrics: {
-      'Status': 'In Progress',
-      'Completion': '60%',
-      'Data Sources': '3',
-      'Tables': 'X',
-      'Dashboard': '1',
-      'Update Frequency': 'Batch'
+      'Data Sources': '3 CSVs',
+      'Pipeline Latency': '< 30 sec.',
+      'Tables Created': '6+',
+      'Key Metrics': '4',
+      'Orchestration': 'Event-Driven',
+      'Function Memory': '512MB'
     },
 
     challenges: [
       {
-        challenge: 'Handling different data formats and schemas',
-        solution: 'Implementing flexible schema detection and mapping'
+        challenge: 'Diagnosing a series of complex IAM permission errors between GCS, Eventarc, and Pub/Sub.',
+        solution: 'Systematically debugged service account roles, finding the correct principals (GCS & Eventarc Service Agents) and granting the necessary permissions.'
+      },
+      {
+        challenge: 'Handling build failures for Python dependencies (pyarrow) in the Cloud Functions environment.',
+        solution: 'Identified that the Python 3.9 runtime was missing build tools and resolved the issue by upgrading the function to the Python 3.11 runtime.'
+      },
+      {
+        challenge: 'Managing location mismatches between a multi-region GCS bucket and a single-region Cloud Function.',
+        solution: 'Correctly configured the deployment using both `--region` for the function and `--trigger-location` for the Eventarc trigger.'
       }
     ],
 
     impact: [
-      'Will enable business intelligence',
-      'Automated reporting reducing manual work',
-      'Scalable architecture for future growth'
+      'Created a fully automated, hands-off pipeline for processing raw data files.',
+      'Enabled near real-time analysis of key SaaS business metrics like user growth and churn.',
+      'Built a scalable and cost-effective solution using serverless GCP components.'
     ],
 
     learnings: [
-      'BigQuery optimization techniques',
-      'Best practices for data pipeline design',
-      'Importance of data quality checks'
+      'The critical importance of precise IAM permissions between interacting cloud services.',
+      'How to debug cloud build and deployment issues by analyzing logs and understanding runtime environments.',
+      'Practical application of the ELT paradigm, separating the loading of raw data from subsequent SQL-based transformation.',
+      'The distinction between a function\'s region and a trigger\'s location for GCS events.'
     ],
 
     screenshots: [
-      { title: 'Pipeline Architecture', url: '/projects/pipeline-arch.png' }
+      { title: 'Final Looker Studio Dashboard', url: '/projects/gcp/SaaS_Analytics_Dashboard.pdf' },
+      { title: 'Data Pipeline Architecture', url: '/projects/gcp-pipeline-arch.png' },
+      { title: 'BigQuery Analytical Tables', url: '/projects/gcp-bigquery-tables.png' }
     ],
 
     codeSnippets: {
-      'Pipeline Orchestration': `
-  # Coming soon - check back for updates!
+      'SQL Transformation (Monthly Active Users)': `
+  -- This query calculates the number of unique active users per month.
+  CREATE OR REPLACE TABLE \`saas-analytics-project-467007.saas_analytics.monthly_active_users\` AS (
+    SELECT
+      DATE_TRUNC(CAST(evt.event_timestamp AS TIMESTAMP), MONTH) AS activity_month,
+      usr.pricing_plan,
+      COUNT(DISTINCT evt.user_id) AS monthly_active_users
+    FROM
+      \`saas-analytics-project-467007.saas_raw_data.events\` AS evt
+    JOIN
+      \`saas-analytics-project-467007.saas_analytics.dim_users\` AS usr
+    ON
+      evt.user_id = usr.user_id
+    GROUP BY
+      1, 2 -- Group by the first and second columns (month and plan)
+    ORDER BY
+      activity_month DESC
+  );
         `
     },
 
     links: {
-      github: 'https://github.com/yourusername/analytics-dashboard',
-      demo: null,
-      documentation: null
+      github: 'https://github.com/danielg-gerlach/gcp-saas-analytics-pipeline',
+      demo: 'https://lookerstudio.google.com/reporting/0c209a22-1cdb-48c9-8693-7154e356c053',
+      documentation: 'https://github.com/danielg-gerlach/gcp-saas-analytics-pipeline/blob/main/README.md'
     }
   },
 
@@ -459,7 +638,7 @@ export const projectsData = {
 
     links: {
       github: 'https://github.com/danielg-gerlach/EDA_Manufacturing',
-      demo: null,
+      demo: 'https://drive.google.com/your-demo-video-link-here',
       documentation: null
     }
   },
@@ -587,129 +766,8 @@ VALUES (1, 'credit_card', 100.00);
 
     links: {
       github: 'https://github.com/danielg-gerlach/energy_supplier_db',
-      demo: null,
+      demo: 'https://drive.google.com/your-demo-video-link-here',
       documentation: null
     }
   },
-
-  'data-architecture': {
-    id: 'data-architecture',
-    title: 'Data Architecture Design',
-    subtitle: 'Manufacturing-focused data architecture for real-time analytics',
-    year: '2024',
-    duration: '2 weeks',
-    role: 'Data Architect',
-    team: 'Solo project',
-    status: 'Completed',
-
-    overview: `Designed a comprehensive data warehouse architecture for manufacturing that integrates real-time IoT sensor data, production metrics, supply chain information, and quality assurance data to enable data-driven decision making.`,
-
-    problem: `Manufacturing environments generate massive amounts of data from various sources, but lack unified architectures to consolidate and analyze this data effectively for operational insights.`,
-
-    solution: `Created a cloud-native data architecture using modern tools like Airbyte for ingestion, AWS S3 for data lake storage, dbt for transformations, Snowflake for warehousing, and Power BI for visualization.`,
-
-    techStack: {
-      'Data Ingestion': ['Airbyte', 'Kafka'],
-      'Storage': ['AWS S3', 'Snowflake'],
-      'Transformation': ['dbt', 'Apache Spark'],
-      'Visualization': ['Power BI'],
-      'Orchestration': ['Apache Airflow']
-    },
-
-    architecture: {
-      components: [
-        { name: 'Real-time Ingestion', description: 'Streaming IoT sensor data from shop floor' },
-        { name: 'Data Lake', description: 'S3-based raw data storage with partitioning' },
-        { name: 'Transformation Layer', description: 'dbt models for data standardization' },
-        { name: 'Data Warehouse', description: 'Snowflake for analytical workloads' },
-        { name: 'Serving Layer', description: 'Power BI dashboards and APIs' }
-      ]
-    },
-
-    metrics: {
-      'Data Sources': '15+',
-      'Daily Volume': '5TB',
-      'Latency': '<5 min',
-      'Cost Savings': '40%',
-      'Schemas': '8 domains',
-      'Users': '200+'
-    },
-
-    challenges: [
-      {
-        challenge: 'Integrating heterogeneous data sources',
-        solution: 'Implemented schema-flexible data mesh approach'
-      },
-      {
-        challenge: 'Balancing real-time needs with cost',
-        solution: 'Hybrid architecture with hot/warm/cold data tiers'
-      }
-    ],
-
-    impact: [
-      'Enabled real-time production monitoring',
-      'Improved quality control through predictive analytics',
-      'Enhanced supply chain visibility',
-      'Reduced data silos across departments'
-    ],
-
-    learnings: [
-      'Value of starting lean and iterating',
-      'Importance of data governance from day one',
-      'Benefits of cloud-native architectures',
-      'Need for flexible schema design in manufacturing'
-    ],
-
-    screenshots: [
-      { title: 'Architecture Diagram', url: '/projects/arch-diagram.png' },
-      { title: 'Data Flow', url: '/projects/arch-flow.png' }
-    ],
-
-    codeSnippets: {
-      'dbt Transformation': `
-  -- Manufacturing OEE (Overall Equipment Effectiveness) model
-  {{ config(
-      materialized='incremental',
-      unique_key='equipment_hour_key',
-      on_schema_change='fail'
-  ) }}
-  
-  WITH equipment_metrics AS (
-      SELECT
-          equipment_id,
-          DATE_TRUNC('hour', timestamp) as hour,
-          -- Availability
-          SUM(CASE WHEN status = 'RUNNING' THEN 1 ELSE 0 END) * 1.0 / 
-          COUNT(*) as availability_rate,
-          -- Performance
-          AVG(actual_speed / rated_speed) as performance_rate,
-          -- Quality
-          SUM(good_units) * 1.0 / NULLIF(SUM(total_units), 0) as quality_rate
-      FROM {{ ref('stg_equipment_telemetry') }}
-      {% if is_incremental() %}
-          WHERE timestamp > (SELECT MAX(hour) FROM {{ this }})
-      {% endif %}
-      GROUP BY equipment_id, hour
-  )
-  
-  SELECT
-      {{ dbt_utils.surrogate_key(['equipment_id', 'hour']) }} as equipment_hour_key,
-      equipment_id,
-      hour,
-      availability_rate,
-      performance_rate,
-      quality_rate,
-      -- Calculate OEE
-      availability_rate * performance_rate * quality_rate as oee_score,
-      CURRENT_TIMESTAMP as updated_at
-  FROM equipment_metrics
-        `
-    },
-
-    links: {
-      github: 'https://github.com/danielg-gerlach/Data_Architecture',
-      demo: null,
-      documentation: null
-    }
-  }
 }
