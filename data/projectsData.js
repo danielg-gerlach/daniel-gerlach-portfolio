@@ -1,6 +1,7 @@
 export const projectsData = {
   'ai-analytics-assistant': {
     id: 'ai-analytics-assistant',
+    type: 'personal',
     title: 'AI-Powered Analytics Assistant',
     subtitle: 'Natural language to SQL interface with automated data visualization',
     year: '2025',
@@ -145,6 +146,7 @@ export const projectsData = {
 
   'rag-pipeline-aws': {
     id: 'rag-pipeline-aws',
+    type: 'personal',
     title: 'RAG with AWS & Databricks',
     subtitle: 'Building a Q&A bot from documents using vector embeddings',
     year: '2025',
@@ -273,6 +275,7 @@ export const projectsData = {
 
   'formula1-dbt-analytics': {
     id: 'formula1-dbt-analytics',
+    type: 'personal',
     title: 'Formula 1 Analytics with dbt & Azure Synapse',
     subtitle: 'Building a scalable data warehouse for historical F1 racing data',
     year: '2025',
@@ -425,6 +428,7 @@ models:
 
   'data-pipeline': {
     id: 'data-pipeline',
+    type: 'personal',
     title: 'GCP Analytics Pipeline & Dashboard',
     subtitle: 'Serverless ELT pipeline for SaaS analytics with BigQuery and Looker Studio',
     year: '2025',
@@ -530,6 +534,7 @@ models:
 
   'manufacturing-eda': {
     id: 'manufacturing-eda',
+    type: 'personal',
     title: 'Manufacturing Data Analysis',
     subtitle: 'Exploratory analysis & visualization of manufacturing defect data',
     year: '2024',
@@ -645,6 +650,7 @@ models:
 
   'energy-database': {
     id: 'energy-database',
+    type: 'personal',
     title: 'Relational Database Design',
     subtitle: 'Energy supplier database for billing & account management',
     year: '2024',
@@ -770,4 +776,189 @@ VALUES (1, 'credit_card', 100.00);
       documentation: null
     }
   },
+
+  // Work-related projects placeholders
+  'work-project-1': {
+    id: 'work-project-1',
+    type: 'work',
+    title: 'Lead Magnet Quiz',
+    subtitle: 'A comprehensive quiz for lead generation targeted at potential customers that sell their properties privately',
+    year: '2025',
+    duration: '1 week',
+    role: 'Your Role (Part-time)',
+    team: 'Team size/type',
+    status: 'Completed',
+
+    overview: `Project overview describing what was built and its purpose.`,
+
+    problem: `The business problem or challenge that needed to be solved.`,
+
+    solution: `How you approached and solved the problem.`,
+
+    techStack: {
+      'Database': ['PostgreSQL'],
+      'Frontend': ['React'],
+      'Backend': ['TypeScript'],
+    },
+
+    architecture: {
+      components: [
+        { name: 'Component 1', description: 'Description of component' },
+        { name: 'Component 2', description: 'Description of component' }
+      ]
+    },
+
+    metrics: {
+      'Metric 1': 'Value',
+      'Metric 2': 'Value',
+      'Metric 3': 'Value'
+    },
+
+    challenges: [
+      {
+        challenge: 'Challenge faced',
+        solution: 'How it was resolved'
+      }
+    ],
+
+    impact: [
+      'Business impact 1',
+      'Business impact 2'
+    ],
+
+    learnings: [
+      'Key learning 1',
+      'Key learning 2'
+    ],
+
+    screenshots: [
+      { title: 'Screenshot Title', url: '/projects/work-screenshot.png' }
+    ],
+
+    codeSnippets: {
+      'Snippet Title': `
+// Code snippet here
+// Note: Make sure to anonymize any proprietary code
+      `
+    },
+
+    links: {
+      github: null, // Usually null for work projects
+      demo: null, // No live demos for work projects
+      documentation: null
+    }
+  },
+
+  'work-project-2': {
+    id: 'Lead Magnet Quiz Dashboard',
+    type: 'work',
+    title: 'Lead Magnet Quiz Dashboard',
+    subtitle: 'A web-based dashboard that tracks the performance and answers of the quiz, grouped by customers',
+    year: '2025',
+    duration: '2 weeks',
+    role: 'Your Role (Part-time)',
+    team: 'Team size/type',
+    status: 'Completed',
+
+    overview: `Project overview.`,
+    problem: `Problem statement.`,
+    solution: `Solution approach.`,
+
+    techStack: {
+      'Frontend': ['Nuxt.js'],
+      'Backend': ['TypeScript', 'JavaScript'],
+      'Database & Authentication': ['PostgreSQL', 'Supabase'],
+    },
+
+    architecture: {
+      components: [
+        { name: 'Component', description: 'Description' }
+      ]
+    },
+
+    metrics: {
+      'Key Metric': 'Value'
+    },
+
+    challenges: [
+      {
+        challenge: 'Challenge',
+        solution: 'Solution'
+      }
+    ],
+
+    impact: [
+      'Impact statement'
+    ],
+
+    learnings: [
+      'Learning'
+    ],
+
+    screenshots: [],
+
+    codeSnippets: {},
+
+    links: {
+      github: null,
+      demo: null,
+      documentation: null
+    }
+  },
+  'work-project-3': {
+    id: 'CRM',
+    type: 'work',
+    title: 'CRM-System Integration & Set-Up',
+    subtitle: 'Integrated and set up a CRM system for managing customer relationships and sales processes',
+    year: '2025',
+    duration: '2 weeks',
+    role: 'Your Role (Part-time)',
+    team: 'Solo',
+    status: 'Completed',
+
+    overview: `Project overview.`,
+    problem: `Problem statement.`,
+    solution: `Solution approach.`,
+
+    techStack: {
+      'Frontend': ['Nuxt.js'],
+      'Backend': ['TypeScript', 'JavaScript'],
+      'Database & Authentication': ['PostgreSQL', 'Supabase'],
+    },
+
+    architecture: {
+      components: [
+        { name: 'Component', description: 'Description' }
+      ]
+    },
+
+    metrics: {
+      'Key Metric': 'Value'
+    },
+
+    challenges: [
+      {
+        challenge: 'Challenge',
+        solution: 'Solution'
+      }
+    ],
+
+    impact: [
+      'Impact statement'
+    ],
+
+    learnings: [
+      'Learning'
+    ],
+
+    screenshots: [],
+
+    codeSnippets: {},
+
+    links: {
+      github: null,
+      demo: null,
+      documentation: null
+    }
+  }
 }

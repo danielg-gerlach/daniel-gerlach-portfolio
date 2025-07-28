@@ -55,11 +55,19 @@
               <span class="text-white">{{ project.title }}</span>
             </div>
             
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">
-              <span class="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                {{ project.title }}
+            <div class="flex items-center gap-4 mb-4">
+              <h1 class="text-4xl md:text-6xl font-bold">
+                <span class="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                  {{ project.title }}
+                </span>
+              </h1>
+              <span v-if="project.type === 'work'" class="px-3 py-1 bg-purple-900/50 text-purple-400 text-sm rounded-full border border-purple-800">
+                Work Project
               </span>
-            </h1>
+              <span v-if="project.type === 'personal'" class="px-3 py-1 bg-blue-900/50 text-blue-400 text-sm rounded-full border border-blue-800">
+                Personal Project
+              </span>
+            </div>
             
             <p class="text-xl text-gray-400 mb-8 max-w-3xl">{{ project.subtitle }}</p>
             
@@ -101,7 +109,8 @@
               </a>
               
               <a 
-                :href="project?.links?.demo || '#'" 
+                v-if="project?.links?.demo && project?.type !== 'work'"
+                :href="project.links.demo" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all duration-300 text-sm group"
@@ -110,6 +119,15 @@
                 <span>Live Demo</span>
                 <ExternalLink class="w-3 h-3" />
               </a>
+              
+              <div 
+                v-if="project?.type === 'work'"
+                class="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-gray-400 rounded-lg text-sm cursor-not-allowed"
+                title="Demo not available due to business & data privacy"
+              >
+                <Lock class="w-4 h-4" />
+                <span>Demo Restricted</span>
+              </div>
             </div>
           </div>
         </section>
@@ -376,7 +394,7 @@
     Calendar, Users, Clock, CheckCircle, AlertCircle,
     Code2, Database, Cloud, Zap, BarChart, Target,
     ChevronRight, ChevronLeft, Terminal, Layers, Award,
-    Copy
+    Copy, Lock
   } from 'lucide-vue-next'
   import { ref, computed } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
