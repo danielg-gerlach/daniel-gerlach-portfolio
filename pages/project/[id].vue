@@ -396,7 +396,7 @@
     ChevronRight, ChevronLeft, Terminal, Layers, Award,
     Copy, Lock
   } from 'lucide-vue-next'
-  import { ref, computed } from 'vue'
+  import { ref, computed, nextTick } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { projectsData } from '~/data/projectsData'
   
@@ -446,9 +446,21 @@
     window.scrollTo(0, 0)
   }
   
-  const navigateToProjects = () => {
-    // Use hash navigation which the Navigation component will handle
-    router.push('/#projects')
+  const navigateToProjects = async () => {
+    // Navigate to home page and scroll to projects section
+    await router.push('/')
+    
+    // Use nextTick to ensure DOM is updated after navigation
+    await nextTick()
+    
+    // Scroll to projects section
+    const projectsSection = document.getElementById('projects')
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
   }
   
   const copyCode = async () => {

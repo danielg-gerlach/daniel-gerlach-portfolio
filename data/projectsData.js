@@ -797,7 +797,7 @@ VALUES (1, 'credit_card', 100.00);
 
     techStack: {
       'Database': ['PostgreSQL'],
-      'Frontend': ['React'],
+      'Frontend': ['React', 'Tailwind CSS'],
       'Backend': ['TypeScript'],
     },
 
@@ -865,7 +865,7 @@ VALUES (1, 'credit_card', 100.00);
     solution: `Solution approach.`,
 
     techStack: {
-      'Frontend': ['Nuxt.js'],
+      'Frontend': ['Nuxt.js', 'Tailwind CSS'],
       'Backend': ['TypeScript', 'JavaScript'],
       'Database & Authentication': ['PostgreSQL', 'Supabase'],
     },
