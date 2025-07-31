@@ -909,7 +909,7 @@ VALUES (1, 'credit_card', 100.00);
     id: 'CRM',
     type: 'work',
     title: 'CRM-System Integration & Set-Up',
-    subtitle: 'Integrated and set up a CRM system for managing customer relationships and sales processes',
+    subtitle: 'Integrated and set up a CRM system for managing customer relationships and sales processes for 10+ real estate agents',
     year: '2025',
     duration: '2 weeks',
     role: 'Your Role (Part-time)',
