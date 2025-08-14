@@ -48,25 +48,43 @@
           
           <!-- Social Links with better hover states -->
           <div class="flex items-center justify-center space-x-4 animate-fadeIn animation-delay-400">
-            <a href="https://github.com/danielg-gerlach" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all group"
-               title="GitHub Profile">
-              <Github class="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-            </a>
-            <a href="https://linkedin.com/in/danielg-gerlach/" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all group"
-               title="LinkedIn Profile">
-              <Linkedin class="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-            </a>
-            <a href="mailto:danielg-gerlach@outlook.de" 
-               class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all group"
-               title="Send Email">
-              <Mail class="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-            </a>
+            <div class="relative group">
+              <a href="https://github.com/danielg-gerlach" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all block"
+                 aria-label="GitHub Profile">
+                <Github class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
+              </a>
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-3 py-1.5 text-xs font-mono text-white bg-gray-800 border border-gray-700 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                GitHub
+                <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-gray-700"></div>
+              </div>
+            </div>
+            <div class="relative group">
+              <a href="https://linkedin.com/in/danielg-gerlach/" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all block"
+                 aria-label="LinkedIn Profile">
+                <Linkedin class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
+              </a>
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-3 py-1.5 text-xs font-mono text-white bg-gray-800 border border-gray-700 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                LinkedIn
+                <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-gray-700"></div>
+              </div>
+            </div>
+            <div class="relative group">
+              <a href="mailto:danielg-gerlach@outlook.de" 
+                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all block"
+                 aria-label="Send an Email">
+                <Mail class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
+              </a>
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-3 py-1.5 text-xs font-mono text-white bg-gray-800 border border-gray-700 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                Email
+                <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-gray-700"></div>
+              </div>
+            </div>
           </div>
           
           <!-- Scroll indicator -->
