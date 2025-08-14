@@ -10,19 +10,17 @@
             building robust, scalable data infrastructure and AI-driven applications that power intelligent decision-making.
           </p>
           <p>
-            My skills span the entire data lifecycle - from ingesting and processing 
-            of raw data to building machine learning pipelines that deliver real-time insights. 
-            I really like solving complex data challenges and optimizing data & AI applications 
-            for performance and reliability.
+            My interests span the entire data lifecycle - from ingesting and processing 
+            of raw data to building machine learning & AI pipelines that deliver real-time insights. 
+            I really like solving data challenges and optimizing data & AI applications 
+            for performance and reliability. 
           </p>
           <p>
-            Currently focused on real-time stream processing, AI-powered application development, and 
-            agentic AI. I believe in writing clean, maintainable code and building systems 
-            that scale gracefully with business needs.
+            I'm currently focused on real-time stream processing, AI-powered application development, PySpark & data modeling. 
           </p>
           <p>
-            I also work as a freelancer in the field of Data & AI, helping businesses leverage data and AI to streamline their processes 
-            and benefit efficiency. 
+            I also work as a freelancer in the field of Data & AI as well as web development, helping businesses leverage data and AI to streamline their processes 
+            and benefit efficiency as well as generating leads.
           </p>
         </div>
         
@@ -42,8 +40,8 @@
               <p class="text-sm text-gray-400">Data transformation & cleaning using Spark</p>
             </div>
             <div class="p-4 bg-gray-900/30 rounded-lg border border-gray-800 hover:border-blue-500/50 transition-all">
-              <h4 class="font-semibold text-blue-400 mb-2">Vector Databases</h4>
-              <p class="text-sm text-gray-400">Scaling similarity search for AI applications</p>
+              <h4 class="font-semibold text-blue-400 mb-2">Dimensional Data Modeling</h4>
+              <p class="text-sm text-gray-400">Designing data models optimized for analytics and BI</p>
             </div>
           </div>
         </div>

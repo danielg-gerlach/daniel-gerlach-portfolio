@@ -184,7 +184,7 @@
               <!-- Key Metrics -->
               <div>
                 <h2 class="text-2xl font-bold mb-8 text-center">Key Performance Metrics</h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
                   <div v-for="(value, key) in project.metrics" :key="key" 
                        class="bg-gray-900 border border-gray-800 rounded-lg p-6 text-center hover:border-blue-500/50 transition-all group">
                     <div class="text-2xl font-bold text-blue-400 mb-2 group-hover:scale-110 transition-transform">{{ value }}</div>

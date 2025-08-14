@@ -283,8 +283,8 @@
   
   const certifications = [
     {
-      id: 'ztm-data-engineer',
-      title: "Data Engineer",
+      id: 'ztm-data-engineering-bootcamp',
+      title: "Data Engineering Bootcamp",
       issuer: "ZTM",
       issued: "August 2025",
       credentialId: "#12345",

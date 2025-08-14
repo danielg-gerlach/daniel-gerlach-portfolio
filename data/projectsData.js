@@ -144,6 +144,125 @@ export const projectsData = {
     }
   },
 
+  'data-pipeline-quality-monitor': {
+    id: 'pipeline-quality-monitor',
+    type: 'personal',
+    title: 'AI-Powered Pipeline Quality Monitor',
+    subtitle: 'A monitoring tool that uses anomaly detection to rate pipeline success and identify silent failures.',
+    year: '2025',
+    duration: '2 months',
+    role: 'Data & Software Engineer',
+    team: 'Solo project',
+    status: 'Completed',
+
+    overview: 'Built a monitoring tool that tracks the health of data pipelines by logging operational metrics to a PostgreSQL database. The system uses an unsupervised Scikit-learn model (Isolation Forest) to detect anomalies like abnormal runtimes or record counts, and presents a historical health analysis in an interactive Streamlit dashboard.',
+
+    problem: 'Data pipelines can fail silently—completing without errors but processing zero records, running unusually long, or producing poor quality data. These issues go unnoticed by traditional monitoring systems, leading to corrupted data and a loss of trust in analytics.',
+
+    solution: 'Developed a decoupled monitoring system. Any data pipeline can be instrumented with a simple logging function to send its metadata to a central PostgreSQL database. A Streamlit application then reads this data, applies a trained anomaly detection model to score each run, and visualizes the pipeline\'s health over time.',
+
+    techStack: {
+      'AI/ML': ['Scikit-learn (Isolation Forest)', 'Pandas', 'SQLAlchemy'],
+      'Application': ['Streamlit', 'Python'],
+      'Data': ['PostgreSQL', 'SQLite'],
+      'Infrastructure': ['Docker', 'docker-compose']
+    },
+
+    architecture: {
+      components: [
+        { name: 'Pipeline Instrumentation', description: 'A lightweight Python logger added to any ETL/ELT script to capture and send metrics.' },
+        { name: 'Metrics Database', description: 'A central PostgreSQL server acting as a time-series logbook for all pipeline runs.' },
+        { name: 'Anomaly Detection Engine', description: 'An offline-trained Isolation Forest model that scores new runs based on their deviation from historical norms.' },
+        { name: 'Monitoring Dashboard', description: 'An interactive Streamlit application for visualizing run history, health scores, and anomaly details.' }
+      ]
+    },
+
+    metrics: {
+      'Detection Latency': '<1s per run',
+      'Anomaly F1-Score': '96% on test set',
+      'Monitored Metrics': '5+ (duration, status, etc.)',
+      'Data Ingestion': 'Handles >1000 runs/day'
+    },
+
+    challenges: [
+      {
+        challenge: 'Defining \'normal\' pipeline behavior without hard-coded rules.',
+        solution: 'Used an unsupervised anomaly detection model (Isolation Forest) that learns a baseline from historical data, adapting to a pipeline\'s specific patterns.'
+      },
+      {
+        challenge: 'Ensuring the monitoring system itself is reliable and decoupled.',
+        solution: 'Utilized a robust client-server database (PostgreSQL) as the single point of contact, allowing the monitor and pipelines to operate independently.'
+      },
+      {
+        challenge: 'Translating abstract anomaly scores into an intuitive user rating.',
+        solution: 'Developed a mapping function that converts the model\'s output (-1 for anomaly, 1 for inlier) into a user-friendly 1-5 star \'Health Score\' with clear labels.'
+      }
+    ],
+
+    impact: [
+      'Enabled proactive detection of silent data pipeline failures, preventing data corruption.',
+      'Increased trust in data quality by providing a clear, historical view of pipeline health.',
+      'Reduced time to diagnose issues from hours of manual log checking to seconds on a dashboard.'
+    ],
+
+    learnings: [
+      'The effectiveness of unsupervised learning for operational anomaly detection in systems with dynamic behavior.',
+      'The importance of instrumenting processes to collect rich metadata from the start.',
+      'How a decoupled architecture using a central database greatly improves a system\'s resilience and scalability.'
+    ],
+
+    screenshots: [
+      { title: 'Main Health Dashboard', url: '/projects/pipeline-dashboard.png' },
+      { title: 'Historical Run Analysis', url: '/projects/pipeline-history.png' },
+      { title: 'Anomaly Detail View', url: '/projects/pipeline-anomaly.png' }
+    ],
+
+    codeSnippets: {
+      'Pipeline Instrumentation': `
+  # Simple function to log pipeline metrics
+  from sqlalchemy import create_engine
+  import pandas as pd
+
+  def log_pipeline_run(metrics: dict):
+      """Connects to Postgres and writes run metadata."""
+      engine = create_engine("postgresql://user:pass@host/db")
+      df = pd.DataFrame([metrics])
+      
+      with engine.connect() as connection:
+          df.to_sql(
+              'pipeline_runs', 
+              con=connection, 
+              if_exists='append', 
+              index=False
+          )
+        `,
+
+      'Anomaly Scoring': `
+  # Function within Streamlit app to score a run
+  import pickle
+
+  # Load the trained model
+  with open('anomaly_model.pkl', 'rb') as f:
+      model = pickle.load(f)
+
+  def get_health_score(run_features: pd.DataFrame) -> str:
+      """Uses the loaded model to predict if a run is an anomaly."""
+      prediction = model.predict(run_features)
+      
+      if prediction[0] == -1:
+          return "Anomaly Detected 🚨 (1/5)"
+      else:
+          return "Healthy ✅ (5/5)"
+        `
+    },
+
+    links: {
+      github: 'https://github.com/YOUR_USERNAME/pipeline-quality-monitor',
+      demo: 'https://your-streamlit-app-link-here',
+      documentation: null
+    }
+  },
+
   'rag-pipeline-aws': {
     id: 'rag-pipeline-aws',
     type: 'personal',
@@ -917,13 +1036,11 @@ VALUES (1, 'credit_card', 100.00);
     status: 'Completed',
 
     overview: `Project overview.`,
-    problem: `Problem statement.`,
-    solution: `Solution approach.`,
+    problem: `Real-estate brokers and business owners had a difficult time managing properties and activities which caused a hard time understanding "who does what?"`,
+    solution: `An organized and customized CRM-System for both property, deal and customer management. This solves both needs and provides one unified solution which benefits costs and technical setup.`,
 
     techStack: {
-      'Frontend': ['Nuxt.js'],
-      'Backend': ['TypeScript', 'JavaScript'],
-      'Database & Authentication': ['PostgreSQL', 'Supabase'],
+      'General': ['Consulting', 'Customer communication'],
     },
 
     architecture: {
@@ -944,7 +1061,8 @@ VALUES (1, 'credit_card', 100.00);
     ],
 
     impact: [
-      'Impact statement'
+      'A more efficient and effective workflow throughout the whole real-estate process',
+      'Business owners and real-estate agents now both have more time serving their customers instead of managing tasks & properties.'
     ],
 
     learnings: [
