@@ -32,7 +32,7 @@
           <!-- Profile Picture -->
           <div class="w-48 h-48 mx-auto mb-8 rounded-full bg-gray-800 border-2 border-blue-500 overflow-hidden">
             <img 
-              src="/profile.jpg" 
+              src="/profile.png" 
               alt="Daniel Gerlach" 
               class="w-full h-full object-cover"
             />

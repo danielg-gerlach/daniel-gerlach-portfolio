@@ -651,252 +651,159 @@ models:
     }
   },
 
-  'manufacturing-eda': {
-    id: 'manufacturing-eda',
+  'databricks-migration': {
+    id: 'databricks-migration',
     type: 'personal',
-    title: 'Manufacturing Data Analysis',
-    subtitle: 'Exploratory analysis & visualization of manufacturing defect data',
-    year: '2024',
-    duration: '2 weeks',
-    role: 'Data Analyst',
+    title: 'Databricks Migration & FinOps Dashboard',
+    subtitle: 'From Redshift to Databricks with a focus on cost control',
+    year: '2025',
+    duration: '1.5 months',
+    role: 'Cloud & Data Engineer',
     team: 'Solo project',
     status: 'Completed',
 
-    overview: `Analyzed a manufacturing dataset tracking defects over a 10-day period to uncover insights for process improvement and quality assurance. This project represents my starting point in data analytics, demonstrating fundamental EDA skills and visualization techniques.`,
+    overview: 'Planned and executed the migration of existing data workloads from AWS Redshift to Databricks. Developed a FinOps dashboard in Power BI to monitor cloud costs and optimize resource utilization on the new platform.',
 
-    problem: `Manufacturing companies need to understand defect patterns to optimize processes and maintain quality control. Without proper analysis, it's difficult to identify root causes and implement targeted improvements.`,
+    problem: 'Traditional cloud data warehouses like Redshift can become costly and inflexible for modern, heterogeneous data workloads (SQL, ML, streaming). Without dedicated FinOps monitoring, companies quickly lose track of costs and cannot leverage potential savings.',
 
-    solution: `Conducted thorough exploratory data analysis using Python, Pandas, and visualization libraries to identify defect patterns, trends, and anomalies that could inform process improvements.`,
+    solution: 'Executed a phased migration of ETL jobs and BI queries to a Databricks Lakehouse architecture on AWS S3. In parallel, a data model was developed in dbt to process Databricks usage logs. The aggregated cost data is visualized in Power BI to identify cost drivers and evaluate cluster efficiency.',
 
     techStack: {
-      'Languages': ['Python'],
-      'Data Analysis': ['Pandas', 'NumPy'],
-      'Visualization': ['Matplotlib', 'Seaborn'],
-      'Tools': ['Jupyter Notebooks']
+      'Data Platform': ['Databricks', 'Delta Lake', 'Apache Spark'],
+      'Data Transformation': ['dbt Core', 'SQL'],
+      'Cloud Infrastructure': ['AWS S3', 'AWS Redshift (Legacy)'],
+      'BI & Visualization': ['Power BI'],
+      'Concepts': ['FinOps', 'Cloud Migration', 'Data Warehousing']
     },
 
     architecture: {
       components: [
-        { name: 'Data Loading', description: 'Efficient data ingestion and initial exploration' },
-        { name: 'Data Cleaning', description: 'Handling missing values and outliers' },
-        { name: 'Statistical Analysis', description: 'Descriptive statistics and correlations' },
-        { name: 'Visualization Suite', description: 'Multiple chart types for different insights' }
+        { name: 'Legacy System', description: 'Existing ETL processes and tables in AWS Redshift.' },
+        { name: 'Migration Path', description: 'Analysis of workloads, translation of Redshift SQL to Spark SQL, implementation in Databricks notebooks.' },
+        { name: 'Cost Data Pipeline', description: 'Ingestion and transformation of Databricks usage data (Usage Logs) using dbt.' },
+        { name: 'FinOps Dashboard', description: 'Power BI dashboard with drill-down capabilities to analyze costs by user, cluster, and job.' }
       ]
     },
 
     metrics: {
-      'Dataset Size': '10 days',
-      'Defect Types': '5 categories',
-      'Visualizations': '15+',
-      'Insights': '8 key findings',
-      'Code Quality': 'Well-documented',
-      'Processing Time': '<1s'
+      'Migrated Workloads': '10+ ETL Jobs',
+      'Dashboard KPIs': '5+ (Cost/User, Cluster Uptime)',
+      'Identified Savings': '>15% (potential)',
+      'Data Sources': 'Databricks System Tables'
     },
 
     challenges: [
       {
-        challenge: 'Limited dataset size for trend analysis',
-        solution: 'Applied appropriate statistical methods for small samples'
+        challenge: 'Handling proprietary SQL functions from Redshift that do not exist in Spark SQL.',
+        solution: 'Developed User-Defined Functions (UDFs) in PySpark or reformulated the logic using native Spark functions.'
       },
       {
-        challenge: 'Choosing right visualizations for insights',
-        solution: 'Tested multiple chart types to find most effective representations'
+        challenge: 'Ensuring data consistency between the old and new systems during the migration.',
+        solution: 'Implemented automated data reconciliation scripts that compared row counts and key metrics between Redshift and Databricks.'
       }
     ],
 
     impact: [
-      'Identified key periods of high defect rates',
-      'Revealed patterns in defect distribution',
-      'Provided foundation for process improvement initiatives',
-      'Demonstrated data analysis capabilities to stakeholders'
+      'Created a scalable and flexible data platform for future analytics and ML applications.',
+      'Increased transparency of cloud costs through an interactive FinOps dashboard.',
+      'Demonstrated a clear migration path for critical data workloads.'
     ],
 
     learnings: [
-      'Importance of thorough exploratory analysis before modeling',
-      'Value of clear, interpretable visualizations',
-      'Benefits of documenting analysis process',
-      'Foundation for more advanced analytics projects'
+      'Strategic planning is the most critical factor in a cloud data platform migration.',
+      'FinOps is not just a dashboard, but a cultural shift in handling cloud resources.',
+      'dbt is an excellent tool for preparing internal metadata (e.g., logs) for monitoring.'
     ],
 
     screenshots: [
-      { title: 'Defect Trends', url: '/projects/eda-trends.png' },
-      { title: 'Distribution Analysis', url: '/projects/eda-distribution.png' },
-      { title: 'Correlation Matrix', url: '/projects/eda-correlation.png' }
+      { title: 'FinOps Dashboard Overview', url: '/projects/finops-dashboard.png' }
     ],
 
-    codeSnippets: {
-      'Data Analysis': `
-  # Analyzing defect patterns over time
-  import pandas as pd
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  # Load and explore data
-  df = pd.read_csv('manufacturing_defects.csv')
-  print(f"Dataset shape: {df.shape}")
-  print(f"\\nDefect statistics:\\n{df.describe()}")
-  
-  # Time series analysis
-  df['date'] = pd.to_datetime(df['date'])
-  daily_defects = df.groupby('date')['defects'].agg(['sum', 'mean', 'std'])
-  
-  # Visualize trends
-  fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-  
-  # Daily defect counts
-  ax1.plot(daily_defects.index, daily_defects['sum'], marker='o')
-  ax1.set_title('Daily Defect Counts')
-  ax1.set_ylabel('Total Defects')
-  
-  # Rolling average
-  rolling_avg = daily_defects['sum'].rolling(window=3).mean()
-  ax2.plot(daily_defects.index, daily_defects['sum'], alpha=0.5, label='Daily')
-  ax2.plot(daily_defects.index, rolling_avg, color='red', label='3-day MA')
-  ax2.set_title('Defect Trends with Moving Average')
-  ax2.legend()
-  
-  plt.tight_layout()
-  plt.show()
-        `
-    },
+    codeSnippets: {},
 
     links: {
-      github: 'https://github.com/danielg-gerlach/EDA_Manufacturing',
-      demo: 'https://drive.google.com/your-demo-video-link-here',
+      github: 'https://github.com/danielg-gerlach/cloud-migration-project',
+      demo: null,
       documentation: null
     }
   },
 
-  'energy-database': {
-    id: 'energy-database',
+  'data-modeling-ecommerce': {
+    id: 'data-modeling-ecommerce',
     type: 'personal',
-    title: 'Relational Database Design',
-    subtitle: 'Energy supplier database for billing & account management',
-    year: '2024',
-    duration: '2 weeks',
-    role: 'Database Designer',
+    title: 'Data Modeling for an E-Commerce Platform',
+    subtitle: 'Designing a scalable DWH with Dimensional Modeling & Data Vault',
+    year: '2025',
+    duration: '1 month',
+    role: 'Data Architect',
     team: 'Solo project',
     status: 'Completed',
 
-    overview: `Designed and implemented a relational database for an energy supplier using MySQL. The project focuses on operational data modeling to streamline customer account management, contracts, and a detailed billing and payment system, ensuring data consistency and operational efficiency.`,
+    overview: 'Designed and implemented a scalable data model for an e-commerce platform. Applied industry-standard techniques like Dimensional Modeling (star schema) and Slowly Changing Dimensions (SCD), and evaluated Data Vault for mapping complex business relationships.',
 
-    problem: `Energy suppliers require robust data management systems to handle customer accounts, contracts, billing, and payments. A poorly designed database can lead to data inconsistencies, inaccurate billing, and an inability to scale operations.`,
+    problem: 'E-commerce data is complex and relational (customers, orders, products, shipments). A naive, transactional data model is extremely slow and difficult to understand for analytical queries, severely hindering the creation of reports and analyses.',
 
-    solution: `Created a normalized relational database (3NF) with well-defined foreign key constraints and status enumerations to ensure data integrity and optimal performance for an energy supplier's core business operations.`,
+    solution: 'Developed a hybrid data model: A core of Data Vault for flexible and auditable storage of raw data (Hubs, Links, Satellites). Building on this, performance-optimized data marts in the form of star schemas (fact & dimension tables) were created for BI analysis of sales and marketing data.',
 
     techStack: {
-      'Database': ['MySQL'],
-      'Languages': ['SQL'],
-      'Modeling': ['ERD', 'Normalization (3NF)'],
-      'Tools': ['MySQL Workbench']
+      'Modeling Techniques': ['Dimensional Modeling (Kimball)', 'Star Schema', 'Slowly Changing Dimensions (SCD)', 'Data Vault 2.0'],
+      'Tools & Languages': ['SQL', 'draw.io (ERD)'],
+      'Database': ['PostgreSQL']
     },
 
     architecture: {
       components: [
-        { name: 'Customer & Account Management', description: 'Tables for customer profiles, addresses, and accounts.' },
-        { name: 'Products & Contracts', description: 'Manages energy products (e.g., electricity, gas) and customer contracts.' },
-        { name: 'Billing & Invoicing', description: 'Detailed schema for generating bills and itemizing charges.' },
-        { name: 'Payment Processing', description: 'Tracks payments against specific bills and payment methods.' }
+        { name: 'Raw Data Vault', description: 'Modeling core business entities (customers, products, orders) as Hubs, Links, and Satellites for historized storage.' },
+        { name: 'Business Vault', description: 'Augmenting the Raw Vault with calculated Satellites containing derived business rules.' },
+        { name: 'Data Mart Layer', description: 'Building star schemas with a central fact table (e.g., fct_orders) and related dimensions (dim_customer, dim_product, dim_date).' },
+        { name: 'SCD Implementation', description: 'Applying SCD Type 2 to the customer dimension to track changes in addresses or names.' }
       ]
     },
 
     metrics: {
-      'Tables': '8',
-      'Relationships': '7',
-      'Normal Form': '3NF',
-      'Referential Integrity': 'ON DELETE RESTRICT',
-      'Data Domains': 'Customer, Billing, Contracts',
-      'Query Performance': '< 100ms'
+      'Modeled Entities': '5+ (Hubs)',
+      'Data Marts': '2 (Sales, Marketing)',
+      'SCD Type': '2',
+      'Query Performance Gain': '>10x (vs. transactional model)'
     },
 
     challenges: [
       {
-        challenge: 'Designing a flexible billing schema',
-        solution: 'Created separate `bill` and `bill_item` tables to allow for multiple line items per bill, accommodating various charges like usage, fees, and taxes.'
+        challenge: 'Defining the correct granularity for the fact table (e.g., per order or per order item).',
+        solution: 'Decided on the order item as the granularity to enable the most detailed analyses. Aggregations at the order level are performed in the BI tool.'
       },
       {
-        challenge: 'Ensuring data integrity during operations',
-        solution: 'Used strict `FOREIGN KEY` constraints (`ON DELETE RESTRICT`) to prevent orphaned records, such as deleting a customer who still has active accounts.'
+        challenge: 'Correctly mapping the complex logic for populating the SCD Type 2 dimension historically.',
+        solution: 'Developed a robust SQL MERGE statement that inserts new records and updates existing ones with validity dates (valid_from, valid_to).'
       }
     ],
 
     impact: [
-      'Enabled efficient and accurate customer account management.',
-      'Provided a clear and extensible schema for billing and payments.',
-      'Guaranteed data consistency with strong referential integrity.',
-      'Created a solid OLTP foundation for future analytics.'
+      'Created a fundamentally sound, understandable, and high-performance data model as a single source of truth.',
+      'Enabled complex historical analyses that were previously not possible (e.g., "How has customer value changed over time?").',
+      'Drastically reduced query times for business analysts.'
     ],
 
     learnings: [
-      'The importance of 3rd Normal Form (3NF) for reducing data redundancy.',
-      'How to use ENUM types for state management (e.g., account status, bill status).',
-      'The practical implications of choosing cascading rules like `ON DELETE RESTRICT`.',
-      'Balancing normalization with the practical needs of a business application.'
+      'Data Vault offers unparalleled flexibility in integrating new data sources, while star schemas are unbeatable for performance.',
+      'The clean separation of raw, integrated, and prepared data layers (Data Mart) is crucial for maintainability.',
+      'Good data modeling craftsmanship is the foundation of any successful data strategy.'
     ],
 
     screenshots: [
-      { title: 'ERD Diagram', url: '/projects/rdb-erd.png' },
-      { title: 'Schema Design', url: '/projects/rdb-schema.png' }
+      { title: 'Star Schema ERD', url: '/projects/ecommerce-star-schema.png' },
+      { title: 'Data Vault Model', url: '/projects/ecommerce-data-vault.png' }
     ],
 
-    codeSnippets: {
-      'Schema Creation': `
--- Customer Table with Foreign Key
-CREATE TABLE customer (
-    customer_id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(255) UNIQUE,
-    status ENUM('active', 'inactive') DEFAULT 'active',
-    address_id INT NOT NULL,
-    FOREIGN KEY (address_id) REFERENCES address(address_id)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE
-);
-
--- Bill Table linked to an Account
-CREATE TABLE bill (
-    bill_id INT AUTO_INCREMENT PRIMARY KEY,
-    account_id INT NOT NULL,
-    billing_period_start DATE NOT NULL,
-    billing_period_end DATE NOT NULL,
-    total_amount DECIMAL(10,2) NOT NULL,
-    bill_status ENUM('issued', 'paid', 'overdue') DEFAULT 'issued',
-    FOREIGN KEY (account_id) REFERENCES account(account_id)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE
-);
-        `,
-      'Sample Data Insertion': `
--- Create a complete billing cycle for a customer
-INSERT INTO address (street_name, postal_code, state, country)
-VALUES ('123 Main St', '12345', 'Stateville', 'Countryland');
-
-INSERT INTO customer (first_name, last_name, email, address_id)
-VALUES ('John', 'Doe', 'john.doe@example.com', 1);
-
-INSERT INTO account (customer_id, account_number)
-VALUES (1, 'ACC1001');
-
-INSERT INTO bill (account_id, billing_period_start, billing_period_end, bill_issue_date, bill_due_date, total_amount)
-VALUES (1, '2024-01-01', '2024-01-31', '2024-02-01', '2024-02-15', 100.00);
-
-INSERT INTO bill_item (bill_id, description, quantity, unit_price)
-VALUES (1, 'Electricity Usage January', 1000.00, 0.10);
-
-INSERT INTO payment (bill_id, payment_method, amount)
-VALUES (1, 'credit_card', 100.00);
-        `
-    },
+    codeSnippets: {},
 
     links: {
-      github: 'https://github.com/danielg-gerlach/energy_supplier_db',
-      demo: 'https://drive.google.com/your-demo-video-link-here',
+      github: 'https://github.com/danielg-gerlach/ecommerce-data-modeling',
+      demo: null,
       documentation: null
     }
   },
 
-  // Work-related projects placeholders
   'work-project-1': {
     id: 'work-project-1',
     type: 'work',
@@ -962,8 +869,8 @@ VALUES (1, 'credit_card', 100.00);
     },
 
     links: {
-      github: null, // Usually null for work projects
-      demo: null, // No live demos for work projects
+      github: null,
+      demo: null,
       documentation: null
     }
   },
@@ -1027,7 +934,7 @@ VALUES (1, 'credit_card', 100.00);
   'work-project-3': {
     id: 'CRM',
     type: 'work',
-    title: 'CRM-System Integration & Set-Up',
+    title: 'CRM System Integration & Set-Up',
     subtitle: 'Integrated and set up a CRM system for managing customer relationships and sales processes for 10+ real estate agents',
     year: '2025',
     duration: '2 weeks',
@@ -1036,8 +943,8 @@ VALUES (1, 'credit_card', 100.00);
     status: 'Completed',
 
     overview: `Project overview.`,
-    problem: `Real-estate brokers and business owners had a difficult time managing properties and activities which caused a hard time understanding "who does what?"`,
-    solution: `An organized and customized CRM-System for both property, deal and customer management. This solves both needs and provides one unified solution which benefits costs and technical setup.`,
+    problem: `Real-estate brokers and business owners had a difficult time managing properties and activities, which made it hard to understand "who does what?"`,
+    solution: `An organized and customized CRM system for property, deal, and customer management. This solves both needs and provides one unified solution which benefits costs and the technical setup.`,
 
     techStack: {
       'General': ['Consulting', 'Customer communication'],
@@ -1061,8 +968,8 @@ VALUES (1, 'credit_card', 100.00);
     ],
 
     impact: [
-      'A more efficient and effective workflow throughout the whole real-estate process',
-      'Business owners and real-estate agents now both have more time serving their customers instead of managing tasks & properties.'
+      'A more efficient and effective workflow throughout the entire real-estate process.',
+      'Business owners and real-estate agents now have more time to serve their customers instead of managing tasks & properties.'
     ],
 
     learnings: [
