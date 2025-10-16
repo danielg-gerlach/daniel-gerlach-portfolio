@@ -1,0 +1,79 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "projects": "Projects",
+        "skills": "Skills",
+        "resume": "Resume",
+        "articles": "Articles"
+    },
+    "hero": {
+        "title": "Data Engineer",
+        "description": "I build scalable data infrastructure that powers intelligent decision-making",
+        "cta": {
+            "projects": "View Projects",
+            "contact": "Get in Touch"
+        }
+    },
+    "about": {
+        "title": "About Me",
+        "heading": "[1] ABOUT",
+        "intro": "I'm a Business Informatics student specializing in Data Engineering and AI. My passion lies in building scalable data infrastructure and intelligent systems that drive business value.",
+        "journey": "My Journey",
+        "journeyText": "Started my journey in 2024, diving deep into data engineering fundamentals. Completed multiple certifications and bootcamps while building real-world projects.",
+        "focus": "Current Focus",
+        "focusText": "Working on AI-powered analytics tools, RAG systems, and cloud-native data pipelines. Exploring the intersection of data engineering and machine learning.",
+        "beyond": "Beyond Code",
+        "beyondText": "When I'm not engineering data pipelines, you'll find me exploring new tech stacks, contributing to open source, or documenting my learning journey."
+    },
+    "projects": {
+        "title": "Featured Projects",
+        "heading": "[2] PROJECTS",
+        "subtitle": "A selection of projects showcasing my skills in data engineering, cloud infrastructure, and AI.",
+        "filters": {
+            "all": "All Projects",
+            "personal": "Personal",
+            "work": "Work"
+        },
+        "viewDetails": "View Details",
+        "techStack": "Tech Stack"
+    },
+    "skills": {
+        "title": "Technical Stack",
+        "heading": "[3] SKILLS",
+        "certifications": "Certifications",
+        "certSubtitle": "During my studies, I've also gained some experience through certifications & online courses.",
+        "terminal": {
+            "welcome": "Tech Stack Terminal v2.0.0",
+            "helpText": "Type \"help\" for available commands",
+            "placeholder": "Type a command or click a suggestion...",
+            "quickCommands": "💡 Quick Commands:",
+            "showAllTech": "Show All Tech",
+            "gridView": "Grid View",
+            "hideGridView": "Hide",
+            "verify": "Verify Certificate",
+            "skillsLabel": "Skills"
+        }
+    },
+    "resume": {
+        "title": "Resume",
+        "heading": "[4] RESUME",
+        "download": "Download Resume",
+        "viewPDF": "View Full PDF"
+    },
+    "articles": {
+        "title": "Latest Articles",
+        "heading": "[5] ARTICLES",
+        "comingSoon": "Coming Soon",
+        "description": "I'm currently working on writing technical articles about data engineering, cloud architecture, and AI. Check back soon!"
+    },
+    "footer": {
+        "tagline": "Building the data infrastructure of tomorrow",
+        "rights": "All rights reserved.",
+        "builtWith": "Built with Nuxt 3 & Tailwind CSS"
+    },
+    "common": {
+        "backToTop": "Back to Top",
+        "loading": "Loading..."
+    }
+}

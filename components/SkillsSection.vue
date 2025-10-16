@@ -1,8 +1,8 @@
 <template>
     <section id="skills" class="py-32 px-6">
       <div class="max-w-6xl mx-auto">
-        <h2 class="font-mono text-blue-400 text-sm mb-2">[3] SKILLS</h2>
-        <p class="text-3xl font-bold mb-12">Technical Stack</p>
+        <h2 class="font-mono text-blue-400 text-base mb-2">{{ $t('skills.heading') }}</h2>
+        <p class="text-3xl md:text-4xl font-bold mb-12">{{ $t('skills.title') }}</p>
         
         <!-- Interactive Terminal -->
         <div class="max-w-4xl mx-auto">
@@ -58,6 +58,7 @@
                 <!-- Current Input Line -->
                 <div class="flex items-center mt-4">
                   <span class="text-green-400 mr-2">$ </span>
+                  <span v-if="showCursor && !currentInput" class="inline-block w-2 h-4 bg-blue-400 animate-blink" />
                   <input
                     ref="terminalInput"
                     v-model="currentInput"
@@ -66,12 +67,11 @@
                     @keydown.down="navigateHistory(1)"
                     @keydown.tab.prevent="handleTabComplete"
                     type="text"
-                    class="flex-1 bg-transparent outline-none text-gray-300"
+                    class="flex-1 bg-transparent outline-none text-gray-300 ml-1"
                     :placeholder="showPlaceholder ? 'Type a command or click a suggestion...' : ''"
                     spellcheck="false"
                     autocomplete="off"
                   />
-                  <span v-if="showCursor" class="inline-block w-2 h-4 bg-blue-400 ml-1 animate-blink" />
                 </div>
                 
                 <!-- Autocomplete suggestions -->
@@ -93,14 +93,14 @@
           <div class="mt-6 flex flex-wrap gap-3 justify-center">
             <button 
               @click="executeCommand('show tech stack')"
-              class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all flex items-center space-x-2"
+              class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 shadow-lg shadow-blue-600/20"
             >
               <Layers class="w-4 h-4" />
               <span>Show All Tech</span>
             </button>
             <button 
               @click="showTraditionalView = !showTraditionalView"
-              class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all flex items-center space-x-2"
+              class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all flex items-center space-x-2"
             >
               <Grid class="w-4 h-4" />
               <span>{{ showTraditionalView ? 'Hide' : 'Show' }} Grid View</span>
@@ -128,16 +128,16 @@
         </transition>
         
         <!-- Certifications Section -->
-        <div class="mt-32">
-          <h2 class="text-4xl font-bold text-center mb-3">Certifications</h2>
-          <div class="w-20 h-1 bg-blue-500 mx-auto mb-8"></div>
-          <p class="text-xl text-gray-400 text-center mb-16">
-            During my studies, I've also gained some experience through certifications & online courses.
+        <div class="mt-40">
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4">{{ $t('skills.certifications') }}</h2>
+          <div class="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-6"></div>
+          <p class="text-xl text-gray-400 text-center mb-20">
+            {{ $t('skills.certSubtitle') }}
           </p>
           
           <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div v-for="cert in certifications" :key="cert.id" 
-                 class="bg-gray-900/50 border border-gray-800 rounded-lg p-8 hover:border-gray-700 transition-all group">
+                 class="bg-gray-900/50 border border-gray-800 rounded-lg p-8 hover:border-blue-500/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group">
               <!-- Header with Logo and Title -->
               <div class="flex items-start gap-6 mb-6">
                 <div class="flex-shrink-0 w-16 h-16 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
@@ -176,7 +176,7 @@
                 <a :href="cert.verifyUrl" 
                    target="_blank"
                    rel="noopener noreferrer"
-                   class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors group">
+                   class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium">
                   <span>Verify Certificate</span>
                   <ExternalLinkIcon class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
@@ -332,23 +332,6 @@
         "Data Modeling"
       ],
       verifyUrl: "https://www.datacamp.com/certificate/verify/434995"
-    },
-    {
-      id: 'dataexpert',
-      title: "Data Engineering Bootcamp",
-      issuer: "DataExpert.io",
-      issued: "September 2025",
-      credentialId: "EFGH5678",
-      logoUrl: "/images/logos/dataexpert-logo.png",
-      skills: [
-        "4 week bootcamp",
-        "Python & SQL",
-        "Apache Spark",
-        "Data Modeling",
-        "Data Engineering Best Practices",
-        "Capstone Project: Streaming Data Dashboard"
-      ],
-      verifyUrl: "https://www.coursera.org/verify/EFGH5678"
     },
     {
       id: 'prof_dataeng',

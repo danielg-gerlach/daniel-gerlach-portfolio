@@ -157,7 +157,7 @@ export const projectsData = {
 
     overview: 'Built a monitoring tool that tracks the health of data pipelines by logging operational metrics to a PostgreSQL database. The system uses an unsupervised Scikit-learn model (Isolation Forest) to detect anomalies like abnormal runtimes or record counts, and presents a historical health analysis in an interactive Streamlit dashboard.',
 
-    problem: 'Data pipelines can fail silently—completing without errors but processing zero records, running unusually long, or producing poor quality data. These issues go unnoticed by traditional monitoring systems, leading to corrupted data and a loss of trust in analytics.',
+    problem: 'Data pipelines can fail silently - completing without errors but processing zero records, running unusually long, or producing poor quality data. These issues go unnoticed by traditional monitoring systems, leading to corrupted data and a loss of trust in analytics.',
 
     solution: 'Developed a decoupled monitoring system. Any data pipeline can be instrumented with a simple logging function to send its metadata to a central PostgreSQL database. A Streamlit application then reads this data, applies a trained anomaly detection model to score each run, and visualizes the pipeline\'s health over time.',
 
@@ -263,11 +263,11 @@ export const projectsData = {
     }
   },
 
-  'rag-pipeline-aws': {
-    id: 'rag-pipeline-aws',
+  'mcp-aws': {
+    id: 'mcp-aws',
     type: 'personal',
-    title: 'RAG with AWS & Databricks',
-    subtitle: 'Building a Q&A bot from documents using vector embeddings',
+    title: 'MCP with AWS & Databricks',
+    subtitle: 'Building a Q&A bot from documents using MCP.',
     year: '2025',
     duration: '1 month',
     role: 'Data Engineer for AI',

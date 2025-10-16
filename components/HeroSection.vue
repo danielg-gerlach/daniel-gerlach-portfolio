@@ -1,5 +1,5 @@
 <template>
-    <section id="init" class="min-h-screen flex items-center justify-center px-6 pt-20">
+    <section id="init" class="min-h-screen flex items-center justify-center px-6 pt-20 pb-16">
       <div class="max-w-5xl w-full">
         <!-- Terminal Window -->
         <div class="bg-gray-900/90 rounded-lg border border-gray-800 overflow-hidden shadow-2xl backdrop-blur-sm">
@@ -38,12 +38,12 @@
             />
           </div>
           
-          <h1 class="text-5xl md:text-7xl font-bold mb-4 animate-fadeIn">
+          <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fadeIn">
             <span class="text-white">Daniel </span>
             <span class="text-blue-400">Gerlach</span>
           </h1>
-          <p class="text-xl text-gray-400 mb-8 animate-fadeIn animation-delay-200">
-            Business Informatics Student • Data Engineering & AI
+          <p class="text-2xl md:text-3xl font-semibold mb-3 animate-fadeIn animation-delay-200 text-gray-300">
+            {{ $t('hero.title') }}
           </p>
           
           <!-- Social Links with better hover states -->
@@ -52,7 +52,7 @@
               <a href="https://github.com/danielg-gerlach" 
                  target="_blank" 
                  rel="noopener noreferrer" 
-                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all block"
+                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 block"
                  aria-label="GitHub Profile">
                 <Github class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
               </a>
@@ -65,7 +65,7 @@
               <a href="https://linkedin.com/in/danielg-gerlach/" 
                  target="_blank" 
                  rel="noopener noreferrer" 
-                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all block"
+                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 block"
                  aria-label="LinkedIn Profile">
                 <Linkedin class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
               </a>
@@ -76,7 +76,7 @@
             </div>
             <div class="relative group">
               <a href="mailto:danielg-gerlach@outlook.de" 
-                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 transition-all block"
+                 class="p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-500/50 hover:bg-gray-800 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 block"
                  aria-label="Send an Email">
                 <Mail class="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors" />
               </a>

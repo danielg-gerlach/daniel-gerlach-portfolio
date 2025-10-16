@@ -1,9 +1,9 @@
 <template>
-  <section id="projects" class="py-32 px-6 bg-gray-950">
+  <section id="projects" class="py-24 px-6 bg-gray-950">
     <div class="max-w-6xl mx-auto">
-      <h2 class="font-mono text-blue-400 text-sm mb-2">[2] PROJECTS</h2>
-      <p class="text-3xl font-bold mb-4">Featured Work</p>
-      <p class="text-gray-400 mb-8">Real-world projects demonstrating end-to-end data engineering skills</p>
+      <h2 class="font-mono text-blue-400 text-base mb-2">{{ $t('projects.heading') }}</h2>
+      <p class="text-3xl md:text-4xl font-bold mb-3">{{ $t('projects.title') }}</p>
+      <p class="text-gray-400 mb-8">{{ $t('projects.subtitle') }}</p>
       
       <!-- Filter Tags -->
       <div class="flex flex-wrap gap-2 mb-8">
@@ -193,18 +193,18 @@
       </div>
     </div>
       
-    <!-- Call to Action -->
+      <!-- Call to Action -->
       <div class="mt-16 text-center">
-        <p class="text-gray-400 mb-6">
+        <p class="text-gray-400 mb-6 text-lg">
           Interested in my approach to data engineering?
         </p>
         <a
           href="mailto:danielg-gerlach@outlook.de"
-          class="inline-flex items-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all group"
+          class="inline-flex items-center space-x-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all group shadow-lg shadow-blue-600/20 font-medium text-lg"
         >
           <Mail class="w-5 h-5" />
           <span>Let's discuss your data challenges</span>
-          <ArrowRight class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+          <ArrowRight class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
         </a>
       </div>
     </div>

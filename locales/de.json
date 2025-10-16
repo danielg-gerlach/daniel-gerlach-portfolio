@@ -1,0 +1,79 @@
+{
+    "nav": {
+        "home": "Start",
+        "about": "Über mich",
+        "projects": "Projekte",
+        "skills": "Fähigkeiten",
+        "resume": "Lebenslauf",
+        "articles": "Artikel"
+    },
+    "hero": {
+        "title": "Data Engineer",
+        "description": "Ich entwickle skalierbare Dateninfrastruktur, die intelligente Entscheidungen ermöglicht",
+        "cta": {
+            "projects": "Projekte ansehen",
+            "contact": "Kontakt aufnehmen"
+        }
+    },
+    "about": {
+        "title": "Über mich",
+        "heading": "[1] ÜBER MICH",
+        "intro": "Ich bin Wirtschaftsinformatik-Student mit Schwerpunkt Data Engineering und KI. Meine Leidenschaft liegt darin, skalierbare Dateninfrastruktur und intelligente Systeme zu entwickeln, die Geschäftswert schaffen.",
+        "journey": "Mein Weg",
+        "journeyText": "Begann meine Reise 2024 und tauchte tief in die Grundlagen des Data Engineering ein. Absolvierte mehrere Zertifizierungen und Bootcamps während ich an realen Projekten arbeitete.",
+        "focus": "Aktueller Fokus",
+        "focusText": "Arbeite an KI-gestützten Analytics-Tools, RAG-Systemen und Cloud-nativen Data Pipelines. Erkunde die Schnittstelle zwischen Data Engineering und Machine Learning.",
+        "beyond": "Über Code hinaus",
+        "beyondText": "Wenn ich nicht gerade Data Pipelines entwickle, findest du mich beim Erkunden neuer Tech Stacks, beim Beitragen zu Open Source oder beim Dokumentieren meiner Lernreise."
+    },
+    "projects": {
+        "title": "Ausgewählte Projekte",
+        "heading": "[2] PROJEKTE",
+        "subtitle": "Eine Auswahl an Projekten, die meine Fähigkeiten in Data Engineering, Cloud-Infrastruktur und KI zeigen.",
+        "filters": {
+            "all": "Alle Projekte",
+            "personal": "Persönlich",
+            "work": "Beruflich"
+        },
+        "viewDetails": "Details ansehen",
+        "techStack": "Tech Stack"
+    },
+    "skills": {
+        "title": "Technischer Stack",
+        "heading": "[3] FÄHIGKEITEN",
+        "certifications": "Zertifizierungen",
+        "certSubtitle": "Während meines Studiums habe ich auch Erfahrungen durch Zertifizierungen & Online-Kurse gesammelt.",
+        "terminal": {
+            "welcome": "Tech Stack Terminal v2.0.0",
+            "helpText": "Gib \"help\" ein für verfügbare Befehle",
+            "placeholder": "Gib einen Befehl ein oder klicke auf einen Vorschlag...",
+            "quickCommands": "💡 Schnellbefehle:",
+            "showAllTech": "Alle Technologien",
+            "gridView": "Rasteransicht",
+            "hideGridView": "Verbergen",
+            "verify": "Zertifikat verifizieren",
+            "skillsLabel": "Fähigkeiten"
+        }
+    },
+    "resume": {
+        "title": "Lebenslauf",
+        "heading": "[4] LEBENSLAUF",
+        "download": "Lebenslauf herunterladen",
+        "viewPDF": "Vollständiges PDF ansehen"
+    },
+    "articles": {
+        "title": "Neueste Artikel",
+        "heading": "[5] ARTIKEL",
+        "comingSoon": "Demnächst verfügbar",
+        "description": "Ich arbeite derzeit an technischen Artikeln über Data Engineering, Cloud-Architektur und KI. Schau bald wieder vorbei!"
+    },
+    "footer": {
+        "tagline": "Die Dateninfrastruktur von morgen bauen",
+        "rights": "Alle Rechte vorbehalten.",
+        "builtWith": "Erstellt mit Nuxt 3 & Tailwind CSS"
+    },
+    "common": {
+        "backToTop": "Nach oben",
+        "loading": "Lädt..."
+    }
+}

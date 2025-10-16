@@ -1,7 +1,22 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   compatibilityDate: '2024-04-03',
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
+
+  i18n: {
+    locales: [
+      { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
+      { code: 'de', iso: 'de-DE', file: 'de.json', name: 'Deutsch' }
+    ],
+    defaultLocale: 'en',
+    langDir: 'locales',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root'
+    }
+  },
   css: ['~/assets/css/main.css'],
   app: {
     head: {

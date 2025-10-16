@@ -24,18 +24,26 @@
             >
               [{{ index }}] {{ section.name }}
             </button>
+            
+            <!-- Language Switcher -->
+            <div class="ml-4">
+              <LanguageSwitcher />
+            </div>
           </div>
   
           <!-- Mobile Menu Button -->
-          <button
-            @click="toggleMobileMenu"
-            class="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
-            :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
-            aria-expanded="false"
-          >
-            <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
-            <X v-else class="w-6 h-6" />
-          </button>
+          <div class="md:hidden flex items-center space-x-3">
+            <LanguageSwitcher />
+            <button
+              @click="toggleMobileMenu"
+              class="p-2 text-gray-400 hover:text-white transition-colors"
+              :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+              aria-expanded="false"
+            >
+              <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
+              <X v-else class="w-6 h-6" />
+            </button>
+          </div>
         </div>
       </div>
   
@@ -78,12 +86,12 @@
   import { useRouter } from 'vue-router'
   
   const sections = [
-    { id: 'init', name: 'INIT' },
-    { id: 'about', name: 'ABOUT' },
-    { id: 'projects', name: 'PROJECTS' },
-    { id: 'skills', name: 'SKILLS' },
-    { id: 'articles', name: 'ARTICLES' },
-    { id: 'resume', name: 'RESUME' }
+    { id: 'init', name: 'INIT', key: 'nav.home' },
+    { id: 'about', name: 'ABOUT', key: 'nav.about' },
+    { id: 'projects', name: 'PROJECTS', key: 'nav.projects' },
+    { id: 'skills', name: 'SKILLS', key: 'nav.skills' },
+    { id: 'articles', name: 'ARTICLES', key: 'nav.articles' },
+    { id: 'resume', name: 'RESUME', key: 'nav.resume' }
   ]
   
   const activeSection = ref(0)
