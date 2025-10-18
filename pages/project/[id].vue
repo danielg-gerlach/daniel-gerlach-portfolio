@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-black text-white">
       <!-- Navigation -->
       <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/80 border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="max-w-7xl mx-auto px-6 py-6">
           <div class="flex items-center justify-between">
             <button 
               @click="navigateToProjects"
@@ -17,17 +17,16 @@
               <button
                 v-if="previousProject"
                 @click="navigateToProject(previousProject.id)"
-                class="text-sm text-gray-400 hover:text-white transition-colors"
+                class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
               >
-                ← Previous
+                <span>← Previous</span>
               </button>
-              <span class="text-gray-600">•</span>
               <button
                 v-if="nextProject"
                 @click="navigateToProject(nextProject.id)"
-                class="text-sm text-gray-400 hover:text-white transition-colors"
+                class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
               >
-                Next →
+                <span>Next →</span>
               </button>
             </div>
           </div>
@@ -45,7 +44,7 @@
   
       <template v-else>
         <!-- Hero Section with improved spacing -->
-        <section class="pt-24 pb-16 px-6 border-b border-gray-900">
+        <section class="pt-24 pb-16 px-6">
           <div class="max-w-7xl mx-auto">
             <div class="mb-4 flex items-center space-x-2 text-sm text-gray-400">
               <NuxtLink to="/" class="hover:text-white transition-colors">Portfolio</NuxtLink>
@@ -55,7 +54,7 @@
               <span class="text-white">{{ project.title }}</span>
             </div>
             
-            <div class="flex items-center gap-4 mb-4">
+            <div class="flex items-center gap-4 mb-8">
               <h1 class="text-4xl md:text-6xl font-bold">
                 <span class="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
                   {{ project.title }}
@@ -69,7 +68,33 @@
               </span>
             </div>
             
-            <p class="text-xl text-gray-400 mb-8 max-w-3xl">{{ project.subtitle }}</p>
+            <!-- TL;DR Box - 30-Second Scan for Recruiters -->
+            <div class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border-2 border-blue-500/50 rounded-lg p-6 mb-8">
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <Zap class="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-blue-400 mb-2">TL;DR - Quick Summary</h3>
+                  <p class="text-gray-200 leading-relaxed">
+                    {{ project.tldr || project.subtitle }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Key Skills Tags - Prominent for ATS & Recruiter Scanning -->
+            <div class="flex flex-wrap gap-2 mb-8">
+              <template v-for="(technologies, category) in project.techStack" :key="category">
+                <span 
+                  v-for="tech in technologies.slice(0, 2)" 
+                  :key="tech"
+                  class="px-3 py-1.5 bg-blue-600/20 text-blue-300 text-sm font-medium rounded-full border border-blue-500/30 hover:bg-blue-600/30 transition-colors"
+                >
+                  {{ tech }}
+                </span>
+              </template>
+            </div>
             
             <div class="flex flex-wrap gap-6 text-sm mb-8">
               <div class="flex items-center space-x-2">
@@ -133,7 +158,7 @@
         </section>
   
         <!-- Tabs Navigation - Simplified for mobile -->
-        <section class="sticky top-[57px] z-40 bg-black/95 backdrop-blur-md border-b border-gray-800">
+        <section class="sticky top-[69px] z-40 bg-black/95 backdrop-blur-md border-b border-gray-800">
           <div class="max-w-7xl mx-auto px-6">
             <div class="flex space-x-2 md:space-x-8 overflow-x-auto scrollbar-hide">
               <button
@@ -178,18 +203,6 @@
                     The Solution
                   </h2>
                   <p class="text-gray-300 leading-relaxed">{{ project.solution }}</p>
-                </div>
-              </div>
-  
-              <!-- Key Metrics -->
-              <div>
-                <h2 class="text-2xl font-bold mb-8 text-center">Key Performance Metrics</h2>
-                <div class="flex flex-nowrap justify-center gap-4 mx-auto overflow-x-auto scrollbar-hide w-full">
-                  <div v-for="(value, key) in project.metrics" :key="key" 
-                       class="bg-gray-900 border border-gray-800 rounded-lg p-6 text-center hover:border-blue-500/50 transition-all group">
-                    <div class="text-2xl font-bold text-blue-400 mb-2 group-hover:scale-110 transition-transform">{{ value }}</div>
-                    <div class="text-sm text-gray-400">{{ key }}</div>
-                  </div>
                 </div>
               </div>
   

@@ -61,7 +61,7 @@
                       </span>
                     </div>
                     <p class="text-gray-400">
-                      {{ project.subtitle }} 
+                      {{ project.subtitle }}
                     </p>
                   </div>
                   <span :class="['px-2 py-1 text-xs rounded-full flex-shrink-0', getStatusClass(project.status)]">
@@ -141,7 +141,7 @@
                       </span>
                     </div>
                     <p class="text-gray-400">
-                      {{ project.subtitle }} 
+                      {{ project.subtitle }}
                     </p>
                   </div>
                   <span :class="['px-2 py-1 text-xs rounded-full flex-shrink-0', getStatusClass(project.status)]">
@@ -192,21 +192,6 @@
         </TransitionGroup>
       </div>
     </div>
-      
-      <!-- Call to Action -->
-      <div class="mt-16 text-center">
-        <p class="text-gray-400 mb-6 text-lg">
-          Interested in my approach to data engineering?
-        </p>
-        <a
-          href="mailto:danielg-gerlach@outlook.de"
-          class="inline-flex items-center space-x-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all group shadow-lg shadow-blue-600/20 font-medium text-lg"
-        >
-          <Mail class="w-5 h-5" />
-          <span>Let's discuss your data challenges</span>
-          <ArrowRight class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
-        </a>
-      </div>
     </div>
   </section>
 </template>

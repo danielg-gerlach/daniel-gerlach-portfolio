@@ -90,8 +90,7 @@
     { id: 'about', name: 'ABOUT', key: 'nav.about' },
     { id: 'projects', name: 'PROJECTS', key: 'nav.projects' },
     { id: 'skills', name: 'SKILLS', key: 'nav.skills' },
-    { id: 'articles', name: 'ARTICLES', key: 'nav.articles' },
-    { id: 'resume', name: 'RESUME', key: 'nav.resume' }
+    { id: 'articles', name: 'ARTICLES', key: 'nav.articles' }
   ]
   
   const activeSection = ref(0)

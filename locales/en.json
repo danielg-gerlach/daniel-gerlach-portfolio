@@ -68,9 +68,19 @@
         "description": "I'm currently working on writing technical articles about data engineering, cloud architecture, and AI. Check back soon!"
     },
     "footer": {
-        "tagline": "Building the data infrastructure of tomorrow",
-        "rights": "All rights reserved.",
-        "builtWith": "Built with Nuxt 3 & Tailwind CSS"
+        "quickLinks": "Quick Links",
+        "connect": "Connect",
+        "about": "About",
+        "aboutText": "Business Informatics Student specializing in Data Engineering & AI. Building scalable data infrastructure that powers intelligent decision-making.",
+        "location": "Germany",
+        "copyright": "All rights reserved.",
+        "builtWith": "Built with",
+        "backToTop": "Back to Top",
+        "home": "Home",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "email": "Email",
+        "medium": "Medium Blog"
     },
     "common": {
         "backToTop": "Back to Top",

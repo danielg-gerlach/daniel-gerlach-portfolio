@@ -68,9 +68,19 @@
         "description": "Ich arbeite derzeit an technischen Artikeln über Data Engineering, Cloud-Architektur und KI. Schau bald wieder vorbei!"
     },
     "footer": {
-        "tagline": "Die Dateninfrastruktur von morgen bauen",
-        "rights": "Alle Rechte vorbehalten.",
-        "builtWith": "Erstellt mit Nuxt 3 & Tailwind CSS"
+        "quickLinks": "Schnellzugriff",
+        "connect": "Kontakt",
+        "about": "Über",
+        "aboutText": "Wirtschaftsinformatik-Student mit Schwerpunkt Data Engineering & KI. Entwickle skalierbare Dateninfrastruktur, die intelligente Entscheidungen ermöglicht.",
+        "location": "Deutschland",
+        "copyright": "Alle Rechte vorbehalten.",
+        "builtWith": "Erstellt mit",
+        "backToTop": "Nach oben",
+        "home": "Start",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "email": "E-Mail",
+        "medium": "Medium Blog"
     },
     "common": {
         "backToTop": "Nach oben",

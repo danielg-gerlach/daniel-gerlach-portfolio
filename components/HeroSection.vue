@@ -42,7 +42,7 @@
             <span class="text-white">Daniel </span>
             <span class="text-blue-400">Gerlach</span>
           </h1>
-          <p class="text-2xl md:text-3xl font-semibold mb-3 animate-fadeIn animation-delay-200 text-gray-300">
+          <p class="text-2xl md:text-3xl font-semibold mb-10 animate-fadeIn animation-delay-200 text-gray-300">
             {{ $t('hero.title') }}
           </p>
           
@@ -96,16 +96,16 @@
     </section>
   </template>
   
-  <script setup>
-  import { User, Github, Linkedin, Mail, ChevronDown, RefreshCw } from 'lucide-vue-next'
-  import { ref, onMounted } from 'vue'
-  
-  const displayedCode = ref('')
-  const currentLineIndex = ref(0)
-  const showCursor = ref(true)
-  const hasAnimated = ref(false)
-  
-  const pythonCode = [
+<script setup>
+import { User, Github, Linkedin, Mail, ChevronDown, RefreshCw } from 'lucide-vue-next'
+import { ref, onMounted } from 'vue'
+
+const displayedCode = ref('')
+const currentLineIndex = ref(0)
+const showCursor = ref(true)
+const hasAnimated = ref(false)
+
+const pythonCode = [
     ">>> import pandas as pd",
     ">>> import numpy as np",
     ">>> from sklearn.pipeline import Pipeline",

@@ -9,6 +9,7 @@ export const projectsData = {
     role: 'Full-Stack AI Engineer',
     team: 'Solo project',
     status: 'Completed',
+    tldr: 'Built an AI assistant that converts natural language to SQL using GPT-4o + Qdrant vector search, executes queries safely against Postgres, and auto-generates visualizations. Includes real-time weather/air quality ETL with dbt transformations and full observability stack (Prometheus/Grafana).',
 
     overview: `Built an AI-powered analytics assistant that transforms natural language queries into SQL using GPT-4o, executes them safely against a Supabase Postgres database, and automatically generates Vega-Lite visualizations. The system includes real-time weather and air quality data ingestion with dbt transformations.`,
 
@@ -154,6 +155,7 @@ export const projectsData = {
     role: 'Data & Software Engineer',
     team: 'Solo project',
     status: 'Completed',
+    tldr: 'Built a pipeline monitoring system with Isolation Forest anomaly detection to catch silent failures. Logs pipeline metrics to PostgreSQL, scores runs with ML model, and visualizes health in Streamlit dashboard. Detects issues like abnormal runtimes and zero-record runs that traditional monitoring misses.',
 
     overview: 'Built a monitoring tool that tracks the health of data pipelines by logging operational metrics to a PostgreSQL database. The system uses an unsupervised Scikit-learn model (Isolation Forest) to detect anomalies like abnormal runtimes or record counts, and presents a historical health analysis in an interactive Streamlit dashboard.',
 
@@ -263,288 +265,236 @@ export const projectsData = {
     }
   },
 
-  'mcp-aws': {
-    id: 'mcp-aws',
+  'databricks-nyt-pipeline': {
+    id: 'databricks-nyt-pipeline',
     type: 'personal',
-    title: 'MCP with AWS & Databricks',
-    subtitle: 'Building a Q&A bot from documents using MCP.',
+    title: 'News Analytics Pipeline on Databricks',
+    subtitle: 'Serverless ELT pipeline for NYT articles using Databricks Community Edition',
     year: '2025',
     duration: '1 month',
-    role: 'Data Engineer for AI',
+    role: 'Data Engineer',
     team: 'Solo project',
     status: 'In Development',
+    tldr: 'Built a serverless ELT pipeline on Databricks Community Edition. Ingests top stories from the NYT API using Python, processes data with Spark into a Bronze-Silver-Gold Delta Lake architecture, and enables analytics on article trends.',
 
-    overview: 'Developed a full-cycle Retrieval-Augmented Generation (RAG) pipeline to transform a collection of unstructured documents into an interactive question-and-answer bot. The project leverages cloud services for storage and a distributed computing engine for processing, creating a scalable foundation for AI-powered knowledge retrieval.',
+    overview: 'Developed a fully automated ELT pipeline using the free Databricks Community Edition to ingest, process, and analyze news articles from the New York Times API. The pipeline demonstrates modern data engineering practices, including the Medallion architecture for data quality progression and the use of Delta Lake for reliable data storage.',
 
-    problem: 'Valuable information is often locked away in unstructured documents (like PDFs and text files), making it difficult to search and query with precision. Standard keyword search cannot understand the semantic meaning of the content.',
+    problem: 'Analyzing trends in news data requires a robust pipeline to handle data ingestion from APIs, clean and structure the information, and store it in an analytics-ready format. Manual processing is not scalable and makes it difficult to track trends over time.',
 
-    solution: 'Built a data engineering pipeline that ingests documents from cloud storage, processes and chunks them, converts the text into numerical vector embeddings, and stores them in a queryable format. An application layer then uses this vectorized data to find the most relevant document snippets to answer a user\'s question.',
+    solution: 'Created a Databricks Notebook that runs a Python script to fetch the latest top stories from the NYT API. The raw JSON data is landed in a "Bronze" Delta table. A subsequent Spark SQL job cleans, unnests, and transforms this data into a structured "Silver" table. Finally, an aggregation job creates a "Gold" table summarizing daily article counts by section, ready for analysis.',
 
     techStack: {
-      'Data Engineering': ['Python', 'Apache Spark', 'Databricks', 'Delta Lake'],
-      'Cloud Infrastructure': ['AWS S3'],
-      'AI/ML': ['Hugging Face Transformers', 'Vector Embeddings', 'Sentence-Transformers'],
-      'Core Concepts': ['ETL/ELT', 'Data Lake Architecture', 'Semantic Search']
+      'Data Platform': ['Databricks Community Edition', 'Apache Spark', 'Delta Lake'],
+      'Data Ingestion': ['Python (Requests)', 'NYT API'],
+      'Languages': ['Python', 'SQL'],
+      'Core Concepts': ['ELT', 'Medallion Architecture', 'Data Lakehouse']
     },
 
     architecture: {
       components: [
-        { name: 'Data Lake Storage', description: 'AWS S3 for storing raw documents and processed Delta tables.' },
-        { name: 'Processing Engine', description: 'Databricks for Spark-based data ingestion and transformation.' },
-        { name: 'Feature Engineering', description: 'Generating vector embeddings from text chunks using Hugging Face models.' },
-        { name: 'Vector Store', description: 'Delta Lake table acting as a simple, scalable vector database.' },
-        { name: 'Application Logic', description: 'Python function for semantic search via cosine similarity.' }
+        { name: 'Data Ingestion', description: 'Python function in a Databricks notebook calls the NYT API to retrieve article data.' },
+        { name: 'Bronze Layer', description: 'Raw JSON responses are loaded into a `bronze_articles` Delta table with minimal transformation.' },
+        { name: 'Silver Layer', description: 'A Spark SQL query unnests the JSON, cleans data types, and creates a well-structured `silver_articles` table.' },
+        { name: 'Gold Layer', description: 'An aggregated `gold_article_trends` table is created to provide business-level insights.' }
       ]
     },
 
     metrics: {
-      'Data Sources': 'PDF, TXT',
-      'Processing Engine': 'Apache Spark 3.5',
-      'Vector Dimension': '384',
-      'Search Metric': 'Cosine Similarity',
-      'Cloud Services': '2 (AWS, Databricks)',
-      'Status': 'Processing pipeline complete'
+      'Data Source': '1 API',
+      'Data Layers': '3 (Bronze, Silver, Gold)',
+      'Compute': 'Single-Node Cluster (Free Tier)',
+      'Storage': 'Databricks File System (DBFS)',
+      'Tables Created': '3+',
+      'Pipeline Latency': 'Batch (Daily)'
     },
 
     challenges: [
       {
-        challenge: 'Handling unstructured data from PDFs efficiently.',
-        solution: 'Utilized the `pypdf` library within a Spark UDF to parallelize document reading and text extraction.'
+        challenge: 'Handling nested JSON structures from the API response.',
+        solution: 'Used Spark SQL\'s built-in functions like `explode()` and dot notation to efficiently flatten the complex JSON into a relational table format.'
       },
       {
-        challenge: 'Managing Python dependencies in a distributed environment.',
-        solution: 'Leveraged Databricks notebook-scoped libraries (`%pip`) for easy and isolated package management.'
+        challenge: 'Ensuring the pipeline is idempotent (rerunnable without creating duplicates).',
+        solution: 'Leveraged Delta Lake\'s `MERGE INTO` command to upsert new data, inserting new articles and updating existing ones based on a unique article ID.'
       },
       {
-        challenge: 'Performing vector similarity search at scale.',
-        solution: 'Used Spark to broadcast the query vector and perform a distributed cosine similarity calculation across all chunk embeddings.'
+        challenge: 'Managing API keys and other secrets securely within a notebook.',
+        solution: 'Utilized Databricks secrets, which are not stored in plaintext, to safely store and retrieve the NYT API key during runtime.'
       }
     ],
 
     impact: [
-      'Successfully unlocked knowledge from unstructured document archives.',
-      'Created a foundational data engineering pattern for building modern AI applications.',
-      'Demonstrated proficiency in combining cloud data storage with distributed computing for AI workloads.',
-      'Enabled semantic search capabilities without relying on a dedicated vector database.'
+      'Created a fully functional, end-to-end data pipeline using only free-tier services.',
+      'Demonstrated proficiency in core data engineering concepts like ELT, data modeling, and the Lakehouse architecture.',
+      'Built a reliable foundation for analyzing news trends and content patterns.'
     ],
 
     learnings: [
-      'The process of creating and manipulating vector embeddings for semantic meaning.',
-      'How to integrate cloud storage (S3) with Databricks for seamless data access.',
-      'The power of Delta Lake for bringing reliability and structure to a data lake.',
-      'Practical application of data engineering principles to solve a real-world AI problem.'
+      'The power of Spark SQL for transforming semi-structured data into clean, tabular formats.',
+      'The benefits of Delta Lake for bringing ACID transactions and reliability to a data lake.',
+      'How to structure a data pipeline using the multi-layered Medallion architecture to improve data quality and usability.'
     ],
 
     screenshots: [
-      { title: 'Databricks Processing Notebook', url: '/projects/rag-databricks-notebook.png' },
-      { title: 'S3 Data Lake Structure', url: '/projects/rag-s3-structure.png' },
-      { title: 'Delta Lake Vector Table', url: '/projects/rag-delta-table.png' }
+      { title: 'Databricks Pipeline Notebook', url: '/projects/databricks-nyt-notebook.png' },
+      { title: 'Gold Layer Analytics Table', url: '/projects/databricks-gold-table.png' },
+      { title: 'Medallion Architecture Diagram', url: '/projects/databricks-medallion-arch.png' }
     ],
 
     codeSnippets: {
-      'Vector Embedding Generation': `
-  from pyspark.sql.functions import pandas_udf, col
-  from sentence_transformers import SentenceTransformer
-  
-  # Broadcast the model to all worker nodes
-  model = SentenceTransformer('all-MiniLM-L6-v2')
-  bc_model_weights = spark.sparkContext.broadcast(model)
-  
-  @pandas_udf('array<float>')
-  def embed_text_udf(series: pd.Series) -> pd.Series:
-      model = bc_model_weights.value
-      embeddings = model.encode(series.tolist(), show_progress_bar=False)
-      return pd.Series(list(embeddings))
-  
-  # Apply the UDF to create an embeddings column
-  chunked_df = chunked_df.withColumn(
-      "embedding",
-      embed_text_udf(col("text_chunk"))
-  )
+      'Bronze to Silver Transformation': `
+  -- Spark SQL query to clean and structure raw JSON data
+  CREATE OR REPLACE TABLE silver_articles AS
+  SELECT
+    get_json_object(raw_json, '$.uri') AS article_id,
+    get_json_object(raw_json, '$.title') AS title,
+    get_json_object(raw_json, '$.byline') AS author,
+    CAST(get_json_object(raw_json, '$.published_date') AS TIMESTAMP) AS published_ts,
+    get_json_object(raw_json, '$.section') AS section
+  FROM bronze_articles
+  WHERE get_json_object(raw_json, '$.uri') IS NOT NULL;
         `,
-      'Semantic Search in Spark': `
-  from pyspark.sql.functions import udf
-  from scipy.spatial.distance import cosine
-  
-  # User query and its embedding
-  query_text = "What is the importance of data governance?"
-  query_embedding = model.encode(query_text)
-  
-  @udf('float')
-  def cosine_similarity_udf(vec):
-      # Calculate 1 - cosine distance, since higher is better
-      return float(1 - cosine(query_embedding, vec))
-  
-  # Find the most relevant documents
-  results = vector_table.withColumn(
-      "similarity",
-      cosine_similarity_udf(col("embedding"))
-  ).orderBy(col("similarity").desc()).limit(5)
-  
-  results.select("text_chunk", "similarity").show(truncate=False)
+      'Idempotent Merge Operation': `
+  -- Using MERGE to avoid duplicates when rerunning the pipeline
+  MERGE INTO bronze_articles AS target
+  USING source_updates AS source
+  ON target.article_id = source.article_id
+  WHEN MATCHED THEN
+    UPDATE SET *
+  WHEN NOT MATCHED THEN
+    INSERT *;
         `
     },
 
     links: {
-      github: 'https://github.com/yourusername/databricks-rag-pipeline',
-      demo: 'https://drive.google.com/your-demo-video-link-here',
-      documentation: 'https://github.com/yourusername/databricks-rag-pipeline/blob/main/README.md'
-    }
-  },
-
-  'formula1-dbt-analytics': {
-    id: 'formula1-dbt-analytics',
-    type: 'personal',
-    title: 'Formula 1 Analytics with dbt & Azure Synapse',
-    subtitle: 'Building a scalable data warehouse for historical F1 racing data',
-    year: '2025',
-    duration: '1 week',
-    role: 'Analytics Engineer',
-    team: 'Solo project',
-    status: 'In Development',
-
-    overview: `Developed a comprehensive analytics engineering project using dbt Core to transform raw, normalized Formula 1 data into a performance-optimized star schema in Azure Synapse Analytics. The project ingests decades of historical race results, drivers, and constructor data from Azure Blob Storage, applying rigorous testing and documentation to build a reliable single source of truth for analysis.`,
-
-    problem: `Raw transactional data, like the publicly available Ergast F1 dataset, is highly normalized and spread across many tables. This structure is inefficient for analytical queries and makes it difficult for data analysts to answer business questions like "Which constructor has the most wins at Monaco?" without writing complex, multi-level joins.`,
-
-    solution: `Built a dbt project that follows analytics engineering best practices. The pipeline starts with defining sources from data staged in a data lake, moves to staging models for basic cleaning and casting, and culminates in fact and dimension tables (a star schema) that are optimized for BI tools. The project includes custom macros, data quality tests, and is fully documented and version-controlled.`,
-
-    techStack: {
-      'Data Transformation': ['dbt Core', 'SQL'],
-      'Data Warehouse': ['Azure Synapse Analytics'],
-      'Data Lake Storage': ['Azure Blob Storage'],
-      'Languages & Tools': ['Python', 'Git', 'YAML'],
-      'CI/CD': ['GitHub Actions']
-    },
-
-    architecture: {
-      components: [
-        { name: 'Data Sources', description: 'Raw F1 data staged in Azure Blob Storage and defined in dbt sources.yml.' },
-        { name: 'Staging Layer', description: 'One-to-one models for cleaning, renaming, and casting raw source data.' },
-        { name: 'Marts Layer', description: 'Dimension tables (dim_drivers, dim_races) and a central fact table (fct_results) forming a star schema.' },
-        { name: 'Data Quality', description: 'Over 50 generic and singular tests to ensure referential integrity and data validity.' },
-        { name: 'Code Abstraction', description: 'Custom dbt macros to generate surrogate keys and perform common transformations.' },
-        { name: 'Documentation', description: 'Generated a full dbt documentation site showing model descriptions and lineage.' }
-      ]
-    },
-
-    metrics: {
-      'Models Created': '15+',
-      'Data Tests': '50+',
-      'Macros': '2',
-      'Sources': '14',
-      'Schema Design': 'Star Schema',
-      'CI/CD': 'Automated dbt build'
-    },
-
-    challenges: [
-      {
-        challenge: 'Modeling complex relationships between drivers, constructors, and race results over time.',
-        solution: 'Used intermediate models to logically group joins and calculations before creating the final fact and dimension tables.'
-      },
-      {
-        challenge: 'Ensuring data quality and referential integrity across decades of historical data.',
-        solution: 'Implemented comprehensive dbt tests (e.g., unique, not_null, relationships) on all primary and foreign keys.'
-      },
-      {
-        challenge: 'Avoiding repetitive SQL code when generating primary keys for models.',
-        solution: 'Created a dbt macro to generate a surrogate key by hashing a column or combination of columns, ensuring a consistent and DRY approach.'
-      }
-    ],
-
-    impact: [
-      'Transformed a complex, normalized dataset into an analytics-ready star schema in the Azure ecosystem.',
-      'Established a robust, tested, and documented single source of truth for F1 analysis.',
-      'Demonstrated advanced dbt skills, including testing, documentation, and macro development.',
-      'Enabled fast and efficient querying for complex analytical questions that were previously difficult to answer.'
-    ],
-
-    learnings: [
-      'The power of dbt for enforcing data quality and building trust in data assets.',
-      'Best practices for structuring a dbt project with staging and marts layers.',
-      'How to leverage dbt macros to write more maintainable and reusable SQL code.',
-      'The value of a well-documented data model and the utility of dbt docs for exploring lineage.'
-    ],
-
-    screenshots: [
-      { title: 'dbt Project Lineage Graph (DAG)', url: '/projects/dbt-dag.png' },
-      { title: 'dbt Test Execution in CLI', url: '/projects/dbt-test-cli.png' },
-      { title: 'Azure Synapse Star Schema Tables', url: '/projects/dbt-synapse-schema.png' }
-    ],
-
-    codeSnippets: {
-      'Fact Table Model (fct_results.sql)': `
--- This model joins race results with key dimensions to create a central fact table.
-WITH results AS (
-    SELECT * FROM {{ ref('stg_f1_results') }}
-),
-drivers AS (
-    SELECT * FROM {{ ref('dim_drivers') }}
-),
-races AS (
-    SELECT * FROM {{ ref('dim_races') }}
-)
-SELECT
-    -- Surrogate key
-    {{ dbt_utils.generate_surrogate_key(['r.result_id']) }} as result_key,
-    r.result_id,
-    d.driver_key,
-    ra.race_key,
-    r.constructor_id,
-    r.position,
-    r.points,
-    r.laps,
-    r.status
-FROM results r
-JOIN drivers d ON r.driver_id = d.driver_id
-JOIN races ra ON r.race_id = ra.race_id
-      `,
-      'Model & Test Definition (schema.yml)': `
-version: 2
-
-models:
-  - name: dim_drivers
-    description: "Dimension table containing information about each Formula 1 driver."
-    columns:
-      - name: driver_key
-        description: "The surrogate primary key for the drivers dimension."
-        tests:
-          - unique
-          - not_null
-      - name: driver_id
-        description: "The natural key for drivers from the source data."
-        tests:
-          - unique
-          - not_null
-      - name: driver_nationality
-        description: "The nationality of the driver."
-        tests:
-          - not_null
-
-  - name: fct_results
-    description: "Fact table containing race results, linking drivers and races."
-    columns:
-      - name: result_key
-        description: "The surrogate primary key for race results."
-        tests:
-          - unique
-          - not_null
-      - name: driver_key
-        description: "Foreign key to the dim_drivers table."
-        tests:
-          - relationships:
-              to: ref('dim_drivers')
-              field: driver_key
-      `
-    },
-
-    links: {
-      github: 'https://github.com/yourusername/dbt-formula1-analytics-azure',
-      demo: 'https://drive.google.com/your-demo-video-link-here',
+      github: 'https://github.com/YOUR_USERNAME/databricks-nyt-pipeline',
+      demo: null,
       documentation: null
     }
   },
 
+  'orchestrated-dbt-f1-analytics': {
+    id: 'orchestrated-dbt-f1-analytics',
+    type: 'personal',
+    title: 'F1 Analytics Pipeline',
+    subtitle: 'An end-to-end, orchestrated ELT pipeline for F1 historical data deployed with Docker',
+    year: '2025',
+    duration: '1 month',
+    role: 'Data Engineer',
+    team: 'Solo project',
+    status: 'Completed',
+    tldr: 'Built a full ELT pipeline using dbt for transformations and DuckDB as a warehouse, orchestrated by Apache Airflow. The entire stack is containerized with Docker, scheduling daily runs to ingest raw data, run dbt models, and execute data quality tests automatically. This creates a reliable, automated system for F1 analytics.',
+
+    overview: 'Built a fully automated, end-to-end ELT pipeline for historical Formula 1 race data. The entire pipeline is orchestrated by Apache Airflow, which handles scheduling, task dependencies, and retries. Raw data is ingested and loaded into a DuckDB data warehouse. dbt Core is then triggered to transform the data into an analytics-ready dimensional model. The whole environment is containerized via Docker for easy and reproducible deployment.',
+
+    problem: 'Analytical data pipelines require more than just transformation logic; they need to be scheduled, monitored, and be resilient to failure. Manually running ingestion and dbt scripts is not scalable or reliable for providing stakeholders with timely, accurate data.',
+
+    solution: 'Developed an Airflow DAG that orchestrates the entire process. A `BashOperator` first ingests raw data. The `Cosmos` provider is then used to dynamically parse the dbt project and create a corresponding task group in Airflow, perfectly preserving the dependency graph. This DAG runs on a daily schedule, ensuring the entire pipeline from raw CSVs to analytics-ready tables is automated and reliable.',
+
+    techStack: {
+      'Orchestration': ['Apache Airflow', 'Docker', 'docker-compose'],
+      'Data Transformation': ['dbt Core', 'Cosmos (Airflow Provider)'],
+      'Data Warehouse': ['DuckDB'],
+      'Languages & Tools': ['SQL', 'Python', 'YAML', 'Jinja']
+    },
+
+    architecture: {
+      components: [
+        { name: 'Containerization', description: 'Docker and docker-compose define and run the entire multi-container application (Airflow, Postgres backend, etc.).' },
+        { name: 'Orchestration Layer', description: 'Apache Airflow schedules, executes, and monitors the DAG containing all pipeline tasks.' },
+        { name: 'Ingestion Task', description: 'A Python script, run via an Airflow operator, downloads raw CSV data.' },
+        { name: 'Transformation Task Group', description: 'The `Cosmos` provider automatically generates Airflow tasks for each dbt model, test, and snapshot.' },
+        { name: 'Analytical Database', description: 'A file-based DuckDB instance acts as the fast, local data warehouse.' }
+      ]
+    },
+
+    metrics: {
+      'dbt Models': '15+',
+      'Data Tests': '20+',
+      'Schedule': 'Daily',
+      'Containerized': 'Yes',
+      'Stack Cost': '$0 (100% Free & Open Source)',
+      'Airflow Tasks': 'Auto-generated'
+    },
+
+    challenges: [
+      {
+        challenge: 'Integrating dbt project dependencies seamlessly into Airflow.',
+        solution: 'Utilized the open-source `Cosmos` provider, which auto-generates Airflow tasks from the dbt project DAG, perfectly preserving model dependencies and streamlining the integration.'
+      },
+      {
+        challenge: 'Managing a multi-container local development environment.',
+        solution: 'Defined all services, networks, and volumes in a `docker-compose.yml` file, allowing the entire stack to be spun up or down with a single command.'
+      }
+    ],
+
+    impact: [
+      'Automated the entire data workflow, eliminating manual runs and ensuring data is always fresh.',
+      'Increased pipeline reliability with Airflow\'s built-in retry and alerting mechanisms.',
+      'Created a fully documented and reproducible data pipeline using dbt and Airflow.'
+    ],
+
+    learnings: [
+      'How to build and manage a production-style data pipeline locally using a containerized Airflow environment.',
+      'The power of tools like Cosmos to abstract away the complexity of integrating dbt with Airflow.',
+      'The importance of orchestration for creating robust, scalable, and maintainable data systems.'
+    ],
+
+    screenshots: [
+      { title: 'Airflow DAG for F1 Pipeline', url: '/projects/airflow-f1-dag.png' },
+      { title: 'dbt Project Lineage Graph', url: '/projects/dbt-f1-dag.png' },
+      { title: 'dbt Data Test Results', url: '/projects/dbt-f1-test-results.png' }
+    ],
+
+    codeSnippets: {
+      'Airflow DAG Definition (dag.py)': `
+# This Python file defines the Airflow DAG for the F1 project.
+from cosmos.providers.dbt.dag import DbtDag
+from pendulum import datetime
+
+# Define the dbt project parameters for Cosmos
+f1_dbt_project = {
+    "dbt_project_name": "f1_analytics",
+    "dbt_root_path": "/usr/local/airflow/dags/dbt/f1_analytics",
+    "dbt_models_dir": "models",
+    "dbt_snapshots_dir": "snapshots",
+}
+
+# Use DbtDag to automatically create the DAG from the dbt project
+f1_dag = DbtDag(
+    dag_id="f1_dbt_pipeline",
+    schedule_interval="@daily",
+    start_date=datetime(2023, 1, 1),
+    catchup=False,
+    **f1_dbt_project,
+)
+        `,
+      'dbt Data Test (schema.yml)': `
+# This YAML defines tests for the stg_races model.
+# dbt will automatically check these conditions on every run.
+version: 2
+
+models:
+  - name: stg_races
+    columns:
+      - name: race_id
+        tests:
+          - unique
+          - not_null
+      - name: race_year
+        tests:
+          - accepted_values:
+              values: range(1950, 2026) # Ensures year is within a valid range
+        `
+    },
+
+    links: {
+      github: 'https://github.com/YOUR_USERNAME/airflow-dbt-f1-analytics',
+      demo: null,
+      documentation: null
+    }
+  },
+  
   'data-pipeline': {
     id: 'data-pipeline',
     type: 'personal',
@@ -555,6 +505,7 @@ models:
     role: 'Data Engineer',
     team: 'Solo project',
     status: 'Completed',
+    tldr: 'Built serverless ELT pipeline on GCP with event-driven Cloud Functions, BigQuery transformations, and Looker Studio dashboard. Automatically processes SaaS CSV uploads (<30s latency) to visualize MAU, churn, and growth metrics. Fully automated from ingestion to BI.',
 
     overview: `Built a serverless, event-driven ELT pipeline on Google Cloud Platform to process raw SaaS product usage data. The pipeline automatically ingests CSV files from a GCS bucket, loads them into BigQuery, transforms the raw data into analytics-ready models using SQL, and visualizes key business metrics like MAU and churn in a live Looker Studio dashboard.`,
 
@@ -651,83 +602,6 @@ models:
     }
   },
 
-  'databricks-migration': {
-    id: 'databricks-migration',
-    type: 'personal',
-    title: 'Databricks Migration & FinOps Dashboard',
-    subtitle: 'From Redshift to Databricks with a focus on cost control',
-    year: '2025',
-    duration: '1.5 months',
-    role: 'Cloud & Data Engineer',
-    team: 'Solo project',
-    status: 'Completed',
-
-    overview: 'Planned and executed the migration of existing data workloads from AWS Redshift to Databricks. Developed a FinOps dashboard in Power BI to monitor cloud costs and optimize resource utilization on the new platform.',
-
-    problem: 'Traditional cloud data warehouses like Redshift can become costly and inflexible for modern, heterogeneous data workloads (SQL, ML, streaming). Without dedicated FinOps monitoring, companies quickly lose track of costs and cannot leverage potential savings.',
-
-    solution: 'Executed a phased migration of ETL jobs and BI queries to a Databricks Lakehouse architecture on AWS S3. In parallel, a data model was developed in dbt to process Databricks usage logs. The aggregated cost data is visualized in Power BI to identify cost drivers and evaluate cluster efficiency.',
-
-    techStack: {
-      'Data Platform': ['Databricks', 'Delta Lake', 'Apache Spark'],
-      'Data Transformation': ['dbt Core', 'SQL'],
-      'Cloud Infrastructure': ['AWS S3', 'AWS Redshift (Legacy)'],
-      'BI & Visualization': ['Power BI'],
-      'Concepts': ['FinOps', 'Cloud Migration', 'Data Warehousing']
-    },
-
-    architecture: {
-      components: [
-        { name: 'Legacy System', description: 'Existing ETL processes and tables in AWS Redshift.' },
-        { name: 'Migration Path', description: 'Analysis of workloads, translation of Redshift SQL to Spark SQL, implementation in Databricks notebooks.' },
-        { name: 'Cost Data Pipeline', description: 'Ingestion and transformation of Databricks usage data (Usage Logs) using dbt.' },
-        { name: 'FinOps Dashboard', description: 'Power BI dashboard with drill-down capabilities to analyze costs by user, cluster, and job.' }
-      ]
-    },
-
-    metrics: {
-      'Migrated Workloads': '10+ ETL Jobs',
-      'Dashboard KPIs': '5+ (Cost/User, Cluster Uptime)',
-      'Identified Savings': '>15% (potential)',
-      'Data Sources': 'Databricks System Tables'
-    },
-
-    challenges: [
-      {
-        challenge: 'Handling proprietary SQL functions from Redshift that do not exist in Spark SQL.',
-        solution: 'Developed User-Defined Functions (UDFs) in PySpark or reformulated the logic using native Spark functions.'
-      },
-      {
-        challenge: 'Ensuring data consistency between the old and new systems during the migration.',
-        solution: 'Implemented automated data reconciliation scripts that compared row counts and key metrics between Redshift and Databricks.'
-      }
-    ],
-
-    impact: [
-      'Created a scalable and flexible data platform for future analytics and ML applications.',
-      'Increased transparency of cloud costs through an interactive FinOps dashboard.',
-      'Demonstrated a clear migration path for critical data workloads.'
-    ],
-
-    learnings: [
-      'Strategic planning is the most critical factor in a cloud data platform migration.',
-      'FinOps is not just a dashboard, but a cultural shift in handling cloud resources.',
-      'dbt is an excellent tool for preparing internal metadata (e.g., logs) for monitoring.'
-    ],
-
-    screenshots: [
-      { title: 'FinOps Dashboard Overview', url: '/projects/finops-dashboard.png' }
-    ],
-
-    codeSnippets: {},
-
-    links: {
-      github: 'https://github.com/danielg-gerlach/cloud-migration-project',
-      demo: null,
-      documentation: null
-    }
-  },
-
   'data-modeling-ecommerce': {
     id: 'data-modeling-ecommerce',
     type: 'personal',
@@ -814,6 +688,7 @@ models:
     role: 'Your Role (Part-time)',
     team: 'Team size/type',
     status: 'Completed',
+    tldr: 'Built a lead generation quiz with React, TypeScript, and PostgreSQL to capture property seller information. Implemented multi-step forms, data validation, and backend API for seamless user experience and high conversion rates.',
 
     overview: `Project overview describing what was built and its purpose.`,
 
@@ -883,6 +758,7 @@ models:
     year: '2025',
     duration: '2 weeks',
     role: 'Your Role (Part-time)',
+    tldr: 'Developed an analytics dashboard to track quiz performance metrics and customer responses. Features include real-time data visualization, customer segmentation, and conversion funnel analysis using React and TypeScript.',
     team: 'Team size/type',
     status: 'Completed',
 
@@ -941,6 +817,7 @@ models:
     role: 'Your Role (Part-time)',
     team: 'Solo',
     status: 'Completed',
+    tldr: 'Integrated and customized CRM solution for 10+ real estate agents to manage properties, deals, and customer relationships. Unified property and activity management, improving workflow efficiency and giving agents more time for customer service.',
 
     overview: `Project overview.`,
     problem: `Real-estate brokers and business owners had a difficult time managing properties and activities, which made it hard to understand "who does what?"`,
