@@ -5,7 +5,7 @@
       <div class="flex flex-col md:flex-row items-center justify-between gap-4">
         <!-- Copyright -->
         <div class="text-sm text-gray-500">
-          © {{ currentYear }} Daniel Gerlach. {{ $t('footer.copyright') }}
+          © {{ currentYear }} Daniel Gerlach
         </div>
 
         <!-- Built With -->

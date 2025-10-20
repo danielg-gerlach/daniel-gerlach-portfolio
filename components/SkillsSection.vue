@@ -58,7 +58,6 @@
                 <!-- Current Input Line -->
                 <div class="flex items-center mt-4">
                   <span class="text-green-400 mr-2">$ </span>
-                  <span v-if="showCursor && !currentInput" class="inline-block w-2 h-4 bg-blue-400 animate-blink" />
                   <input
                     ref="terminalInput"
                     v-model="currentInput"
@@ -67,7 +66,7 @@
                     @keydown.down="navigateHistory(1)"
                     @keydown.tab.prevent="handleTabComplete"
                     type="text"
-                    class="flex-1 bg-transparent outline-none text-gray-300 ml-1"
+                    class="flex-1 bg-transparent outline-none text-gray-300 caret-blue-400"
                     :placeholder="showPlaceholder ? 'Type a command or click a suggestion...' : ''"
                     spellcheck="false"
                     autocomplete="off"
@@ -137,7 +136,17 @@
           
           <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div v-for="cert in certifications" :key="cert.id" 
-                 class="bg-gray-900/50 border border-gray-800 rounded-lg p-8 hover:border-blue-500/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group">
+                 class="bg-gray-900/50 border border-gray-800 rounded-lg p-8 hover:border-blue-500/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group relative">
+              <!-- In Progress Badge -->
+              <div v-if="cert.inProgress" 
+                   class="absolute -top-3 -right-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-300"></span>
+                </span>
+                In Progress
+              </div>
+              
               <!-- Header with Logo and Title -->
               <div class="flex items-start gap-6 mb-6">
                 <div class="flex-shrink-0 w-16 h-16 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
@@ -171,15 +180,19 @@
                 </div>
               </div>
               
-              <!-- Verify Link -->
+              <!-- Verify Link or Expected Date -->
               <div class="border-t border-gray-800 pt-6">
-                <a :href="cert.verifyUrl" 
+                <a v-if="cert.verifyUrl && !cert.inProgress" 
+                   :href="cert.verifyUrl" 
                    target="_blank"
                    rel="noopener noreferrer"
                    class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium">
                   <span>Verify Certificate</span>
                   <ExternalLinkIcon class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
+                <div v-else-if="cert.inProgress" class="text-gray-400 font-medium">
+                  Expected: {{ cert.expectedDate }}
+                </div>
               </div>
             </div>
           </div>
@@ -206,7 +219,6 @@
   ])
   const commandHistory = ref([])
   const historyIndex = ref(-1)
-  const showCursor = ref(true)
   const showHelp = ref(true)
   const showPlaceholder = ref(true)
   const showTraditionalView = ref(false)
@@ -225,7 +237,6 @@
       name: 'BIG DATA',
       technologies: [
         { name: 'Spark', icon: '⚡' },
-        { name: 'Kafka', icon: '📊' },
         { name: 'Airflow', icon: '🔄' }
       ]
     },
@@ -266,16 +277,13 @@
     {
       name: 'DEVOPS',
       technologies: [
-        { name: 'Git', icon: '🌿' },
-        { name: 'Kubernetes', icon: '☸️' },
-        { name: 'Terraform', icon: '🏗️' }
+        { name: 'Git', icon: '🌿' }
       ]
     },
     {
       name: 'MORE',
       technologies: [
         { name: 'Databricks', icon: '🧱' },
-        { name: 'Redis', icon: '🔴' },
         { name: 'FastAPI', icon: '🚀' }
       ]
     }
@@ -289,6 +297,7 @@
       issued: "August 2025",
       credentialId: "#12345",
       logoUrl: "/images/logos/ztm-logo.png",
+      inProgress: false,
       skills: [
         "Python",
         "SQL", 
@@ -306,6 +315,8 @@
       issued: "September 2025",
       credentialId: "#67890",
       logoUrl: "/images/logos/datacamp-logo.png",
+      inProgress: true,
+      expectedDate: "Q2 2025",
       skills: [
         "Data Science Best Practices",
         "Python & SQL",
@@ -314,7 +325,7 @@
         "LLM Application Development",
         "Data Visualization"
       ],
-      verifyUrl: "https://www.datacamp.com/certificate/verify/67890"
+      verifyUrl: null
     },
     {
       id: 'datacamp-data-engineer',
@@ -323,6 +334,7 @@
       issued: "January 2024",
       credentialId: "#434995",
       logoUrl: "/images/logos/datacamp-logo.png",
+      inProgress: false,
       skills: [
         "Python",
         "SQL",
@@ -340,6 +352,8 @@
       issued: "September 2025",
       credentialId: "EFGH5678",
       logoUrl: "/images/logos/datacamp-logo.png",
+      inProgress: true,
+      expectedDate: "Q2 2025",
       skills: [
         "Data Pipelines in the Terminal",
         "Containerization",
@@ -348,7 +362,7 @@
         "PySpark & SparkSQL",
         "Introduction to Apache Kafka"
       ],
-      verifyUrl: "https://www.coursera.org/verify/EFGH5678"
+      verifyUrl: null
     }
   ]
   
@@ -553,11 +567,6 @@
   onMounted(() => {
     // Removed auto-focus to prevent automatic scrolling to this section
     // Users can click on the terminal to focus it
-    
-    // Cursor blink
-    setInterval(() => {
-      showCursor.value = !showCursor.value
-    }, 500)
   })
   </script>
   
@@ -589,10 +598,6 @@
   @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
-  }
-  
-  .animate-blink {
-    animation: blink 1s infinite;
   }
   
   /* Slide fade transition */
