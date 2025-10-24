@@ -98,11 +98,6 @@
             
             <div class="flex flex-wrap gap-6 text-sm mb-8">
               <div class="flex items-center space-x-2">
-                <Calendar class="w-4 h-4 text-blue-400" />
-                <span class="text-gray-400">Duration:</span>
-                <span>{{ project.duration }}</span>
-              </div>
-              <div class="flex items-center space-x-2">
                 <Users class="w-4 h-4 text-blue-400" />
                 <span class="text-gray-400">Team:</span>
                 <span>{{ project.team }}</span>

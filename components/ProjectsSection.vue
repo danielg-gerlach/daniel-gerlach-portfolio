@@ -75,10 +75,6 @@
                     <Calendar class="w-4 h-4" />
                     <span>{{ project.year }}</span>
                   </span>
-                  <span class="flex items-center space-x-1">
-                    <Clock class="w-4 h-4" />
-                    <span>{{ project.duration }}</span>
-                  </span>
                 </div>
                 
                 <!-- Tech Stack Preview -->
@@ -154,10 +150,6 @@
                   <span class="flex items-center space-x-1">
                     <Calendar class="w-4 h-4" />
                     <span>{{ project.year }}</span>
-                  </span>
-                  <span class="flex items-center space-x-1">
-                    <Clock class="w-4 h-4" />
-                    <span>{{ project.duration }}</span>
                   </span>
                 </div>
                 
