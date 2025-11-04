@@ -1,0 +1,93 @@
+// Simple placeholder for $t() function after removing i18n
+export default defineNuxtPlugin((nuxtApp) => {
+  const translations: Record<string, any> = {
+    'nav.home': 'Home',
+    'nav.about': 'About',
+    'nav.projects': 'Projects',
+    'nav.skills': 'Skills',
+    'nav.articles': 'Articles',
+    
+    'hero.title': 'Business Informatics Student • Data Engineering & AI',
+    'hero.terminalTitle': 'portfolio.py',
+    'hero.replayAnimation': 'Replay Animation',
+    'hero.code.line1': '# portfolio.py',
+    'hero.code.line2': '# Data Engineering & AI Portfolio',
+    'hero.code.line3': '',
+    'hero.code.line4': 'class DataEngineer:',
+    'hero.code.line5': '    def __init__(self):',
+    'hero.code.line6': '        self.name = "Daniel Gerlach"',
+    'hero.code.line7': '        self.role = "Data Engineer & AI Developer"',
+    'hero.code.line8': '        self.location = "Germany"',
+    'hero.code.line9': '        ',
+    'hero.code.line10': '    def get_skills(self):',
+    'hero.code.line11': '        return {',
+    'hero.code.line12': "            'languages': ['Python', 'SQL', 'Java'],",
+    'hero.code.line13': "            'big_data': ['Spark', 'Airflow'],",
+    'hero.code.line14': "            'databases': ['PostgreSQL', 'Azure Synapse', 'MongoDB'],",
+    'hero.code.line15': "            'cloud': ['Azure', 'GCP', 'AWS', 'Docker'],",
+    'hero.code.line16': "            'tools': ['dbt', 'Pandas', 'FastAPI']",
+    'hero.code.line17': '        }',
+    'hero.code.line18': '    ',
+    'hero.code.line19': '    def current_focus(self):',
+    'hero.code.line20': '        return [',
+    'hero.code.line21': "            'Real-time Stream Processing',",
+    'hero.code.line22': "            'AI-powered Applications',",
+    'hero.code.line23': "            'PySpark & Data Modeling'",
+    'hero.code.line24': '        ]',
+    
+    'about.heading': '[1] ABOUT',
+    'about.title': 'About Me',
+    'about.intro': "I'm a Business Informatics student specializing in Data Engineering & AI Application Development, passionate about building robust, scalable data infrastructure and AI-driven applications that power intelligent decision-making.",
+    'about.journeyText': "My interests span the entire data lifecycle - from ingesting and processing of raw data to building machine learning & AI pipelines that deliver real-time insights. I really like solving data challenges and optimizing data & AI applications for performance and reliability.",
+    'about.focusText': "I'm currently focused on real-time stream processing, AI-powered application development, PySpark & data modeling.",
+    'about.freelance': "When I'm not engineering data pipelines, you'll find me exploring new tech stacks, contributing to open source, or documenting my learning journey.",
+    'about.currentlyLearning': 'Currently Learning',
+    'about.learning.aiAgents.title': 'dbt (data build tool)',
+    'about.learning.aiAgents.description': 'Transformation of data in data warehouses',
+    'about.learning.spark.title': 'Apache Spark',
+    'about.learning.spark.description': 'Data transformation & cleaning',
+    'about.learning.dataModeling.title': 'Dimensional Data Modeling',
+    'about.learning.dataModeling.description': 'Designing models for analytics',
+    
+    'projects.heading': '[2] PROJECTS',
+    'projects.title': 'Featured Work',
+    'projects.subtitle': 'Real-world projects demonstrating end-to-end data engineering skills',
+    'projects.filters.all': 'All Projects',
+    'projects.personalProjects': 'Personal Projects',
+    'projects.workProjects': 'Work Projects',
+    
+    'skills.heading': '[3] SKILLS',
+    'skills.title': 'Technical Stack',
+    'skills.description': 'My technology stack & certifications',
+    'skills.certifications': 'Certifications',
+    'skills.certSubtitle': "During my studies, I've also gained some experience through certifications & online courses.",
+    'skills.showAllTech': 'Show All Tech',
+    'skills.gridView': 'Grid View',
+    'skills.hideGridView': 'Hide',
+    'skills.verify': 'Verify Certificate',
+    'skills.skillsLabel': 'Skills',
+    'skills.inProgress': 'In Progress',
+    'skills.expected': 'Expected',
+    
+    'articles.heading': '[5] ARTICLES',
+    'articles.myPosts': 'Latest Articles',
+    'articles.subtitle': "I'm currently working on writing technical articles about data engineering, cloud architecture, and AI. Check back soon!",
+    'articles.posts.dataWarehouse.title': 'From Data Warehouse to Data Lakehouse',
+    'articles.posts.dataWarehouse.preview': 'Exploring the evolution from traditional data warehouses to modern data lakehouses and their impact on data analytics.',
+    'articles.posts.graphDb.title': 'Graph Databases & Knowledge Graphs',
+    'articles.posts.graphDb.preview': 'Understanding how graph databases power recommendation systems and enable advanced analytics through knowledge graphs.',
+    
+    'footer.builtWith': 'Built with Nuxt 3 & Tailwind CSS',
+    
+    'common.personal': 'Personal',
+    'common.work': 'Work',
+    'common.github': 'GitHub',
+    'common.linkedin': 'LinkedIn',
+    'common.email': 'Email',
+    'common.medium': 'Medium'
+  }
+
+  nuxtApp.provide('t', (key: string) => {
+    return translations[key] || key
+  })
+})

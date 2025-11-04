@@ -7,14 +7,14 @@ export const projectsData = {
     year: '2025',
     role: 'Full-Stack AI Engineer',
     team: 'Solo project',
-    status: 'Completed',
-    tldr: 'Built an AI assistant that converts natural language to SQL using GPT-4o + Qdrant vector search, executes queries safely against Postgres, and auto-generates visualizations. Includes real-time weather/air quality ETL with dbt transformations and full observability stack (Prometheus/Grafana).',
+    status: 'In Development',
+    tldr: 'Building an AI assistant that will convert natural language to SQL using GPT-4o + Qdrant vector search, execute queries safely against Postgres, and auto-generate visualizations. Planning to include real-time weather/air quality ETL with dbt transformations and full observability stack (Prometheus/Grafana).',
 
-    overview: `Built an AI-powered analytics assistant that transforms natural language queries into SQL using GPT-4o, executes them safely against a Supabase Postgres database, and automatically generates Vega-Lite visualizations. The system includes real-time weather and air quality data ingestion with dbt transformations.`,
+    overview: `Developing an AI-powered analytics assistant that will transform natural language queries into SQL using GPT-4o, execute them safely against a Supabase Postgres database, and automatically generate Vega-Lite visualizations. The system will include real-time weather and air quality data ingestion with dbt transformations.`,
 
     problem: `Business users struggle with SQL syntax and need data engineering expertise to query analytics databases. This creates bottlenecks in data-driven decision making and limits self-service analytics capabilities.`,
 
-    solution: `Developed a full-stack solution using Nuxt 3 and FastAPI that leverages GPT-4o with Qdrant vector search for schema-aware SQL generation, automated chart type detection, and secure query execution with comprehensive observability.`,
+    solution: `Planning to develop a full-stack solution using Nuxt 3 and FastAPI that will leverage GPT-4o with Qdrant vector search for schema-aware SQL generation, automated chart type detection, and secure query execution with comprehensive observability.`,
 
     techStack: {
       'AI/ML': ['OpenAI GPT-4o', 'Qdrant Cloud', 'text-embedding-3-large'],
@@ -60,17 +60,17 @@ export const projectsData = {
     ],
 
     impact: [
-      'Enabled natural language data exploration for non-technical users',
-      'Automated weather and air quality data analysis',
-      'Reduced SQL query writing time by 90%',
-      'Real-time observability with Prometheus metrics'
+      'Will enable natural language data exploration for non-technical users',
+      'Planning to automate weather and air quality data analysis',
+      'Aiming to reduce SQL query writing time by 90%',
+      'Will provide real-time observability with Prometheus metrics'
     ],
 
     learnings: [
-      'Importance of comprehensive SQL validation beyond simple keyword blocking',
-      'Value of vector search for dynamic schema context',
-      'Benefits of separating ETL, transformation, and serving layers',
-      'Critical need for observability in AI systems'
+      'Learning the importance of comprehensive SQL validation beyond simple keyword blocking',
+      'Exploring the value of vector search for dynamic schema context',
+      'Understanding the benefits of separating ETL, transformation, and serving layers',
+      'Recognizing the critical need for observability in AI systems'
     ],
 
     screenshots: [
@@ -152,14 +152,14 @@ export const projectsData = {
     year: '2025',
     role: 'Data & Software Engineer',
     team: 'Solo project',
-    status: 'Completed',
-    tldr: 'Built a pipeline monitoring system with Isolation Forest anomaly detection to catch silent failures. Logs pipeline metrics to PostgreSQL, scores runs with ML model, and visualizes health in Streamlit dashboard. Detects issues like abnormal runtimes and zero-record runs that traditional monitoring misses.',
+    status: 'In Development',
+    tldr: 'Building a pipeline monitoring system with Isolation Forest anomaly detection to catch silent failures. Will log pipeline metrics to PostgreSQL, score runs with ML model, and visualize health in Streamlit dashboard. Planning to detect issues like abnormal runtimes and zero-record runs that traditional monitoring misses.',
 
-    overview: 'Built a monitoring tool that tracks the health of data pipelines by logging operational metrics to a PostgreSQL database. The system uses an unsupervised Scikit-learn model (Isolation Forest) to detect anomalies like abnormal runtimes or record counts, and presents a historical health analysis in an interactive Streamlit dashboard.',
+    overview: 'Developing a monitoring tool that will track the health of data pipelines by logging operational metrics to a PostgreSQL database. The system will use an unsupervised Scikit-learn model (Isolation Forest) to detect anomalies like abnormal runtimes or record counts, and present a historical health analysis in an interactive Streamlit dashboard.',
 
     problem: 'Data pipelines can fail silently - completing without errors but processing zero records, running unusually long, or producing poor quality data. These issues go unnoticed by traditional monitoring systems, leading to corrupted data and a loss of trust in analytics.',
 
-    solution: 'Developed a decoupled monitoring system. Any data pipeline can be instrumented with a simple logging function to send its metadata to a central PostgreSQL database. A Streamlit application then reads this data, applies a trained anomaly detection model to score each run, and visualizes the pipeline\'s health over time.',
+    solution: 'Planning to develop a decoupled monitoring system. Any data pipeline will be instrumented with a simple logging function to send its metadata to a central PostgreSQL database. A Streamlit application will then read this data, apply a trained anomaly detection model to score each run, and visualize the pipeline\'s health over time.',
 
     techStack: {
       'AI/ML': ['Scikit-learn (Isolation Forest)', 'Pandas', 'SQLAlchemy'],
@@ -187,28 +187,28 @@ export const projectsData = {
     challenges: [
       {
         challenge: 'Defining \'normal\' pipeline behavior without hard-coded rules.',
-        solution: 'Used an unsupervised anomaly detection model (Isolation Forest) that learns a baseline from historical data, adapting to a pipeline\'s specific patterns.'
+        solution: 'Planning to use an unsupervised anomaly detection model (Isolation Forest) that will learn a baseline from historical data, adapting to a pipeline\'s specific patterns.'
       },
       {
         challenge: 'Ensuring the monitoring system itself is reliable and decoupled.',
-        solution: 'Utilized a robust client-server database (PostgreSQL) as the single point of contact, allowing the monitor and pipelines to operate independently.'
+        solution: 'Will utilize a robust client-server database (PostgreSQL) as the single point of contact, allowing the monitor and pipelines to operate independently.'
       },
       {
         challenge: 'Translating abstract anomaly scores into an intuitive user rating.',
-        solution: 'Developed a mapping function that converts the model\'s output (-1 for anomaly, 1 for inlier) into a user-friendly 1-5 star \'Health Score\' with clear labels.'
+        solution: 'Planning to develop a mapping function that will convert the model\'s output (-1 for anomaly, 1 for inlier) into a user-friendly 1-5 star \'Health Score\' with clear labels.'
       }
     ],
 
     impact: [
-      'Enabled proactive detection of silent data pipeline failures, preventing data corruption.',
-      'Increased trust in data quality by providing a clear, historical view of pipeline health.',
-      'Reduced time to diagnose issues from hours of manual log checking to seconds on a dashboard.'
+      'Will enable proactive detection of silent data pipeline failures, preventing data corruption',
+      'Planning to increase trust in data quality by providing a clear, historical view of pipeline health',
+      'Aiming to reduce time to diagnose issues from hours of manual log checking to seconds on a dashboard'
     ],
 
     learnings: [
-      'The effectiveness of unsupervised learning for operational anomaly detection in systems with dynamic behavior.',
-      'The importance of instrumenting processes to collect rich metadata from the start.',
-      'How a decoupled architecture using a central database greatly improves a system\'s resilience and scalability.'
+      'Exploring the effectiveness of unsupervised learning for operational anomaly detection in systems with dynamic behavior',
+      'Understanding the importance of instrumenting processes to collect rich metadata from the start',
+      'Learning how a decoupled architecture using a central database greatly improves a system\'s resilience and scalability'
     ],
 
     screenshots: [
@@ -378,14 +378,14 @@ export const projectsData = {
     year: '2025',
     role: 'Data Engineer',
     team: 'Solo project',
-    status: 'Completed',
-    tldr: 'Built a full ELT pipeline using dbt for transformations and DuckDB as a warehouse, orchestrated by Apache Airflow. The entire stack is containerized with Docker, scheduling daily runs to ingest raw data, run dbt models, and execute data quality tests automatically. This creates a reliable, automated system for F1 analytics.',
+    status: 'In Development',
+    tldr: 'Building a full ELT pipeline using dbt for transformations and DuckDB as a warehouse, orchestrated by Apache Airflow. Planning to containerize the entire stack with Docker, scheduling daily runs to ingest raw data, run dbt models, and execute data quality tests automatically. This will create a reliable, automated system for F1 analytics.',
 
-    overview: 'Built a fully automated, end-to-end ELT pipeline for historical Formula 1 race data. The entire pipeline is orchestrated by Apache Airflow, which handles scheduling, task dependencies, and retries. Raw data is ingested and loaded into a DuckDB data warehouse. dbt Core is then triggered to transform the data into an analytics-ready dimensional model. The whole environment is containerized via Docker for easy and reproducible deployment.',
+    overview: 'Developing a fully automated, end-to-end ELT pipeline for historical Formula 1 race data. The entire pipeline will be orchestrated by Apache Airflow, which will handle scheduling, task dependencies, and retries. Raw data will be ingested and loaded into a DuckDB data warehouse. dbt Core will then be triggered to transform the data into an analytics-ready dimensional model. The whole environment will be containerized via Docker for easy and reproducible deployment.',
 
     problem: 'Analytical data pipelines require more than just transformation logic; they need to be scheduled, monitored, and be resilient to failure. Manually running ingestion and dbt scripts is not scalable or reliable for providing stakeholders with timely, accurate data.',
 
-    solution: 'Developed an Airflow DAG that orchestrates the entire process. A `BashOperator` first ingests raw data. The `Cosmos` provider is then used to dynamically parse the dbt project and create a corresponding task group in Airflow, perfectly preserving the dependency graph. This DAG runs on a daily schedule, ensuring the entire pipeline from raw CSVs to analytics-ready tables is automated and reliable.',
+    solution: 'Planning to develop an Airflow DAG that will orchestrate the entire process. A `BashOperator` will first ingest raw data. The `Cosmos` provider will then be used to dynamically parse the dbt project and create a corresponding task group in Airflow, perfectly preserving the dependency graph. This DAG will run on a daily schedule, ensuring the entire pipeline from raw CSVs to analytics-ready tables is automated and reliable.',
 
     techStack: {
       'Orchestration': ['Apache Airflow', 'Docker', 'docker-compose'],
@@ -416,24 +416,24 @@ export const projectsData = {
     challenges: [
       {
         challenge: 'Integrating dbt project dependencies seamlessly into Airflow.',
-        solution: 'Utilized the open-source `Cosmos` provider, which auto-generates Airflow tasks from the dbt project DAG, perfectly preserving model dependencies and streamlining the integration.'
+        solution: 'Planning to utilize the open-source `Cosmos` provider, which will auto-generate Airflow tasks from the dbt project DAG, perfectly preserving model dependencies and streamlining the integration.'
       },
       {
         challenge: 'Managing a multi-container local development environment.',
-        solution: 'Defined all services, networks, and volumes in a `docker-compose.yml` file, allowing the entire stack to be spun up or down with a single command.'
+        solution: 'Will define all services, networks, and volumes in a `docker-compose.yml` file, allowing the entire stack to be spun up or down with a single command.'
       }
     ],
 
     impact: [
-      'Automated the entire data workflow, eliminating manual runs and ensuring data is always fresh.',
-      'Increased pipeline reliability with Airflow\'s built-in retry and alerting mechanisms.',
-      'Created a fully documented and reproducible data pipeline using dbt and Airflow.'
+      'Will automate the entire data workflow, eliminating manual runs and ensuring data is always fresh',
+      'Planning to increase pipeline reliability with Airflow\'s built-in retry and alerting mechanisms',
+      'Aiming to create a fully documented and reproducible data pipeline using dbt and Airflow'
     ],
 
     learnings: [
-      'How to build and manage a production-style data pipeline locally using a containerized Airflow environment.',
-      'The power of tools like Cosmos to abstract away the complexity of integrating dbt with Airflow.',
-      'The importance of orchestration for creating robust, scalable, and maintainable data systems.'
+      'Learning how to build and manage a production-style data pipeline locally using a containerized Airflow environment',
+      'Exploring the power of tools like Cosmos to abstract away the complexity of integrating dbt with Airflow',
+      'Understanding the importance of orchestration for creating robust, scalable, and maintainable data systems'
     ],
 
     screenshots: [
@@ -605,13 +605,13 @@ models:
     year: '2025',
     role: 'Data Architect',
     team: 'Solo project',
-    status: 'Completed',
+    status: 'In Development',
 
-    overview: 'Designed and implemented a scalable data model for an e-commerce platform. Applied industry-standard techniques like Dimensional Modeling (star schema) and Slowly Changing Dimensions (SCD), and evaluated Data Vault for mapping complex business relationships.',
+    overview: 'Designing and implementing a scalable data model for an e-commerce platform. Planning to apply industry-standard techniques like Dimensional Modeling (star schema) and Slowly Changing Dimensions (SCD), and evaluate Data Vault for mapping complex business relationships.',
 
     problem: 'E-commerce data is complex and relational (customers, orders, products, shipments). A naive, transactional data model is extremely slow and difficult to understand for analytical queries, severely hindering the creation of reports and analyses.',
 
-    solution: 'Developed a hybrid data model: A core of Data Vault for flexible and auditable storage of raw data (Hubs, Links, Satellites). Building on this, performance-optimized data marts in the form of star schemas (fact & dimension tables) were created for BI analysis of sales and marketing data.',
+    solution: 'Planning to develop a hybrid data model: A core of Data Vault for flexible and auditable storage of raw data (Hubs, Links, Satellites). Building on this, performance-optimized data marts in the form of star schemas (fact & dimension tables) will be created for BI analysis of sales and marketing data.',
 
     techStack: {
       'Modeling Techniques': ['Dimensional Modeling (Kimball)', 'Star Schema', 'Slowly Changing Dimensions (SCD)', 'Data Vault 2.0'],
@@ -638,24 +638,24 @@ models:
     challenges: [
       {
         challenge: 'Defining the correct granularity for the fact table (e.g., per order or per order item).',
-        solution: 'Decided on the order item as the granularity to enable the most detailed analyses. Aggregations at the order level are performed in the BI tool.'
+        solution: 'Planning to decide on the order item as the granularity to enable the most detailed analyses. Aggregations at the order level will be performed in the BI tool.'
       },
       {
         challenge: 'Correctly mapping the complex logic for populating the SCD Type 2 dimension historically.',
-        solution: 'Developed a robust SQL MERGE statement that inserts new records and updates existing ones with validity dates (valid_from, valid_to).'
+        solution: 'Will develop a robust SQL MERGE statement that inserts new records and updates existing ones with validity dates (valid_from, valid_to).'
       }
     ],
 
     impact: [
-      'Created a fundamentally sound, understandable, and high-performance data model as a single source of truth.',
-      'Enabled complex historical analyses that were previously not possible (e.g., "How has customer value changed over time?").',
-      'Drastically reduced query times for business analysts.'
+      'Will create a fundamentally sound, understandable, and high-performance data model as a single source of truth',
+      'Planning to enable complex historical analyses that were previously not possible (e.g., "How has customer value changed over time?")',
+      'Aiming to drastically reduce query times for business analysts'
     ],
 
     learnings: [
-      'Data Vault offers unparalleled flexibility in integrating new data sources, while star schemas are unbeatable for performance.',
-      'The clean separation of raw, integrated, and prepared data layers (Data Mart) is crucial for maintainability.',
-      'Good data modeling craftsmanship is the foundation of any successful data strategy.'
+      'Learning that Data Vault offers unparalleled flexibility in integrating new data sources, while star schemas are unbeatable for performance',
+      'Understanding that the clean separation of raw, integrated, and prepared data layers (Data Mart) is crucial for maintainability',
+      'Recognizing that good data modeling craftsmanship is the foundation of any successful data strategy'
     ],
 
     screenshots: [
@@ -750,7 +750,7 @@ models:
     subtitle: 'A web-based dashboard that tracks the performance and answers of the quiz, grouped by customers',
     year: '2025',
     role: 'Your Role (Part-time)',
-    tldr: 'Developed an analytics dashboard to track quiz performance metrics and customer responses. Features include real-time data visualization, customer segmentation, and conversion funnel analysis using React and TypeScript.',
+    tldr: 'Developed an analytics dashboard to track quiz performance metrics and customer responses. Features real-time data visualization, customer segmentation, and conversion funnel analysis using React and TypeScript.',
     team: 'Team size/type',
     status: 'Completed',
 
@@ -807,8 +807,8 @@ models:
     year: '2025',
     role: 'Your Role (Part-time)',
     team: 'Solo',
-    status: 'Completed',
-    tldr: 'Integrated and customized CRM solution for 10+ real estate agents to manage properties, deals, and customer relationships. Unified property and activity management, improving workflow efficiency and giving agents more time for customer service.',
+    status: 'In Development',
+    tldr: 'Integrating and customizing CRM solution for 10+ real estate agents to manage properties, deals, and customer relationships. Planning to unify property and activity management, improve workflow efficiency and give agents more time for customer service.',
 
     overview: `Project overview.`,
     problem: `Real-estate brokers and business owners had a difficult time managing properties and activities, which made it hard to understand "who does what?"`,
@@ -842,6 +842,89 @@ models:
 
     learnings: [
       'Learning'
+    ],
+
+    screenshots: [],
+
+    codeSnippets: {},
+
+    links: {
+      github: null,
+      demo: null,
+      documentation: null
+    }
+  },
+
+  'work-project-4': {
+    id: 'ai-consulting',
+    type: 'work',
+    title: 'AI Integration Consulting',
+    subtitle: 'Strategic AI consulting and training for a real estate company to integrate AI into internal workflows',
+    year: '2024-2025',
+    role: 'AI Consultant & Trainer',
+    team: 'Solo Consultant',
+    status: 'Completed',
+    tldr: 'Advised executive management of a real estate company on integrating AI technologies into existing business processes. Conducted comprehensive AI training sessions for employees, focusing on practical applications of LLMs, automation tools, and AI-powered workflows to improve operational efficiency.',
+
+    overview: `Provided strategic AI consulting services to the leadership team of a medium-sized real estate company. The engagement included analyzing existing business processes, identifying opportunities for AI integration, and developing a roadmap for implementation. Additionally, delivered hands-on training sessions to employees across different departments, covering practical AI tools and techniques applicable to their daily work.`,
+
+    problem: `The real estate company recognized the potential of AI technologies but lacked the internal expertise to identify where and how to integrate these tools effectively. Employees were aware of AI developments but uncertain about practical applications in their specific roles. The company needed strategic guidance and practical training to bridge the gap between AI potential and actual implementation.`,
+
+    solution: `Conducted a comprehensive consulting engagement that included: (1) Strategic workshops with executive management to assess current workflows and identify high-impact AI use cases, (2) Development of a phased implementation roadmap prioritizing quick wins and long-term transformations, (3) Multiple training sessions tailored to different departments, covering tools like ChatGPT, Claude, automated document processing, and workflow automation, (4) Creation of internal documentation and guidelines for responsible AI usage and best practices.`,
+
+    techStack: {
+      'AI Technologies': ['Large Language Models (LLMs)', 'ChatGPT', 'Claude', 'Prompt Engineering'],
+      'Automation & Tools': ['Document Processing AI', 'Workflow Automation', 'API Integration'],
+      'Consulting Areas': ['Process Analysis', 'Change Management', 'Training & Enablement']
+    },
+
+    architecture: {
+      components: [
+        { name: 'Strategic Assessment', description: 'Analyzed existing business processes across departments to identify AI integration opportunities with the highest ROI.' },
+        { name: 'Executive Workshops', description: 'Conducted strategy sessions with C-level executives to align AI initiatives with business goals and develop implementation roadmap.' },
+        { name: 'Employee Training Program', description: 'Delivered hands-on training sessions covering practical AI applications, including prompt engineering, document automation, and workflow optimization.' },
+        { name: 'Implementation Guidelines', description: 'Created internal documentation for AI tool usage, security considerations, and best practices for responsible AI deployment.' }
+      ]
+    },
+
+    metrics: {
+      'Training Sessions': '8+ workshops',
+      'Employees Trained': '25+',
+      'Departments Covered': '4',
+      'Use Cases Identified': '15+',
+      'Quick Wins Implemented': '5',
+      'Project Duration': '4 months'
+    },
+
+    challenges: [
+      {
+        challenge: 'Varying levels of technical literacy and AI understanding among employees',
+        solution: 'Developed tiered training content with beginner, intermediate, and advanced tracks. Focused on practical demonstrations and hands-on exercises rather than technical theory.'
+      },
+      {
+        challenge: 'Concerns about data security and confidentiality when using external AI services',
+        solution: 'Created comprehensive guidelines for data handling, established clear rules for what information can be shared with AI tools, and explored on-premise and privacy-focused AI solutions.'
+      },
+      {
+        challenge: 'Identifying quick wins to build momentum and demonstrate ROI',
+        solution: 'Prioritized low-hanging fruit like email automation, property description generation, and document summarization to show immediate value and build organizational buy-in.'
+      }
+    ],
+
+    impact: [
+      'Enabled the company to make strategic decisions about AI investments with clear understanding of costs, benefits, and implementation requirements',
+      'Equipped 25+ employees with practical AI skills, improving productivity in document processing, customer communication, and market analysis',
+      'Established a framework for responsible AI usage that balances innovation with data security and compliance requirements',
+      'Identified and helped implement 5 quick-win use cases that demonstrated immediate ROI and built organizational confidence in AI technologies',
+      'Created a cultural shift toward AI adoption by demystifying the technology and showing practical, achievable applications'
+    ],
+
+    learnings: [
+      'The importance of meeting stakeholders where they are - focusing on practical, job-relevant applications rather than technical capabilities',
+      'How change management and training are as critical as technology selection when integrating AI into established organizations',
+      'The value of starting with quick wins to build momentum and demonstrate ROI before tackling larger transformation initiatives',
+      'That concerns about AI often stem from lack of understanding - hands-on training and clear guidelines can transform skeptics into advocates',
+      'The need to balance innovation with responsibility, particularly around data security, privacy, and ethical AI usage in regulated industries'
     ],
 
     screenshots: [],

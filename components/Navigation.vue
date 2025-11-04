@@ -24,16 +24,10 @@
             >
               [{{ index }}] {{ section.name }}
             </button>
-            
-            <!-- Language Switcher -->
-            <div class="ml-4">
-              <LanguageSwitcher />
-            </div>
           </div>
   
           <!-- Mobile Menu Button -->
           <div class="md:hidden flex items-center space-x-3">
-            <LanguageSwitcher />
             <button
               @click="toggleMobileMenu"
               class="p-2 text-gray-400 hover:text-white transition-colors"

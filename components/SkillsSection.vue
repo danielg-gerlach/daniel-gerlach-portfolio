@@ -1,8 +1,8 @@
 <template>
     <section id="skills" class="py-32 px-6">
       <div class="max-w-6xl mx-auto">
-        <h2 class="font-mono text-blue-400 text-base mb-2">{{ $t('skills.heading') }}</h2>
-        <p class="text-3xl md:text-4xl font-bold mb-3">{{ $t('skills.title') }}</p>
+        <h2 class="font-mono text-blue-400 text-base mb-2">[3] SKILLS</h2>
+        <p class="text-3xl md:text-4xl font-bold mb-3">Technical Stack</p>
         <p class="text-gray-400 text-lg mb-12">These are the tools & technologies I've worked with until now</p>
         
         <!-- Interactive Terminal -->
@@ -129,10 +129,10 @@
         
         <!-- Certifications Section -->
         <div class="mt-40">
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4">{{ $t('skills.certifications') }}</h2>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4">Certifications</h2>
           <div class="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-6"></div>
           <p class="text-xl text-gray-400 text-center mb-20">
-            {{ $t('skills.certSubtitle') }}
+            During my studies, I've also gained some experience through certifications & online courses.
           </p>
           
           <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">

@@ -10,7 +10,7 @@
 
         <!-- Built With -->
         <div class="flex items-center gap-2 text-sm text-gray-500">
-          <span>{{ $t('footer.builtWith') }}</span>
+          <span>Built with Nuxt 3 & Tailwind CSS</span>
           <div class="flex items-center gap-2">
             <a
               href="https://nuxt.com"

@@ -43,7 +43,7 @@
             <span class="text-blue-400">Gerlach</span>
           </h1>
           <p class="text-2xl md:text-3xl font-semibold mb-10 animate-fadeIn animation-delay-200 text-gray-300">
-            {{ $t('hero.title') }}
+            Business Informatics Student • Data Engineering & AI
           </p>
           
           <!-- Social Links with better hover states -->

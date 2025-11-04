@@ -1,9 +1,9 @@
 <template>
   <section id="projects" class="py-24 px-6 bg-gray-950">
     <div class="max-w-6xl mx-auto">
-      <h2 class="font-mono text-blue-400 text-base mb-2">{{ $t('projects.heading') }}</h2>
-      <p class="text-3xl md:text-4xl font-bold mb-3">{{ $t('projects.title') }}</p>
-      <p class="text-gray-400 mb-8">{{ $t('projects.subtitle') }}</p>
+      <h2 class="font-mono text-blue-400 text-base mb-2">[2] PROJECTS</h2>
+      <p class="text-3xl md:text-4xl font-bold mb-3">Featured Work</p>
+      <p class="text-gray-400 mb-8">Real-world projects demonstrating end-to-end data engineering skills</p>
       
       <!-- Filter Tags -->
       <div class="flex flex-wrap gap-2 mb-8">

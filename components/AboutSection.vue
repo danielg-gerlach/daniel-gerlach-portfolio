@@ -1,19 +1,19 @@
 <template>
     <section id="about" class="py-24 px-6">
       <div class="max-w-4xl mx-auto">
-        <h2 class="font-mono text-blue-400 text-base mb-2">{{ $t('about.heading') }}</h2>
+        <h2 class="font-mono text-blue-400 text-base mb-2">[1] ABOUT</h2>
         <h3 class="text-3xl md:text-4xl font-bold mb-8">About Me</h3>
         
         <!-- Main About Content -->
         <div class="space-y-6 text-gray-300 text-lg leading-relaxed mb-16">
           <p>
-            {{ $t('about.intro') }}
+            I'm a Business Informatics student specializing in Data Engineering & AI Application Development, passionate about building robust, scalable data infrastructure and AI-driven applications that power intelligent decision-making.
           </p>
           <p>
-            {{ $t('about.journeyText') }}
+            My interests span the entire data lifecycle - from ingesting and processing of raw data to building machine learning & AI pipelines that deliver real-time insights. I really like solving data challenges and optimizing data & AI applications for performance and reliability.
           </p>
           <p>
-            {{ $t('about.focusText') }}
+            I'm currently focused on real-time stream processing, AI-powered application development, PySpark & data modeling.
           </p>
           <p>
             I also work as a freelancer in the field of Data & AI as well as web development, helping businesses leverage data and AI to streamline their processes 
