@@ -116,29 +116,67 @@
             
             <!-- Action Buttons moved to hero -->
             <div class="flex flex-wrap gap-3">
-              <a 
-                v-if="project?.links?.github" 
-                :href="project.links.github" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="flex items-center space-x-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all duration-300 text-sm group"
+              <div 
+                v-if="project?.links?.github"
+                class="relative group/tooltip"
               >
-                <Github class="w-4 h-4" />
-                <span>View Project</span>
-                <ExternalLink class="w-3 h-3" />
-              </a>
+                <a 
+                  :href="project.status === 'In Development' ? undefined : project.links.github" 
+                  :target="project.status === 'In Development' ? undefined : '_blank'" 
+                  :rel="project.status === 'In Development' ? undefined : 'noopener noreferrer'"
+                  :class="[
+                    'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 text-sm',
+                    project.status === 'In Development' 
+                      ? 'bg-gray-800/50 text-gray-500 cursor-not-allowed' 
+                      : 'bg-gray-800 hover:bg-gray-700 text-white group cursor-pointer'
+                  ]"
+                  @click.prevent="project.status === 'In Development' ? null : window.open(project.links.github, '_blank')"
+                >
+                  <Github class="w-4 h-4" />
+                  <span>View Project</span>
+                  <ExternalLink v-if="project.status !== 'In Development'" class="w-3 h-3" />
+                  <Lock v-else class="w-3 h-3" />
+                </a>
+                <!-- Tooltip for disabled state -->
+                <div 
+                  v-if="project.status === 'In Development'"
+                  class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 border border-gray-700"
+                >
+                  Come back in some time to see the results! 🚀
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                </div>
+              </div>
               
-              <a 
+              <div 
                 v-if="project?.links?.demo && project?.type !== 'work'"
-                :href="project.links.demo" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all duration-300 text-sm group"
+                class="relative group/tooltip"
               >
-                <Play class="w-4 h-4" />
-                <span>Live Demo</span>
-                <ExternalLink class="w-3 h-3" />
-              </a>
+                <a 
+                  :href="project.status === 'In Development' ? undefined : project.links.demo" 
+                  :target="project.status === 'In Development' ? undefined : '_blank'" 
+                  :rel="project.status === 'In Development' ? undefined : 'noopener noreferrer'"
+                  :class="[
+                    'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 text-sm',
+                    project.status === 'In Development' 
+                      ? 'bg-blue-600/30 text-gray-500 cursor-not-allowed' 
+                      : 'bg-blue-600 hover:bg-blue-500 text-white group cursor-pointer'
+                  ]"
+                  @click.prevent="project.status === 'In Development' ? null : window.open(project.links.demo, '_blank')"
+                >
+                  <Play class="w-4 h-4" />
+                  <span>Live Demo</span>
+                  <ExternalLink v-if="project.status !== 'In Development'" class="w-3 h-3" />
+                  <Lock v-else class="w-3 h-3" />
+                </a>
+                <!-- Tooltip for disabled state -->
+                <div 
+                  v-if="project.status === 'In Development'"
+                  class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 border border-gray-700"
+                >
+                  Come back in some time to see the results! 🚀
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                </div>
+              </div>
               
               <div 
                 v-if="project?.type === 'work'"
