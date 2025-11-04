@@ -240,7 +240,26 @@ const filteredPersonalProjects = computed(() => {
       filtered[id] = project
     }
   })
-  return filtered
+  
+  // Sort personal projects: Completed projects first, then others
+  const sortedEntries = Object.entries(filtered).sort((a, b) => {
+    const [idA, projectA] = a
+    const [idB, projectB] = b
+    
+    // Completed projects come first
+    if (projectA.status === 'Completed' && projectB.status !== 'Completed') {
+      return -1
+    }
+    if (projectA.status !== 'Completed' && projectB.status === 'Completed') {
+      return 1
+    }
+    
+    // If both have same completion status, maintain original order
+    return 0
+  })
+  
+  // Convert back to object
+  return Object.fromEntries(sortedEntries)
 })
 
 const filteredWorkProjects = computed(() => {

@@ -312,9 +312,9 @@
                        class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden group">
                     <div class="aspect-video bg-gray-800 overflow-hidden cursor-pointer relative" 
                          @click="openImageInNewTab(screenshot.url)"
-                         title="Click to view full size">
+                         :title="screenshot.isPdf ? 'Click to open PDF in new tab' : 'Click to view full size'">
                       <img 
-                        :src="screenshot.url" 
+                        :src="screenshot.thumbnail || screenshot.url" 
                         :alt="screenshot.title" 
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
@@ -322,6 +322,13 @@
                       <!-- Overlay icon to indicate clickability -->
                       <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
                         <ExternalLink class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                      <!-- PDF indicator badge -->
+                      <div v-if="screenshot.isPdf" class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        PDF
                       </div>
                     </div>
                     <div class="p-4">
@@ -496,17 +503,23 @@
     // Navigate to home page and scroll to projects section
     await router.push('/')
     
-    // Use nextTick to ensure DOM is updated after navigation
+    // Use multiple nextTick calls and setTimeout to ensure DOM is fully rendered
     await nextTick()
     
-    // Scroll to projects section
-    const projectsSection = document.getElementById('projects')
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
+    // Add a small delay to ensure the page is fully loaded
+    setTimeout(() => {
+      const projectsSection = document.getElementById('projects')
+      if (projectsSection) {
+        // Get the offset from the top of the page
+        const offsetTop = projectsSection.offsetTop
+        
+        // Scroll with smooth behavior
+        window.scrollTo({ 
+          top: offsetTop - 100, // Subtract 100px for better visual positioning
+          behavior: 'smooth'
+        })
+      }
+    }, 100) // 100ms delay to ensure page is rendered
   }
   
   const copyCode = async () => {
@@ -524,8 +537,12 @@
   
   // Check if tab should be disabled for "In Development" projects
   const isTabDisabled = (tabId) => {
-  return false // All tabs are always enabled
-}
+    // Disable Technical, Results, and Code tabs for "In Development" projects
+    if (project.value?.status === 'In Development') {
+      return ['technical', 'results', 'code'].includes(tabId)
+    }
+    return false
+  }
   
   // Handle tab click with disabled check
   const handleTabClick = (tabId) => {

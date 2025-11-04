@@ -563,9 +563,12 @@ models:
     ],
 
     screenshots: [
-      { title: 'Final Looker Studio Dashboard', url: '/projects/gcp/SaaS_Analytics_Dashboard.pdf' },
-      { title: 'Data Pipeline Architecture', url: '/projects/gcp-pipeline-arch.png' },
-      { title: 'BigQuery Analytical Tables', url: '/projects/gcp-bigquery-tables.png' }
+      { 
+        title: 'Final Looker Studio Dashboard', 
+        url: '/projects/gcp/SaaS_Analytics_Dashboard.pdf',
+        thumbnail: '/projects/gcp/GCP_thumbnail.png',
+        isPdf: true
+      }
     ],
 
     codeSnippets: {
