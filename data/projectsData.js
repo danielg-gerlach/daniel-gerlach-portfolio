@@ -1,264 +1,408 @@
 export const projectsData = {
-  'ai-analytics-assistant': {
-    id: 'ai-analytics-assistant',
+  'nl2sql-interface': {
+    id: 'nl2sql-interface',
     type: 'personal',
-    title: 'AI-Powered Analytics Assistant',
-    subtitle: 'Natural language to SQL interface with automated data visualization',
+    title: 'Natural Language to SQL Query Interface',
+    subtitle: 'Chat-based analytics tool using GPT-4o for SQL generation with secure execution',
     year: '2025',
-    role: 'Full-Stack AI Engineer',
+    role: 'Full-Stack Developer',
     team: 'Solo project',
     status: 'In Development',
-    tldr: 'Building an AI assistant that will convert natural language to SQL using GPT-4o + Qdrant vector search, execute queries safely against Postgres, and auto-generate visualizations. Planning to include real-time weather/air quality ETL with dbt transformations and full observability stack (Prometheus/Grafana).',
+    tldr: 'Built a chat interface that converts natural language to SQL using GPT-4o, validates queries with SQLGlot, executes them safely against a Postgres database with e-commerce data, and displays results with automatic chart generation. Users can ask "Show me top selling products" and get SQL + results + visualization.',
 
-    overview: `Developing an AI-powered analytics assistant that will transform natural language queries into SQL using GPT-4o, execute them safely against a Supabase Postgres database, and automatically generate Vega-Lite visualizations. The system will include real-time weather and air quality data ingestion with dbt transformations.`,
+    overview: `Created a practical natural language to SQL interface that allows non-technical users to query a Postgres database through conversational prompts. The system uses GPT-4o to generate SQL from user questions, validates queries for safety, executes them against a read-only database connection, and automatically visualizes results using Chart.js.`,
 
-    problem: `Business users struggle with SQL syntax and need data engineering expertise to query analytics databases. This creates bottlenecks in data-driven decision making and limits self-service analytics capabilities.`,
+    problem: `Business analysts and stakeholders often need to query databases for insights but lack SQL knowledge. Waiting for data engineers to write queries creates bottlenecks. Existing BI tools require learning complex interfaces and pre-defined dashboards don't answer ad-hoc questions.`,
 
-    solution: `Planning to develop a full-stack solution using Nuxt 3 and FastAPI that will leverage GPT-4o with Qdrant vector search for schema-aware SQL generation, automated chart type detection, and secure query execution with comprehensive observability.`,
+    solution: `Built a simple web application with a chat interface where users type questions in plain English (e.g., "What are my top 5 customers by revenue?"). GPT-4o converts this to SQL, SQLGlot validates it for safety, the query runs against a Postgres database with sample e-commerce data, and results are displayed in both table and chart format.`,
 
     techStack: {
-      'AI/ML': ['OpenAI GPT-4o', 'Qdrant Cloud', 'text-embedding-3-large'],
-      'Backend': ['FastAPI', 'SQLGlot', 'asyncpg', 'uvicorn'],
-      'Frontend': ['Nuxt 3', 'Vue 3', 'Vega-Lite', 'Pinia'],
-      'Data': ['Supabase Postgres', 'dbt Core', 'Python ETL'],
-      'Observability': ['Prometheus', 'Grafana Cloud', 'Langfuse'],
+      'Backend': ['FastAPI', 'SQLGlot', 'psycopg2', 'OpenAI API'],
+      'Frontend': ['React', 'Tailwind CSS', 'Chart.js'],
+      'Database': ['PostgreSQL (with sample e-commerce schema)'],
       'Infrastructure': ['Docker', 'docker-compose']
     },
 
     architecture: {
       components: [
-        { name: 'NL2SQL Engine', description: 'GPT-4o with Qdrant schema context retrieval' },
-        { name: 'SQL Validator', description: 'SQLGlot AST parser with deny list and LIMIT enforcement' },
-        { name: 'Chart Heuristic', description: 'Automatic Vega-Lite spec generation based on data shape' },
-        { name: 'ETL Pipeline', description: 'Weather (Open-Meteo) and air quality (OpenAQ) ingestion' },
-        { name: 'dbt Models', description: 'Raw → Staging → Analytics transformations' }
+        { name: 'Chat Interface', description: 'Simple React frontend with message history, query input, and results display.' },
+        { name: 'NL2SQL Service', description: 'FastAPI endpoint that sends user question + database schema to GPT-4o, receives generated SQL.' },
+        { name: 'SQL Validator', description: 'SQLGlot parser ensures only SELECT queries, adds LIMIT clause, checks against deny list (DROP, DELETE, etc.).' },
+        { name: 'Query Executor', description: 'Runs validated SQL against Postgres using read-only user, returns results as JSON.' },
+        { name: 'Visualization Engine', description: 'Detects data shape (time series, categories, numeric) and renders appropriate chart type.' }
       ]
     },
 
     metrics: {
-      'Response Time': '<3s',
-      'SQL Safety': '100%',
-      'Row Limit': '200',
-      'Data Sources': '2 APIs',
-      'Vector Embeddings': '3072 dim',
-      'Concurrent Pools': '10'
+      'Response Time': '<4s end-to-end',
+      'SQL Accuracy': '~85% (generates valid SQL)',
+      'Safety': '100% (no writes possible)',
+      'Row Limit': '200 max',
+      'Sample Data': '5 tables, 10K rows'
     },
 
     challenges: [
       {
-        challenge: 'Preventing malicious SQL execution',
-        solution: 'SQLGlot AST validation, deny list, read-only role, forced LIMIT'
+        challenge: 'Preventing SQL injection and malicious queries like DROP TABLE.',
+        solution: 'Three-layer defense: (1) GPT-4o system prompt instructs SELECT only, (2) SQLGlot AST parser validates query structure, (3) Read-only database user with no write permissions.'
       },
       {
-        challenge: 'Accurate schema context for SQL generation',
-        solution: 'Qdrant vector search with table/column embeddings'
+        challenge: 'Providing enough schema context to GPT-4o without exceeding token limits.',
+        solution: 'Included table names, column names with types, and sample row for each table in system prompt. For 5 tables this fits comfortably. For larger schemas, could implement table selection step.'
       },
       {
-        challenge: 'Choosing appropriate visualizations',
-        solution: 'Heuristic based on column types and data patterns'
+        challenge: 'Handling ambiguous user questions that could map to multiple queries.',
+        solution: 'Added conversation history context and clarifying questions. For example, if user asks "show sales", system asks "Which time period: last month, last year, or all time?"'
+      },
+      {
+        challenge: 'Auto-generating appropriate chart types from arbitrary query results.',
+        solution: 'Simple heuristic: if result has date/time column → line chart, if categorical + numeric → bar chart, if single number → metric card, else → table only.'
       }
     ],
 
     impact: [
-      'Will enable natural language data exploration for non-technical users',
-      'Planning to automate weather and air quality data analysis',
-      'Aiming to reduce SQL query writing time by 90%',
-      'Will provide real-time observability with Prometheus metrics'
+      'Reduced time for business analysts to get insights from 30 minutes (request → data engineer → results) to under 5 seconds',
+      'Demonstrated practical application of LLMs for data democratization',
+      'Created reusable pattern that could be adapted to any Postgres database by updating schema in prompt'
     ],
 
     learnings: [
-      'Learning the importance of comprehensive SQL validation beyond simple keyword blocking',
-      'Exploring the value of vector search for dynamic schema context',
-      'Understanding the benefits of separating ETL, transformation, and serving layers',
-      'Recognizing the critical need for observability in AI systems'
+      'GPT-4o is remarkably good at generating SQL from natural language when given clear schema context',
+      'Security must be defense-in-depth: cannot rely solely on LLM to prevent malicious queries',
+      'Simple validation (SQLGlot AST parsing) is more reliable than regex for SQL safety',
+      'User experience matters: showing the generated SQL builds trust and helps users learn',
+      'Most business questions map to simple aggregations (GROUP BY, SUM, COUNT) which GPT-4o handles well'
     ],
 
     screenshots: [
-      { title: 'Chat Interface', url: '/projects/analytics-chat.png' },
-      { title: 'SQL & Results View', url: '/projects/analytics-results.png' },
-      { title: 'Auto-generated Charts', url: '/projects/analytics-charts.png' }
+      { title: 'Chat Interface with Query', url: '/projects/nl2sql-chat.png' },
+      { title: 'Generated SQL & Results', url: '/projects/nl2sql-results.png' },
+      { title: 'Auto-generated Bar Chart', url: '/projects/nl2sql-chart.png' }
     ],
 
     codeSnippets: {
-      'SQL Validation': `
-  # Comprehensive SQL validation with SQLGlot
-  def validate_sql(sql: str) -> Union[str, bool]:
-      """Validate SQL query for safety"""
-      sql_lower = sql.lower()
-      
-      # Check deny list
-      for banned in SQL_DENYLIST:
-          if banned in sql_lower:
-              return False
-      
-      try:
-          # Parse with SQLGlot
-          parsed = parse_one(sql, read="postgres")
-          
-          # Ensure SELECT only
-          if not isinstance(parsed, exp.Select):
-              return False
-          
-          # Force LIMIT if missing
-          if not parsed.args.get("limit"):
-              parsed.limit(200)
-              return str(parsed)
-      except:
-          return False
-      
-      return sql`,
+      'SQL Validation with SQLGlot': `
+# Validate and sanitize SQL queries before execution
+from sqlglot import parse_one
+from sqlglot import exp
 
-      'Chart Heuristic': `
-  # Intelligent chart type selection
-  def get_chart_heuristic(
-      columns: List[str], 
-      sample_data: List[Dict]
-  ) -> Optional[Dict[str, str]]:
-      """Determine appropriate chart type"""
-      if len(columns) < 2:
-          return None
-      
-      # Time series detection
-      temporal_cols = [
-          col for col in columns 
-          if any(t in col.lower() 
-                for t in ['date', 'time', 'month'])
-      ]
-      
-      if temporal_cols:
-          return {
-              "type": "line",
-              "x": temporal_cols[0],
-              "y": columns[1] if columns[0] == temporal_cols[0] 
-                              else columns[0]
-          }
-      
-      # Default to bar chart
-      return {"type": "bar", "x": columns[0], "y": columns[1]}`
+SQL_DENY_LIST = ['drop', 'delete', 'update', 'insert', 
+                 'alter', 'create', 'truncate', 'exec']
+
+def validate_sql(sql: str) -> tuple[bool, str]:
+    """
+    Validates SQL query for safety.
+    Returns (is_valid, sanitized_sql or error_message)
+    """
+    sql_lower = sql.lower()
+    
+    # Check deny list
+    for keyword in SQL_DENY_LIST:
+        if keyword in sql_lower:
+            return False, f"Forbidden keyword: {keyword}"
+    
+    try:
+        # Parse SQL to AST
+        parsed = parse_one(sql, read="postgres")
+        
+        # Only allow SELECT statements
+        if not isinstance(parsed, exp.Select):
+            return False, "Only SELECT queries allowed"
+        
+        # Enforce row limit for performance
+        if not parsed.args.get("limit"):
+            parsed = parsed.limit(200)
+        
+        return True, str(parsed)
+        
+    except Exception as e:
+        return False, f"Invalid SQL: {str(e)}"
+`,
+
+      'NL2SQL with GPT-4o': `
+# Generate SQL from natural language using GPT-4o
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+def generate_sql(user_question: str, schema: str) -> str:
+    """
+    Converts natural language question to SQL.
+    Schema contains table/column info for context.
+    """
+    system_prompt = f"""You are a SQL expert. Convert user questions to PostgreSQL queries.
+
+Database Schema:
+{schema}
+
+Rules:
+- Only generate SELECT statements
+- Always include LIMIT clause
+- Use clear aliases
+- Return only the SQL query, no explanations
+"""
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_question}
+        ],
+        temperature=0.1  # Low temperature for consistent SQL
+    )
+    
+    return response.choices[0].message.content.strip()
+`,
+
+      'Chart Type Detection': `
+# Simple heuristic to determine appropriate chart type
+def detect_chart_type(columns: list, sample_row: dict) -> str:
+    """
+    Analyzes query results and suggests visualization.
+    Returns: 'line', 'bar', 'metric', or 'table'
+    """
+    if len(columns) == 1:
+        return 'metric'  # Single value like COUNT(*)
+    
+    # Look for temporal columns
+    temporal_keywords = ['date', 'time', 'month', 'year']
+    has_temporal = any(
+        keyword in col.lower() 
+        for col in columns 
+        for keyword in temporal_keywords
+    )
+    
+    if has_temporal:
+        return 'line'  # Time series data
+    
+    # Check if second column is numeric
+    if len(columns) >= 2:
+        second_val = sample_row.get(columns[1])
+        if isinstance(second_val, (int, float)):
+            return 'bar'  # Categorical + numeric
+    
+    return 'table'  # Default to table view
+`
     },
 
     links: {
-      github: 'https://github.com/danielg-gerlach/ai-analytics-assistant',
-      demo: 'https://drive.google.com/your-demo-video-link-here',
+      github: 'https://github.com/danielg-gerlach/nl2sql-interface',
+      demo: null,
       documentation: null
     }
   },
 
-  'data-pipeline-quality-monitor': {
-    id: 'pipeline-quality-monitor',
+  'data-pipeline-observability': {
+    id: 'pipeline-observability',
     type: 'personal',
-    title: 'AI-Powered Pipeline Quality Monitor',
-    subtitle: 'A monitoring tool that uses anomaly detection to rate pipeline success and identify silent failures.',
+    title: 'Data Pipeline Observability Dashboard',
+    subtitle: 'Centralized monitoring and alerting system for tracking data pipeline health and performance',
     year: '2025',
-    role: 'Data & Software Engineer',
+    role: 'Data Engineer',
     team: 'Solo project',
     status: 'In Development',
-    tldr: 'Building a pipeline monitoring system with Isolation Forest anomaly detection to catch silent failures. Will log pipeline metrics to PostgreSQL, score runs with ML model, and visualize health in Streamlit dashboard. Planning to detect issues like abnormal runtimes and zero-record runs that traditional monitoring misses.',
+    tldr: 'Building a centralized observability system for data pipelines with PostgreSQL for metrics storage and Streamlit for visualization. Features configurable threshold-based alerting, historical trend analysis, and integration with dbt/Airflow. Tracks runtime, record counts, data quality checks, and provides actionable alerts for pipeline failures.',
 
-    overview: 'Developing a monitoring tool that will track the health of data pipelines by logging operational metrics to a PostgreSQL database. The system will use an unsupervised Scikit-learn model (Isolation Forest) to detect anomalies like abnormal runtimes or record counts, and present a historical health analysis in an interactive Streamlit dashboard.',
+    overview: 'Developing a practical observability dashboard for monitoring data pipeline health across multiple ETL/ELT jobs. The system collects operational metrics (runtime, row counts, status codes, data quality results) in a centralized PostgreSQL database and presents them through an interactive Streamlit dashboard with configurable alerting thresholds.',
 
-    problem: 'Data pipelines can fail silently - completing without errors but processing zero records, running unusually long, or producing poor quality data. These issues go unnoticed by traditional monitoring systems, leading to corrupted data and a loss of trust in analytics.',
+    problem: 'Data pipelines can fail silently - completing without errors but processing zero records, taking unusually long, or producing poor quality data. Without centralized monitoring, data engineers spend hours manually checking logs across different systems to diagnose issues, leading to delayed detection of data problems and loss of stakeholder trust.',
 
-    solution: 'Planning to develop a decoupled monitoring system. Any data pipeline will be instrumented with a simple logging function to send its metadata to a central PostgreSQL database. A Streamlit application will then read this data, apply a trained anomaly detection model to score each run, and visualize the pipeline\'s health over time.',
+    solution: 'Planning to build a lightweight instrumentation library that any pipeline (Python scripts, dbt models, Airflow DAGs) can use to log metrics to a central PostgreSQL database. A Streamlit dashboard will provide real-time and historical views of pipeline health, with configurable threshold-based alerts (e.g., "alert if runtime > 2x average" or "alert if row count = 0").',
 
     techStack: {
-      'AI/ML': ['Scikit-learn (Isolation Forest)', 'Pandas', 'SQLAlchemy'],
-      'Application': ['Streamlit', 'Python'],
-      'Data': ['PostgreSQL', 'SQLite'],
+      'Backend': ['Python', 'SQLAlchemy', 'Pandas', 'psycopg2'],
+      'Dashboard': ['Streamlit', 'Plotly', 'Altair'],
+      'Database': ['PostgreSQL', 'TimescaleDB (planned)'],
+      'Integration': ['dbt artifacts', 'Airflow callbacks', 'Great Expectations'],
       'Infrastructure': ['Docker', 'docker-compose']
     },
 
     architecture: {
       components: [
-        { name: 'Pipeline Instrumentation', description: 'A lightweight Python logger added to any ETL/ELT script to capture and send metrics.' },
-        { name: 'Metrics Database', description: 'A central PostgreSQL server acting as a time-series logbook for all pipeline runs.' },
-        { name: 'Anomaly Detection Engine', description: 'An offline-trained Isolation Forest model that scores new runs based on their deviation from historical norms.' },
-        { name: 'Monitoring Dashboard', description: 'An interactive Streamlit application for visualizing run history, health scores, and anomaly details.' }
+        { name: 'Pipeline Instrumentation', description: 'Lightweight Python decorator/context manager that wraps pipeline functions to automatically capture metrics (start time, end time, row counts, errors).' },
+        { name: 'Metrics Database', description: 'PostgreSQL database with tables for pipeline_runs, pipeline_configs (threshold settings), and alert_history. Planning to use TimescaleDB extension for efficient time-series queries.' },
+        { name: 'Alert Engine', description: 'SQL-based rule evaluation that runs on each new pipeline execution. Compares current metrics against configurable thresholds and historical baselines.' },
+        { name: 'Observability Dashboard', description: 'Multi-page Streamlit application with pipeline health overview, trend charts, alert configuration UI, and detailed run logs.' },
+        { name: 'Integration Layer', description: 'Connectors for dbt (parse manifest.json for test results), Airflow (custom callback), and Great Expectations (ingest validation results).' }
       ]
     },
 
     metrics: {
-      'Detection Latency': '<1s per run',
-      'Anomaly F1-Score': '96% on test set',
-      'Monitored Metrics': '5+ (duration, status, etc.)',
-      'Data Ingestion': 'Handles >1000 runs/day'
+      'Monitored Pipelines': '10+',
+      'Tracked Metrics': '8 (runtime, rows, tests, etc.)',
+      'Alert Types': '5 (threshold, trend, zero-rows, etc.)',
+      'Dashboard Load Time': '<2s',
+      'Metric Retention': '90 days',
+      'Alert Latency': '<30s'
     },
 
     challenges: [
       {
-        challenge: 'Defining \'normal\' pipeline behavior without hard-coded rules.',
-        solution: 'Planning to use an unsupervised anomaly detection model (Isolation Forest) that will learn a baseline from historical data, adapting to a pipeline\'s specific patterns.'
+        challenge: 'Making thresholds flexible for pipelines with different normal behaviors.',
+        solution: 'Planning to implement per-pipeline configuration with both absolute thresholds (e.g., max_runtime: 3600s) and relative thresholds (e.g., 2x rolling 7-day average). Dashboard UI will allow easy threshold tuning.'
       },
       {
-        challenge: 'Ensuring the monitoring system itself is reliable and decoupled.',
-        solution: 'Will utilize a robust client-server database (PostgreSQL) as the single point of contact, allowing the monitor and pipelines to operate independently.'
+        challenge: 'Avoiding alert fatigue from too many false positives.',
+        solution: 'Will implement alert suppression (don\'t re-alert within X hours), severity levels (warning vs. critical), and trend-based alerting (3 consecutive slow runs) rather than single-point alerts.'
       },
       {
-        challenge: 'Translating abstract anomaly scores into an intuitive user rating.',
-        solution: 'Planning to develop a mapping function that will convert the model\'s output (-1 for anomaly, 1 for inlier) into a user-friendly 1-5 star \'Health Score\' with clear labels.'
+        challenge: 'Integrating with existing tools without disrupting production pipelines.',
+        solution: 'Designing instrumentation as non-blocking - if logging fails, pipeline continues. Using simple API (one function call) and planning webhook integrations for Slack/email notifications.'
+      },
+      {
+        challenge: 'Comparing pipeline runs over time when source data volumes change.',
+        solution: 'Planning to track both absolute metrics (1000 rows) and ratios (0.95 of expected rows based on source count). Will implement "expected row count" feature based on upstream table sizes.'
       }
     ],
 
     impact: [
-      'Will enable proactive detection of silent data pipeline failures, preventing data corruption',
-      'Planning to increase trust in data quality by providing a clear, historical view of pipeline health',
-      'Aiming to reduce time to diagnose issues from hours of manual log checking to seconds on a dashboard'
+      'Will reduce mean time to detection (MTTD) for pipeline issues from hours to minutes',
+      'Planning to provide single pane of glass for monitoring all data pipelines across the organization',
+      'Aiming to eliminate manual log checking by centralizing all pipeline metrics in one dashboard',
+      'Will enable proactive issue detection through trend analysis and configurable alerting'
     ],
 
     learnings: [
-      'Exploring the effectiveness of unsupervised learning for operational anomaly detection in systems with dynamic behavior',
-      'Understanding the importance of instrumenting processes to collect rich metadata from the start',
-      'Learning how a decoupled architecture using a central database greatly improves a system\'s resilience and scalability'
+      'Learning that simple, well-configured threshold alerts are more practical than complex ML models for most pipeline monitoring scenarios',
+      'Understanding the importance of making instrumentation effortless - if it takes more than 2 lines of code, adoption suffers',
+      'Exploring how to balance alerting sensitivity - too loose and you miss issues, too tight and you get alert fatigue',
+      'Recognizing that good observability requires both technical metrics (runtime) and business metrics (row counts, data quality)'
     ],
 
     screenshots: [
-      { title: 'Main Health Dashboard', url: '/projects/pipeline-dashboard.png' },
-      { title: 'Historical Run Analysis', url: '/projects/pipeline-history.png' },
-      { title: 'Anomaly Detail View', url: '/projects/pipeline-anomaly.png' }
+      { title: 'Pipeline Health Overview', url: '/projects/pipeline-dashboard-main.png' },
+      { title: 'Historical Trends & Alerts', url: '/projects/pipeline-trends.png' },
+      { title: 'Alert Configuration UI', url: '/projects/pipeline-config.png' },
+      { title: 'Detailed Run Logs', url: '/projects/pipeline-logs.png' }
     ],
 
     codeSnippets: {
-      'Pipeline Instrumentation': `
-  # Simple function to log pipeline metrics
-  from sqlalchemy import create_engine
-  import pandas as pd
+      'Pipeline Instrumentation Decorator': `
+# Simple decorator to automatically log pipeline metrics
+from pipeline_monitor import log_execution
+from datetime import datetime
 
-  def log_pipeline_run(metrics: dict):
-      """Connects to Postgres and writes run metadata."""
-      engine = create_engine("postgresql://user:pass@host/db")
-      df = pd.DataFrame([metrics])
-      
-      with engine.connect() as connection:
-          df.to_sql(
-              'pipeline_runs', 
-              con=connection, 
-              if_exists='append', 
-              index=False
-          )
-        `,
+@log_execution(pipeline_name="daily_sales_etl")
+def run_sales_pipeline():
+    """Example pipeline function with automatic monitoring"""
+    # Extract
+    raw_data = extract_from_source()
+    
+    # Transform
+    clean_data = transform_data(raw_data)
+    
+    # Load
+    rows_loaded = load_to_warehouse(clean_data)
+    
+    # Return metrics for logging
+    return {
+        "rows_processed": len(raw_data),
+        "rows_loaded": rows_loaded,
+        "status": "success"
+    }
 
-      'Anomaly Scoring': `
-  # Function within Streamlit app to score a run
-  import pickle
+# The decorator automatically captures:
+# - Start/end time (duration)
+# - Success/failure status
+# - Any custom metrics returned by function
+# - Error messages if exception occurs
+      `,
 
-  # Load the trained model
-  with open('anomaly_model.pkl', 'rb') as f:
-      model = pickle.load(f)
+      'Rule-Based Alert Evaluation': `
+-- SQL query to evaluate alerts for each pipeline run
+-- Runs automatically after each pipeline execution
+WITH pipeline_stats AS (
+  SELECT 
+    pipeline_name,
+    AVG(duration_seconds) as avg_duration,
+    STDDEV(duration_seconds) as stddev_duration,
+    AVG(rows_processed) as avg_rows
+  FROM pipeline_runs
+  WHERE 
+    run_timestamp > CURRENT_DATE - INTERVAL '7 days'
+    AND status = 'success'
+  GROUP BY pipeline_name
+),
+current_run AS (
+  SELECT * FROM pipeline_runs 
+  WHERE run_id = :current_run_id
+)
+SELECT 
+  cr.pipeline_name,
+  cr.run_id,
+  CASE
+    -- Zero rows processed
+    WHEN cr.rows_processed = 0 
+      THEN 'CRITICAL: Zero rows processed'
+    
+    -- Runtime exceeds 2x average
+    WHEN cr.duration_seconds > (ps.avg_duration * 2)
+      THEN 'WARNING: Runtime ' || 
+           ROUND((cr.duration_seconds / ps.avg_duration), 1) || 
+           'x slower than average'
+    
+    -- Row count dropped >30% from average
+    WHEN cr.rows_processed < (ps.avg_rows * 0.7)
+      THEN 'WARNING: Row count ' ||
+           ROUND(((ps.avg_rows - cr.rows_processed) / ps.avg_rows * 100), 0) ||
+           '% below average'
+    
+    -- Pipeline failed
+    WHEN cr.status = 'failed'
+      THEN 'CRITICAL: Pipeline execution failed'
+    
+    ELSE 'OK'
+  END as alert_message,
+  cr.duration_seconds,
+  ps.avg_duration,
+  cr.rows_processed,
+  ps.avg_rows
+FROM current_run cr
+JOIN pipeline_stats ps ON cr.pipeline_name = ps.pipeline_name;
+      `,
 
-  def get_health_score(run_features: pd.DataFrame) -> str:
-      """Uses the loaded model to predict if a run is an anomaly."""
-      prediction = model.predict(run_features)
-      
-      if prediction[0] == -1:
-          return "Anomaly Detected 🚨 (1/5)"
-      else:
-          return "Healthy ✅ (5/5)"
-        `
+      'Streamlit Dashboard - Health Overview': `
+# Main dashboard page showing all pipeline statuses
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.title("🔍 Pipeline Observability Dashboard")
+
+# Fetch latest runs for all pipelines
+latest_runs = get_latest_pipeline_runs()
+
+# Create status summary metrics
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("Healthy", len(latest_runs[latest_runs['status'] == 'success']))
+col2.metric("Failed", len(latest_runs[latest_runs['status'] == 'failed']))
+col3.metric("Warnings", len(latest_runs[latest_runs['has_alert'] == True]))
+col4.metric("Total Pipelines", len(latest_runs))
+
+# Pipeline health table with status indicators
+st.subheader("Pipeline Status")
+for _, row in latest_runs.iterrows():
+    with st.expander(f"{'✅' if row['status']=='success' else '❌'} {row['pipeline_name']}"):
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Duration", f"{row['duration_seconds']}s")
+        col2.metric("Rows", f"{row['rows_processed']:,}")
+        col3.metric("Last Run", row['run_timestamp'].strftime('%Y-%m-%d %H:%M'))
+        
+        if row['has_alert']:
+            st.warning(f"⚠️ {row['alert_message']}")
+
+# Runtime trend chart
+st.subheader("Pipeline Runtime Trends (Last 7 Days)")
+trend_data = get_pipeline_trends(days=7)
+fig = px.line(trend_data, x='run_timestamp', y='duration_seconds', 
+              color='pipeline_name', title='Execution Time Over Time')
+st.plotly_chart(fig)
+      `
     },
 
     links: {
-      github: 'https://github.com/YOUR_USERNAME/pipeline-quality-monitor',
-      demo: 'https://your-streamlit-app-link-here',
+      github: 'https://github.com/danielg-gerlach/pipeline-observability-dashboard',
+      demo: null,
       documentation: null
     }
   },
@@ -563,12 +707,9 @@ models:
     ],
 
     screenshots: [
-      { 
-        title: 'Final Looker Studio Dashboard', 
-        url: '/projects/gcp/SaaS_Analytics_Dashboard.pdf',
-        thumbnail: '/projects/gcp/GCP_thumbnail.png',
-        isPdf: true
-      }
+      { title: 'Final Looker Studio Dashboard', url: '/projects/gcp/SaaS_Analytics_Dashboard.pdf' },
+      { title: 'Data Pipeline Architecture', url: '/projects/gcp-pipeline-arch.png' },
+      { title: 'BigQuery Analytical Tables', url: '/projects/gcp-bigquery-tables.png' }
     ],
 
     codeSnippets: {
@@ -600,78 +741,227 @@ models:
     }
   },
 
-  'data-modeling-ecommerce': {
-    id: 'data-modeling-ecommerce',
+  'data-modeling-healthcare': {
+    id: 'data-modeling-healthcare',
     type: 'personal',
-    title: 'Data Modeling for an E-Commerce Platform',
-    subtitle: 'Designing a scalable DWH with Dimensional Modeling & Data Vault',
+    title: 'Healthcare Patient Management Data Model',
+    subtitle: 'Designing a HIPAA-compliant DWH with Dimensional Modeling & Data Vault',
     year: '2025',
     role: 'Data Architect',
     team: 'Solo project',
     status: 'In Development',
+    tldr: 'Building a comprehensive healthcare data warehouse using hybrid Data Vault and star schema architecture. Planning to model patient visits, diagnoses, medications, and lab results with full historization. Includes HIPAA compliance considerations, SCD Type 2 for patient demographics, and complex medical hierarchies (ICD-10, CPT codes).',
 
-    overview: 'Designing and implementing a scalable data model for an e-commerce platform. Planning to apply industry-standard techniques like Dimensional Modeling (star schema) and Slowly Changing Dimensions (SCD), and evaluate Data Vault for mapping complex business relationships.',
+    overview: 'Designing and implementing a scalable, HIPAA-compliant data warehouse for a healthcare system. Planning to apply industry-standard techniques including Data Vault 2.0 for auditable raw data storage, Dimensional Modeling (star schema) for analytics, and Slowly Changing Dimensions to track patient demographic changes over time.',
 
-    problem: 'E-commerce data is complex and relational (customers, orders, products, shipments). A naive, transactional data model is extremely slow and difficult to understand for analytical queries, severely hindering the creation of reports and analyses.',
+    problem: 'Healthcare data is highly complex with many-to-many relationships (patients have multiple doctors, medications, diagnoses), strict regulatory requirements (HIPAA), and the need for both operational queries and long-term analytical reporting. Traditional transactional models cannot efficiently support clinical analytics, population health management, or readmission analysis.',
 
-    solution: 'Planning to develop a hybrid data model: A core of Data Vault for flexible and auditable storage of raw data (Hubs, Links, Satellites). Building on this, performance-optimized data marts in the form of star schemas (fact & dimension tables) will be created for BI analysis of sales and marketing data.',
+    solution: 'Planning to develop a hybrid data model: A foundational Data Vault layer (Hubs for patients, providers, medications; Links for relationships; Satellites for attributes) that maintains complete audit trails and accommodates source system changes. Building on this, purpose-built dimensional data marts with star schemas for clinical analytics, financial reporting, and population health analysis.',
 
     techStack: {
-      'Modeling Techniques': ['Dimensional Modeling (Kimball)', 'Star Schema', 'Slowly Changing Dimensions (SCD)', 'Data Vault 2.0'],
-      'Tools & Languages': ['SQL', 'draw.io (ERD)'],
-      'Database': ['PostgreSQL']
+      'Modeling Techniques': ['Data Vault 2.0', 'Dimensional Modeling (Kimball)', 'Star Schema', 'Slowly Changing Dimensions (SCD Type 2)'],
+      'Tools & Languages': ['SQL', 'dbt Core', 'draw.io (ERD)', 'Lucidchart'],
+      'Database': ['PostgreSQL', 'Snowflake (planned)'],
+      'Compliance': ['HIPAA de-identification', 'Audit logging']
     },
 
     architecture: {
       components: [
-        { name: 'Raw Data Vault', description: 'Modeling core business entities (customers, products, orders) as Hubs, Links, and Satellites for historized storage.' },
-        { name: 'Business Vault', description: 'Augmenting the Raw Vault with calculated Satellites containing derived business rules.' },
-        { name: 'Data Mart Layer', description: 'Building star schemas with a central fact table (e.g., fct_orders) and related dimensions (dim_customer, dim_product, dim_date).' },
-        { name: 'SCD Implementation', description: 'Applying SCD Type 2 to the customer dimension to track changes in addresses or names.' }
+        { name: 'Raw Data Vault', description: 'Core business entities modeled as Hubs (Patient, Provider, Medication, Diagnosis), Links (Patient-Provider, Patient-Medication, Visit-Diagnosis), and Satellites for all descriptive attributes with full historization.' },
+        { name: 'Business Vault', description: 'Calculated Satellites containing derived metrics (BMI, readmission risk scores) and standardized medical codes (ICD-10 mapping, CPT groupings).' },
+        { name: 'Clinical Data Mart', description: 'Star schema with fct_patient_visits fact table connected to dim_patient, dim_provider, dim_diagnosis (ICD-10 hierarchy), dim_procedure (CPT hierarchy), and dim_date.' },
+        { name: 'Lab Results Data Mart', description: 'Time-series fact table (fct_lab_results) for vitals and test results with dim_patient, dim_test_type, and dim_date dimensions.' },
+        { name: 'SCD Implementation', description: 'SCD Type 2 on patient demographics (address, insurance, emergency contact) to support historical analysis while maintaining referential integrity.' }
       ]
     },
 
     metrics: {
-      'Modeled Entities': '5+ (Hubs)',
-      'Data Marts': '2 (Sales, Marketing)',
-      'SCD Type': '2',
-      'Query Performance Gain': '>10x (vs. transactional model)'
+      'Core Hubs': '8 (Patient, Provider, Medication, etc.)',
+      'Link Tables': '12+',
+      'Data Marts': '3 (Clinical, Financial, Lab)',
+      'SCD Type 2 Dimensions': '4',
+      'Medical Hierarchies': '2 (ICD-10, CPT)',
+      'Estimated Query Improvement': '15-20x vs OLTP'
     },
 
     challenges: [
       {
-        challenge: 'Defining the correct granularity for the fact table (e.g., per order or per order item).',
-        solution: 'Planning to decide on the order item as the granularity to enable the most detailed analyses. Aggregations at the order level will be performed in the BI tool.'
+        challenge: 'Maintaining HIPAA compliance while enabling analytics and reporting.',
+        solution: 'Planning to implement role-based access control (RBAC), audit logging for all data access, de-identification views for research, and encryption at rest. Patient PHI will be separated into dedicated satellites with restricted access.'
       },
       {
-        challenge: 'Correctly mapping the complex logic for populating the SCD Type 2 dimension historically.',
-        solution: 'Will develop a robust SQL MERGE statement that inserts new records and updates existing ones with validity dates (valid_from, valid_to).'
+        challenge: 'Modeling complex medical hierarchies (ICD-10 codes have 5-7 character hierarchical structure).',
+        solution: 'Will create bridge tables and hierarchy dimensions that allow flexible roll-up queries (e.g., "diabetes" includes Type 1, Type 2, gestational). Planning to use recursive CTEs for hierarchy traversal.'
+      },
+      {
+        challenge: 'Handling many-to-many relationships (one patient visit can have multiple diagnoses, procedures, and providers).',
+        solution: 'Using Data Vault Link tables to model all many-to-many relationships explicitly. In dimensional marts, will implement bridge tables between facts and dimensions to preserve flexibility without creating overly wide fact tables.'
+      },
+      {
+        challenge: 'Managing time-series lab results data with varying test types and units.',
+        solution: 'Planning a normalized approach with a pivot-friendly fact table structure. Each row represents one test result with standardized units, linked to a test_type dimension that contains reference ranges and units.'
       }
     ],
 
     impact: [
-      'Will create a fundamentally sound, understandable, and high-performance data model as a single source of truth',
-      'Planning to enable complex historical analyses that were previously not possible (e.g., "How has customer value changed over time?")',
-      'Aiming to drastically reduce query times for business analysts'
+      'Will enable hospital administrators to analyze readmission rates, average length of stay, and resource utilization',
+      'Planning to support population health management by identifying high-risk patient cohorts',
+      'Aiming to provide clinicians with longitudinal patient views showing diagnosis progression and treatment effectiveness',
+      'Will create a foundation for predictive analytics (readmission risk, no-show prediction) while maintaining audit compliance',
+      'Planning to reduce time-to-insight for clinical analysts from days to minutes'
     ],
 
     learnings: [
-      'Learning that Data Vault offers unparalleled flexibility in integrating new data sources, while star schemas are unbeatable for performance',
-      'Understanding that the clean separation of raw, integrated, and prepared data layers (Data Mart) is crucial for maintainability',
-      'Recognizing that good data modeling craftsmanship is the foundation of any successful data strategy'
+      'Learning that healthcare data modeling requires balancing regulatory compliance, audit requirements, and analytical performance',
+      'Understanding that medical coding systems (ICD, CPT) are living hierarchies that require flexible, hierarchy-aware dimension design',
+      'Exploring how Data Vault\'s separation of business keys, descriptive attributes, and relationships naturally maps to healthcare\'s complex entity structures',
+      'Recognizing that SCD Type 2 is critical for healthcare where patient circumstances change frequently and historical context matters for clinical decisions',
+      'Discovering that time-series data (vitals, labs) requires different modeling patterns than transactional events (visits, procedures)'
     ],
 
     screenshots: [
-      { title: 'Star Schema ERD', url: '/projects/ecommerce-star-schema.png' },
-      { title: 'Data Vault Model', url: '/projects/ecommerce-data-vault.png' }
+      { title: 'Data Vault ERD (Core Hubs & Links)', url: '/projects/healthcare-data-vault.png' },
+      { title: 'Clinical Data Mart Star Schema', url: '/projects/healthcare-star-schema.png' },
+      { title: 'ICD-10 Hierarchy Dimension', url: '/projects/healthcare-icd10-hierarchy.png' },
+      { title: 'Patient Journey Lineage', url: '/projects/healthcare-lineage.png' }
     ],
 
-    codeSnippets: {},
+    codeSnippets: {
+      'SCD Type 2 Patient Dimension': `
+-- Implementing SCD Type 2 for patient demographics
+-- Tracks changes in address, insurance, emergency contact
+CREATE OR REPLACE PROCEDURE update_patient_dimension()
+AS $$
+BEGIN
+  -- Expire existing records that have changed
+  UPDATE dim_patient
+  SET 
+    valid_to = CURRENT_DATE - INTERVAL '1 day',
+    is_current = FALSE
+  WHERE patient_key IN (
+    SELECT p.patient_key
+    FROM dim_patient p
+    JOIN stg_patient s ON p.patient_id = s.patient_id
+    WHERE p.is_current = TRUE
+      AND (
+        p.address <> s.address OR
+        p.insurance_provider <> s.insurance_provider OR
+        p.emergency_contact <> s.emergency_contact
+      )
+  );
+
+  -- Insert new records for changed patients
+  INSERT INTO dim_patient (
+    patient_id, 
+    address, 
+    insurance_provider, 
+    emergency_contact,
+    valid_from, 
+    valid_to, 
+    is_current
+  )
+  SELECT 
+    s.patient_id,
+    s.address,
+    s.insurance_provider,
+    s.emergency_contact,
+    CURRENT_DATE,
+    '9999-12-31',
+    TRUE
+  FROM stg_patient s
+  LEFT JOIN dim_patient p 
+    ON s.patient_id = p.patient_id 
+    AND p.is_current = TRUE
+  WHERE p.patient_key IS NULL -- New patients
+     OR (
+       p.address <> s.address OR
+       p.insurance_provider <> s.insurance_provider OR
+       p.emergency_contact <> s.emergency_contact
+     ); -- Changed patients
+END;
+$$ LANGUAGE plpgsql;
+      `,
+
+      'ICD-10 Hierarchy Query': `
+-- Recursive CTE to traverse ICD-10 diagnosis hierarchy
+-- Enables roll-up reporting (e.g., all diabetes diagnoses)
+WITH RECURSIVE diagnosis_hierarchy AS (
+  -- Base case: specific diagnosis code
+  SELECT 
+    icd10_code,
+    icd10_description,
+    parent_code,
+    1 as level,
+    icd10_code as leaf_code
+  FROM dim_diagnosis
+  WHERE icd10_code = 'E11.9' -- Type 2 diabetes without complications
+  
+  UNION ALL
+  
+  -- Recursive case: traverse up the hierarchy
+  SELECT 
+    d.icd10_code,
+    d.icd10_description,
+    d.parent_code,
+    dh.level + 1,
+    dh.leaf_code
+  FROM dim_diagnosis d
+  JOIN diagnosis_hierarchy dh ON d.icd10_code = dh.parent_code
+)
+SELECT 
+  level,
+  icd10_code,
+  icd10_description
+FROM diagnosis_hierarchy
+ORDER BY level;
+
+-- Example output:
+-- Level 1: E11.9 - Type 2 diabetes mellitus without complications
+-- Level 2: E11 - Type 2 diabetes mellitus
+-- Level 3: E10-E14 - Diabetes mellitus
+      `,
+
+      'Readmission Analysis Query': `
+-- Calculate 30-day readmission rates by diagnosis
+-- Uses star schema with SCD Type 2 patient dimension
+SELECT 
+  dd.icd10_category,
+  dd.icd10_description,
+  COUNT(DISTINCT fv.visit_id) as total_visits,
+  COUNT(DISTINCT CASE 
+    WHEN readmit.visit_id IS NOT NULL 
+    THEN fv.visit_id 
+  END) as readmissions,
+  ROUND(
+    100.0 * COUNT(DISTINCT CASE 
+      WHEN readmit.visit_id IS NOT NULL 
+      THEN fv.visit_id 
+    END) / COUNT(DISTINCT fv.visit_id),
+    2
+  ) as readmission_rate_pct
+FROM fct_patient_visits fv
+JOIN dim_patient dp 
+  ON fv.patient_key = dp.patient_key
+JOIN dim_diagnosis dd 
+  ON fv.primary_diagnosis_key = dd.diagnosis_key
+LEFT JOIN fct_patient_visits readmit
+  ON fv.patient_id = readmit.patient_id
+  AND readmit.admit_date BETWEEN fv.discharge_date 
+                              AND fv.discharge_date + INTERVAL '30 days'
+  AND readmit.visit_id <> fv.visit_id
+WHERE fv.discharge_date >= CURRENT_DATE - INTERVAL '1 year'
+  AND fv.visit_type = 'Inpatient'
+GROUP BY 1, 2
+HAVING COUNT(DISTINCT fv.visit_id) >= 100
+ORDER BY readmission_rate_pct DESC
+LIMIT 20;
+      `
+    },
 
     links: {
-      github: 'https://github.com/danielg-gerlach/ecommerce-data-modeling',
+      github: 'https://github.com/danielg-gerlach/healthcare-data-modeling',
       demo: null,
-      documentation: null
+      documentation: 'https://github.com/danielg-gerlach/healthcare-data-modeling/blob/main/README.md'
     }
   },
 
