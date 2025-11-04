@@ -13,11 +13,7 @@
             My interests span the entire data lifecycle - from ingesting and processing of raw data to building machine learning & AI pipelines that deliver real-time insights. I really like solving data challenges and optimizing data & AI applications for performance and reliability.
           </p>
           <p>
-            I'm currently focused on real-time stream processing, AI-powered application development, PySpark & data modeling.
-          </p>
-          <p>
-            I also work as a freelancer in the field of Data & AI as well as web development, helping businesses leverage data and AI to streamline their processes 
-            and benefit efficiency as well as generating leads.
+            I'm currently focused on improving my data understanding as well as technical skillset like Python, SQL (dbt) & Databricks.
           </p>
         </div>
         
@@ -33,7 +29,7 @@
               <p class="text-sm text-gray-400">Building modular SQL transformations for data warehousing</p>
             </div>
             <div class="p-4 bg-gray-900/30 rounded-lg border border-gray-800 hover:border-blue-500/50 transition-all">
-              <h4 class="font-semibold text-blue-400 mb-2">Apache Spark</h4>
+              <h4 class="font-semibold text-blue-400 mb-2">PySpark</h4>
               <p class="text-sm text-gray-400">Data transformation & cleaning using Spark</p>
             </div>
             <div class="p-4 bg-gray-900/30 rounded-lg border border-gray-800 hover:border-blue-500/50 transition-all">
