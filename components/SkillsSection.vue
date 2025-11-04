@@ -270,7 +270,6 @@
     {
       name: 'ANALYTICS',
       technologies: [
-        { name: 'Data Modeling', icon: '📊' },
         { name: 'MS Fabric', icon: 'Ⓜ️' },
         { name: 'DuckDB', icon: '🦆' }
       ]
