@@ -269,7 +269,30 @@ const filteredWorkProjects = computed(() => {
       filtered[id] = project
     }
   })
-  return filtered
+  
+  // Sort work projects: AI Integration Consulting first, then Completed projects, then others
+  const sortedEntries = Object.entries(filtered).sort((a, b) => {
+    const [idA, projectA] = a
+    const [idB, projectB] = b
+    
+    // AI Integration Consulting (work-project-4) always comes first
+    if (idA === 'work-project-4') return -1
+    if (idB === 'work-project-4') return 1
+    
+    // Completed projects come first (after AI Integration Consulting)
+    if (projectA.status === 'Completed' && projectB.status !== 'Completed') {
+      return -1
+    }
+    if (projectA.status !== 'Completed' && projectB.status === 'Completed') {
+      return 1
+    }
+    
+    // If both have same completion status, maintain original order
+    return 0
+  })
+  
+  // Convert back to object
+  return Object.fromEntries(sortedEntries)
 })
 
 // Helper function to get project tags based on tech stack and type

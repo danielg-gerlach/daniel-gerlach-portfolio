@@ -235,13 +235,6 @@
       ]
     },
     {
-      name: 'BIG DATA',
-      technologies: [
-        { name: 'Spark', icon: '⚡' },
-        { name: 'Airflow', icon: '🔄' }
-      ]
-    },
-    {
       name: 'DATABASES',
       technologies: [
         { name: 'PostgreSQL', icon: '🐘' },
@@ -473,7 +466,7 @@
         } else {
           return [
             { type: 'error', content: `Category "${categoryName}" not found` },
-            { type: 'output', content: 'Available categories: LANGUAGES, BIG DATA, DATABASES, CLOUD, DATA TOOLS, ANALYTICS, DEVOPS, MORE' },
+            { type: 'output', content: 'Available categories: LANGUAGES, DATABASES, CLOUD, DATA TOOLS, ANALYTICS, DEVOPS, MORE' },
             { type: 'output', content: '' }
           ]
         }
