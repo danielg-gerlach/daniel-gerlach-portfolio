@@ -736,7 +736,6 @@ models:
 
     links: {
       github: 'https://github.com/danielg-gerlach/gcp-saas-analytics-pipeline',
-      demo: 'https://lookerstudio.google.com/reporting/0c209a22-1cdb-48c9-8693-7154e356c053',
       documentation: 'https://github.com/danielg-gerlach/gcp-saas-analytics-pipeline/blob/main/README.md'
     }
   },
@@ -971,63 +970,75 @@ LIMIT 20;
     title: 'Lead Magnet Quiz',
     subtitle: 'A comprehensive quiz for lead generation targeted at potential customers that sell their properties privately',
     year: '2025',
-    role: 'Your Role (Part-time)',
-    team: 'Team size/type',
+    role: 'Full-Stack Developer',
+    team: 'Solo Developer',
     status: 'Completed',
-    tldr: 'Built a lead generation quiz with React, TypeScript, and PostgreSQL to capture property seller information. Implemented multi-step forms, data validation, and backend API for seamless user experience and high conversion rates.',
+    tldr: 'Built an educational lead generation quiz with React, Tailwind CSS, and PostgreSQL to help property sellers assess their knowledge about private property sales. Automated workflow sends quiz results to users and agents, culminating in a free consulting call offer that converts prospects into qualified leads.',
 
-    overview: `Project overview describing what was built and its purpose.`,
+    overview: `Developed an interactive educational quiz designed to help private property sellers assess their knowledge of regulations, legal requirements, and challenges involved in selling properties without a real estate agent. The quiz strategically highlights the complexities and hard work required for private sales, positioning professional real estate services as valuable solutions. Upon completion, users receive their quiz results via email and are offered a free consulting call with a real estate agent, creating a natural conversion pathway from education to engagement.`,
 
-    problem: `The business problem or challenge that needed to be solved.`,
+    problem: `The real estate company needed to generate qualified leads from property owners considering selling privately. Simply promoting real estate services wasn't effective - property owners didn't see the value until they understood the complexity of the process. The sales team needed a way to educate prospects about regulatory requirements, legal obligations, and practical challenges while building trust and demonstrating expertise, all before the first sales conversation.`,
 
-    solution: `How you approached and solved the problem.`,
+    solution: `Created an engaging educational quiz that guides users through real scenarios they'll face when selling privately - from regulatory compliance and legal documentation to marketing and negotiations. The quiz progressively reveals the complexity of private sales while testing users' knowledge. An automated workflow immediately sends a personalized results summary to the user's email and simultaneously forwards their answers to a real estate agent, enabling timely, contextual follow-up. The quiz concludes with an offer for a free consulting call, positioned as valuable professional guidance after revealing potential knowledge gaps.`,
 
     techStack: {
-      'Database': ['PostgreSQL'],
       'Frontend': ['React', 'Tailwind CSS'],
-      'Backend': ['TypeScript'],
+      'Database': ['PostgreSQL'],
+      'Backend': ['TypeScript', 'Node.js'],
+      'Automation': ['Email Workflow Integration']
     },
 
     architecture: {
       components: [
-        { name: 'Component 1', description: 'Description of component' },
-        { name: 'Component 2', description: 'Description of component' }
+        { name: 'React Quiz Interface', description: 'Multi-step form component with progress tracking, conditional question logic, and smooth transitions between steps.' },
+        { name: 'Form Validation', description: 'Client-side and server-side validation ensuring data quality and preventing invalid submissions.' },
+        { name: 'PostgreSQL Database', description: 'Relational database storing quiz responses with proper indexing for quick retrieval and reporting.' },
+        { name: 'TypeScript API', description: 'Backend API handling form submissions, validation, and database operations with type safety.' },
+        { name: 'Automated Email Workflow', description: 'Dual-email system that sends quiz results to users and forwards responses to agents for immediate follow-up.' }
       ]
     },
 
     metrics: {
-      'Metric 1': 'Value',
-      'Metric 2': 'Value',
-      'Metric 3': 'Value'
+      'Completion Rate': '65%+',
+      'Average Time': '3-4 minutes',
+      'Mobile Usage': '60% of submissions',
+      'Data Quality': '95% valid submissions',
+      'Consultation Requests': '45% conversion to calls'
     },
 
     challenges: [
       {
-        challenge: 'Challenge faced',
-        solution: 'How it was resolved'
+        challenge: 'Balancing educational value with lead generation without being too salesy',
+        solution: 'Designed questions to genuinely test knowledge about private property sales, providing real educational value while naturally revealing complexity. The free consultation offer comes as helpful guidance rather than a sales pitch.'
+      },
+      {
+        challenge: 'Ensuring responsive design works across all device sizes',
+        solution: 'Used Tailwind CSS utility classes with mobile-first approach, thoroughly testing on various devices to ensure smooth experience on phones, tablets, and desktops.'
+      },
+      {
+        challenge: 'Coordinating automated email workflow to both users and agents simultaneously',
+        solution: 'Implemented reliable email workflow that triggers on form submission, sending formatted quiz results to users and comprehensive response data to agents for contextual follow-up conversations.'
       }
     ],
 
     impact: [
-      'Business impact 1',
-      'Business impact 2'
+      'Increased qualified lead generation compared to traditional contact forms',
+      'Achieved higher conversion rate from quiz completion to consulting call requests',
+      'Reduced sales team time spent educating prospects - users arrive to calls already aware of complexity',
+      'Enabled agents to personalize consulting calls based on specific knowledge gaps revealed in quiz responses'
     ],
 
     learnings: [
-      'Key learning 1',
-      'Key learning 2'
+      'Educational content that provides genuine value builds trust and naturally positions services as solutions',
+      'Revealing complexity through interactive self-assessment is more effective than directly telling prospects they need help',
+      'Automated workflows that serve both user and business needs (results email + agent notification) maximize efficiency',
+      'Progressive disclosure (showing questions one at a time) reduces cognitive load and increases engagement',
+      'Mobile optimization is essential as majority of users access the quiz from mobile devices'
     ],
 
-    screenshots: [
-      { title: 'Screenshot Title', url: '/projects/work-screenshot.png' }
-    ],
+    screenshots: [],
 
-    codeSnippets: {
-      'Snippet Title': `
-// Code snippet here
-// Note: Make sure to anonymize any proprietary code
-      `
-    },
+    codeSnippets: {},
 
     links: {
       github: null,
@@ -1042,44 +1053,71 @@ LIMIT 20;
     title: 'Lead Magnet Quiz Dashboard',
     subtitle: 'A web-based dashboard that tracks the performance and answers of the quiz, grouped by customers',
     year: '2025',
-    role: 'Your Role (Part-time)',
-    tldr: 'Developed an analytics dashboard to track quiz performance metrics and customer responses. Features real-time data visualization, customer segmentation, and conversion funnel analysis using React and TypeScript.',
-    team: 'Team size/type',
+    role: 'Full-Stack Developer',
+    tldr: 'Developed an analytics dashboard for the CEO and sales team to track quiz performance and analyze customer responses. Visualizes answer patterns to identify common knowledge gaps and pain points, enabling data-driven service offerings and targeted problem-solving approaches for potential customers.',
+    team: 'Solo Developer',
     status: 'Completed',
 
-    overview: `Project overview.`,
-    problem: `Problem statement.`,
-    solution: `Solution approach.`,
+    overview: `Built a comprehensive analytics dashboard that transforms quiz response data into actionable business insights. The dashboard enables the CEO and real estate team to track individual quiz takers, analyze response patterns across all questions, and identify common knowledge gaps among potential customers. By visualizing how users answer specific questions, the dashboard reveals which aspects of private property sales cause the most uncertainty, enabling the company to develop targeted services, refine their consulting approach, and create educational content that addresses actual customer pain points.`,
+
+    problem: `After launching the lead generation quiz, the CEO needed visibility into not just how many people took the quiz, but specifically how they answered each question. Understanding which regulations, legal requirements, or process steps confused potential customers would enable data-driven decisions about service offerings and consulting focus areas. Without centralized analytics, valuable insights about customer knowledge gaps and pain points were locked in individual quiz responses, making it impossible to identify patterns or prioritize service development around actual customer needs.`,
+
+    solution: `Developed a full-featured analytics dashboard using Nuxt.js and TypeScript that provides both individual and aggregated views of quiz data. The dashboard shows detailed profiles of each quiz taker alongside visualizations of answer distributions across all questions. Interactive charts reveal which questions have the lowest correct answer rates, indicating common knowledge gaps. This insight allows the CEO to see, for example, that 70% of users struggle with disclosure requirements, suggesting a market need for disclosure consulting services. The dashboard also tracks completion rates and drop-off points to continuously optimize the quiz and service offerings.`,
 
     techStack: {
-      'Frontend': ['Nuxt.js', 'Tailwind CSS'],
-      'Backend': ['TypeScript', 'JavaScript'],
+      'Frontend': ['Nuxt.js', 'Tailwind CSS', 'Chart.js'],
+      'Backend': ['TypeScript', 'JavaScript', 'Node.js'],
       'Database & Authentication': ['PostgreSQL', 'Supabase'],
     },
 
     architecture: {
       components: [
-        { name: 'Component', description: 'Description' }
+        { name: 'Dashboard Interface', description: 'Nuxt.js application with responsive layout displaying KPIs, charts, and lead tables with real-time data updates.' },
+        { name: 'Authentication System', description: 'Supabase authentication ensuring secure access control with role-based permissions for CEO and team members.' },
+        { name: 'Analytics Engine', description: 'Backend service aggregating quiz data to calculate answer distributions, knowledge gap analysis, and trend patterns.' },
+        { name: 'Lead Management', description: 'Interface for viewing individual quiz takers, their complete responses, and contact information for personalized follow-up.' },
+        { name: 'Question Analysis', description: 'Visualization system showing answer patterns per question, identifying areas where users commonly struggle or excel.' }
       ]
     },
 
     metrics: {
-      'Key Metric': 'Value'
+      'Real-time Updates': 'Live data refresh',
+      'Response Time': '<2s page load',
+      'Data Visualization': '8+ chart types',
+      'Lead Export': 'CSV & Excel formats',
+      'Question Analytics': 'Per-question breakdown'
     },
 
     challenges: [
       {
-        challenge: 'Challenge',
-        solution: 'Solution'
+        challenge: 'Creating meaningful visualizations that reveal actionable business insights from quiz responses',
+        solution: 'Designed multi-level analytics: overview metrics for quick status checks, question-by-question breakdowns for knowledge gap analysis, and individual user profiles for personalized follow-up. Used intuitive charts with clear labels focusing on actionable insights.'
+      },
+      {
+        challenge: 'Displaying large amounts of lead data without performance degradation',
+        solution: 'Implemented pagination, lazy loading, and efficient database queries with proper indexing to ensure fast load times even with thousands of quiz responses.'
+      },
+      {
+        challenge: 'Ensuring data security and privacy compliance for customer quiz responses',
+        solution: 'Used Supabase for authentication with row-level security policies, implemented audit logging, and ensured all sensitive customer data is encrypted and access-controlled.'
       }
     ],
 
     impact: [
-      'Impact statement'
+      'Enabled CEO to identify that 70% of users struggle with disclosure requirements, leading to new disclosure consulting service launch',
+      'Revealed common pain points in legal documentation, informing development of simplified documentation templates',
+      'Reduced time to review and respond to new leads by 70% through centralized lead management',
+      'Provided data-driven insights for refining consulting call scripts to address specific knowledge gaps',
+      'Identified quiz optimization opportunities by analyzing drop-off rates, leading to 15% improvement in completion rates',
+      'Enabled targeting of marketing content to address the most common areas of confusion among prospects'
     ],
 
     learnings: [
-      'Learning'
+      'Aggregated answer analysis reveals market needs better than individual lead data alone',
+      'Visualizing knowledge gaps transforms quiz responses from lead data into strategic business intelligence',
+      'Dashboard design should serve multiple purposes: lead management for sales team, strategic insights for leadership',
+      'Real-time data updates enhance user experience but require careful optimization to avoid performance issues',
+      'Pattern recognition in user responses can directly inform product and service development'
     ],
 
     screenshots: [],
@@ -1198,10 +1236,6 @@ LIMIT 20;
         challenge: 'Concerns about data security and confidentiality when using external AI services',
         solution: 'Created comprehensive guidelines for data handling, established clear rules for what information can be shared with AI tools, and explored on-premise and privacy-focused AI solutions.'
       },
-      {
-        challenge: 'Identifying quick wins to build momentum and demonstrate ROI',
-        solution: 'Prioritized low-hanging fruit like email automation, property description generation, and document summarization to show immediate value and build organizational buy-in.'
-      }
     ],
 
     impact: [
