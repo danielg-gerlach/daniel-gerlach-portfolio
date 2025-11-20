@@ -587,7 +587,7 @@ models:
     ],
 
     impact: [
-      'Created a fully automated, hands-off pipeline for processing raw data files.',
+      'Created a data pipeline for processing raw data files.',
       'Enabled near real-time analysis of key SaaS business metrics like user growth and churn.',
       'Built a scalable and cost-effective solution using serverless GCP components.'
     ],
@@ -600,9 +600,7 @@ models:
     ],
 
     screenshots: [
-      { title: 'Final Looker Studio Dashboard', url: '/projects/gcp/SaaS_Analytics_Dashboard.pdf' },
-      { title: 'Data Pipeline Architecture', url: '/projects/gcp-pipeline-arch.png' },
-      { title: 'BigQuery Analytical Tables', url: '/projects/gcp-bigquery-tables.png' }
+      { title: 'Final Looker Studio Dashboard', url: '/projects/gcp/SaaS_Analytics_Dashboard.pdf' }
     ],
 
     codeSnippets: {
@@ -761,14 +759,6 @@ models:
       {
         challenge: 'Creating meaningful visualizations that reveal actionable business insights from quiz responses',
         solution: 'Designed multi-level analytics: overview metrics for quick status checks, question-by-question breakdowns for knowledge gap analysis, and individual user profiles for personalized follow-up. Used intuitive charts with clear labels focusing on actionable insights.'
-      },
-      {
-        challenge: 'Displaying large amounts of lead data without performance degradation',
-        solution: 'Implemented pagination, lazy loading, and efficient database queries with proper indexing to ensure fast load times even with thousands of quiz responses.'
-      },
-      {
-        challenge: 'Ensuring data security and privacy compliance for customer quiz responses',
-        solution: 'Used Supabase for authentication with row-level security policies, implemented audit logging, and ensured all sensitive customer data is encrypted and access-controlled.'
       }
     ],
 
@@ -870,7 +860,7 @@ models:
 
     problem: `The real estate company recognized the potential of AI technologies but lacked the internal expertise to identify where and how to integrate these tools effectively. Employees were aware of AI developments but uncertain about practical applications in their specific roles. The company needed strategic guidance and practical training to bridge the gap between AI potential and actual implementation.`,
 
-    solution: `Conducted a comprehensive consulting engagement that included: (1) Strategic workshops with executive management to assess current workflows and identify high-impact AI use cases, (2) Development of a phased implementation roadmap prioritizing quick wins and long-term transformations, (3) Multiple training sessions tailored to different departments, covering tools like ChatGPT, Claude, automated document processing, and workflow automation, (4) Creation of internal documentation and guidelines for responsible AI usage and best practices.`,
+    solution: `Conducted a comprehensive consulting engagement that included: (1) Workshops with management to assess current workflows and identify impactful AI use cases, (2) Development of a phased roadmap prioritizing quick wins and long-term transformations, (3) Multiple training sessions tailored to different departments, covering tools like ChatGPT, Claude and workflow automation, (4) Creation of internal documentation and guidelines for responsible AI usage and best practices.`,
 
     techStack: {
       'AI Technologies': ['Large Language Models (LLMs)', 'ChatGPT', 'Claude', 'Prompt Engineering'],
@@ -909,10 +899,10 @@ models:
 
     impact: [
       'Enabled the company to make strategic decisions about AI investments with clear understanding of costs, benefits, and implementation requirements',
-      'Equipped 25+ employees with practical AI skills, improving productivity in document processing, customer communication, and market analysis',
+      'Equipped 5 employees with practical AI skills, improving productivity in customer communication, brainstorming and market analysis',
       'Established a framework for responsible AI usage that balances innovation with data security and compliance requirements',
       'Identified and helped implement 5 quick-win use cases that demonstrated immediate ROI and built organizational confidence in AI technologies',
-      'Created a cultural shift toward AI adoption by demystifying the technology and showing practical, achievable applications'
+      'Created a shift toward AI adoption by demystifying the technology and showing practical, achievable applications'
     ],
 
     learnings: [
