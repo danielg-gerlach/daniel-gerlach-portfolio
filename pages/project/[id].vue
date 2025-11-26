@@ -1,32 +1,49 @@
 <template>
     <div class="min-h-screen bg-black text-white">
-      <!-- Navigation -->
+      <!-- Project Navigation Header -->
       <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/80 border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-6 py-6">
+        <div class="max-w-7xl mx-auto px-6 py-4">
           <div class="flex items-center justify-between">
-            <button 
-              @click="navigateToProjects"
-              class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors group"
-            >
-              <ArrowLeft class="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-              <span>Back to Projects</span>
-            </button>
-            
-            <!-- Project Navigation (Desktop) -->
-            <div class="hidden md:flex items-center space-x-4">
+            <!-- Previous Project -->
+            <div class="flex-1">
               <button
                 v-if="previousProject"
                 @click="navigateToProject(previousProject.id)"
-                class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
+                class="group flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
               >
-                <span>← Previous</span>
+                <ChevronLeft class="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                <div class="text-left hidden sm:block">
+                  <p class="text-xs text-gray-500">Previous</p>
+                  <span class="text-sm">{{ previousProject.title }}</span>
+                </div>
+                <span class="sm:hidden text-sm">Previous</span>
               </button>
+            </div>
+            
+            <!-- All Projects -->
+            <div class="flex-shrink-0">
+              <button 
+                @click="navigateToProjects"
+                class="inline-flex items-center space-x-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all text-sm"
+              >
+                <Layers class="w-4 h-4" />
+                <span class="hidden sm:inline">All Projects</span>
+              </button>
+            </div>
+            
+            <!-- Next Project -->
+            <div class="flex-1 flex justify-end">
               <button
                 v-if="nextProject"
                 @click="navigateToProject(nextProject.id)"
-                class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
+                class="group flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
               >
-                <span>Next →</span>
+                <span class="sm:hidden text-sm">Next</span>
+                <div class="text-right hidden sm:block">
+                  <p class="text-xs text-gray-500">Next</p>
+                  <span class="text-sm">{{ nextProject.title }}</span>
+                </div>
+                <ChevronRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
@@ -394,56 +411,13 @@
           </div>
         </section>
   
-        <!-- Project Navigation Footer -->
-        <section class="py-16 px-6 border-t border-gray-900">
-          <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-6 items-center">
-              <!-- Previous Project -->
-              <div v-if="previousProject" class="text-left">
-                <p class="text-sm text-gray-500 mb-2">Previous Project</p>
-                <button
-                  @click="navigateToProject(previousProject.id)"
-                  class="group flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-                >
-                  <ChevronLeft class="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                  <span>{{ previousProject.title }}</span>
-                </button>
-              </div>
-              <div v-else></div>
-              
-              <!-- Back to Projects -->
-              <div class="text-center">
-                <button 
-                  @click="navigateToProjects"
-                  class="inline-flex items-center space-x-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all"
-                >
-                  <Layers class="w-5 h-5" />
-                  <span>View All Projects</span>
-                </button>
-              </div>
-              
-              <!-- Next Project -->
-              <div v-if="nextProject" class="text-right">
-                <p class="text-sm text-gray-500 mb-2">Next Project</p>
-                <button
-                  @click="navigateToProject(nextProject.id)"
-                  class="group inline-flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
-                >
-                  <span>{{ nextProject.title }}</span>
-                  <ChevronRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-              <div v-else></div>
-            </div>
-          </div>
-        </section>
       </template>
     </div>
   </template>
   
   <script setup>
   import { 
-    ArrowLeft, ExternalLink, Github, BookOpen, Play, 
+    ExternalLink, Github, BookOpen, Play, 
     Calendar, Users, Clock, CheckCircle, AlertCircle,
     Code2, Database, Cloud, Zap, BarChart, Target,
     ChevronRight, ChevronLeft, Terminal, Layers, Award,
