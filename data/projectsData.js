@@ -1,4 +1,8 @@
 export const projectsData = {
+  // ============================================
+  // PERSONAL PROJECTS
+  // ============================================
+  
   'nl2sql-interface': {
     id: 'nl2sql-interface',
     type: 'personal',
@@ -631,6 +635,178 @@ models:
     }
   },
 
+  // ============================================
+  // WORK PROJECTS (ordered by priority)
+  // ============================================
+
+  'autowaschpark-task-manager': {
+    id: 'autowaschpark-task-manager',
+    type: 'work',
+    title: 'Shift Task Manager for Car Wash Operations',
+    subtitle: 'Digital checklist system replacing paper-based task tracking for daily shift operations',
+    year: '2025',
+    role: 'Full-Stack Developer',
+    team: 'Solo Developer',
+    status: 'Completed',
+    tldr: 'Built a tablet-optimized task management app for a car wash facility to replace paper checklists. Employees can track 60+ daily tasks across early and late shifts, with automatic email reports to management and full history tracking. Developed iteratively with constant owner feedback and on-site user testing.',
+
+    overview: `Developed a practical task management tool for Autowaschpark Maximiliansau, a car wash facility that needed to digitize their shift handover process. The app allows employees to work through their daily task lists on an iPad, mark items as complete, add notes when something unusual happens, and automatically notify the owner when a shift is done. Management gets full visibility into who did what and when, solving the accountability issues that came with paper checklists.`,
+
+    problem: `The car wash was running on paper checklists for years. Every shift had a printed list of 30-40 tasks - everything from closing the entrance gate to emptying cash registers to cleaning the wash tunnel. The problems were obvious: papers got lost, handwriting was sometimes unreadable, there was no way to know if tasks were actually done or just checked off, and the owner had no visibility unless he was physically there. When something wasn't done properly, nobody knew who was responsible. The paper system also made it impossible to track patterns - like if certain tasks were consistently being skipped or if specific employees needed additional training.`,
+
+    solution: `Built a simple, iPad-first web application that mirrors their existing workflow but adds the tracking they needed. Employees log in with a shared access code (they're not tech-savvy, so we kept it simple), select their name from a dropdown, choose their shift type, and then work through the task list. Each task can be marked complete with a single tap, and there's an option to add notes for anything unusual. When the shift is done, the system automatically emails a report to the owner with everything that was completed, who did it, and any notes. The owner also has a separate admin login where he can see the full history of all shifts, track completion rates, and manage the employee list. The whole thing was designed around their actual workflow - we did multiple rounds of testing with real employees to make sure it was intuitive enough that anyone could use it without training.`,
+
+    techStack: {
+      'Frontend': ['Next.js', 'React', 'Tailwind CSS'],
+      'Backend': ['Supabase (Database & Auth)', 'PostgreSQL'],
+      'Infrastructure': ['Vercel', 'Resend (Email)'],
+      'Design': ['Mobile-first / iPad-optimized']
+    },
+
+    architecture: {
+      components: [
+        { name: 'Employee Interface', description: 'Simple, touch-friendly checklist view optimized for iPad use in a work environment. Large buttons, clear visual feedback, minimal text input required.' },
+        { name: 'Task Database', description: 'Stores 64 task templates (27 early shift, 37 late shift) organized by work areas like cash register, wash tunnel, outdoor area, and technical room.' },
+        { name: 'Shift Tracking', description: 'Records each shift session with employee assignment, timestamps for every completed task, and optional notes.' },
+        { name: 'Email Reporting', description: 'Automatic shift completion reports sent to management, including task counts, completion time, employee name, and any notes added.' },
+        { name: 'Admin Dashboard', description: 'Secure management interface for viewing shift history, tracking patterns, and managing employee lists.' }
+      ]
+    },
+
+    metrics: {
+      'Task Templates': '64 total (27 early, 37 late)',
+      'Work Areas': '6 categories',
+      'Target Users': '~10 employees',
+      'Device': 'iPad (primary)',
+      'Report Delivery': 'Automatic email on shift completion',
+      'Development Approach': 'Iterative with user testing'
+    },
+
+    challenges: [
+      {
+        challenge: 'Users have varying levels of tech comfort - some employees rarely use smartphones',
+        solution: 'Designed for absolute simplicity. No account creation, no passwords to remember, just a shared code to get in. Big touch targets, obvious visual states (green = done), and a flow that matches their existing mental model of working through a paper list.'
+      },
+      {
+        challenge: 'Getting the task list right - the original paper lists had grown organically over years',
+        solution: 'Worked directly with the owner to review every single task. Some tasks were duplicates, some were outdated, some needed clearer wording. Ended up restructuring 37 late shift and 27 early shift tasks into logical groups by work area.'
+      },
+      {
+        challenge: 'Balancing accountability with trust - the owner wanted tracking but not a surveillance tool',
+        solution: 'Focused on completion visibility rather than time tracking. The system shows what was done and by whom, but doesn\'t monitor how long each task takes. This gives management the accountability they need while respecting that employees know their job.'
+      },
+      {
+        challenge: 'Making sure the app actually gets used instead of falling back to paper',
+        solution: 'Involved employees in testing from early stages. Their feedback shaped the UI - things like making the note button more visible, adding the ability to see which tasks are left, and confirming before marking the shift as complete. When people help build something, they\'re more likely to use it.'
+      }
+    ],
+
+    impact: [
+      'Eliminates paper waste and lost checklists from daily operations',
+      'Gives management real-time visibility into shift completion without being on-site',
+      'Creates accountability through automatic tracking - everyone knows their work is recorded',
+      'Enables pattern recognition over time - identifying consistently skipped tasks or training needs',
+      'Reduces end-of-day communication overhead - automatic reports replace manual updates'
+    ],
+
+    learnings: [
+      'Simple beats clever for non-technical users. Every feature we considered got filtered through "would this confuse someone who doesn\'t use apps much?"',
+      'Paper processes exist for a reason - the goal isn\'t to replace them with something completely different, but to digitize what already works while adding the benefits of tracking',
+      'Iterative development with real users catches problems that seem obvious in hindsight but you\'d never find on your own',
+      'The owner knowing exactly what they wanted was incredibly valuable - many projects struggle because requirements are vague, but here we had clear pain points and clear success criteria',
+      'Sometimes the hardest part isn\'t the code, it\'s getting 64 task descriptions right so they\'re clear enough that any employee understands exactly what to do'
+    ],
+
+    screenshots: [],
+
+    codeSnippets: {},
+
+    links: {
+      github: null,
+      demo: null,
+      documentation: null
+    }
+  },
+
+  'ai-consulting': {
+    id: 'ai-consulting',
+    type: 'work',
+    title: 'AI Integration Consulting',
+    subtitle: 'Strategic AI consulting and training for a real estate company to integrate AI into internal workflows',
+    year: '2024-2025',
+    role: 'AI Consultant & Trainer',
+    team: 'Solo Consultant',
+    status: 'Completed',
+    tldr: 'Advised executive management of a real estate company on integrating AI technologies into existing business processes. Conducted comprehensive AI training sessions for employees, focusing on practical applications of LLMs, automation tools, and AI-powered workflows to improve operational efficiency.',
+
+    overview: `Provided strategic AI consulting services to the leadership team of a medium-sized real estate company. The engagement included analyzing existing business processes, identifying opportunities for AI integration, and developing a roadmap for implementation. Additionally, delivered hands-on training sessions to employees across different departments, covering practical AI tools and techniques applicable to their daily work.`,
+
+    problem: `The real estate company recognized the potential of AI technologies but lacked the internal expertise to identify where and how to integrate these tools effectively. Employees were aware of AI developments but uncertain about practical applications in their specific roles. The company needed strategic guidance and practical training to bridge the gap between AI potential and actual implementation.`,
+
+    solution: `Conducted a comprehensive consulting engagement that included: (1) Workshops with management to assess current workflows and identify impactful AI use cases, (2) Development of a phased roadmap prioritizing quick wins and long-term transformations, (3) Multiple training sessions tailored to different departments, covering tools like ChatGPT, Claude and workflow automation, (4) Creation of internal documentation and guidelines for responsible AI usage and best practices.`,
+
+    techStack: {
+      'AI Technologies': ['Large Language Models (LLMs)', 'ChatGPT', 'Claude', 'Prompt Engineering'],
+      'Automation & Tools': ['Document Processing AI', 'Workflow Automation', 'API Integration'],
+      'Consulting Areas': ['Process Analysis', 'Change Management', 'Training & Enablement']
+    },
+
+    architecture: {
+      components: [
+        { name: 'Strategic Assessment', description: 'Analyzed existing business processes across departments to identify AI integration opportunities with the highest ROI.' },
+        { name: 'Executive Workshops', description: 'Conducted strategy sessions with C-level executives to align AI initiatives with business goals and develop implementation roadmap.' },
+        { name: 'Employee Training Program', description: 'Delivered hands-on training sessions covering practical AI applications, including prompt engineering, document automation, and workflow optimization.' },
+        { name: 'Implementation Guidelines', description: 'Created internal documentation for AI tool usage, security considerations, and best practices for responsible AI deployment.' }
+      ]
+    },
+
+    metrics: {
+      'Training Sessions': '8+ workshops',
+      'Employees Trained': '25+',
+      'Departments Covered': '4',
+      'Use Cases Identified': '15+',
+      'Quick Wins Implemented': '5',
+      'Project Duration': '4 months'
+    },
+
+    challenges: [
+      {
+        challenge: 'Varying levels of technical literacy and AI understanding among employees',
+        solution: 'Developed tiered training content with beginner, intermediate, and advanced tracks. Focused on practical demonstrations and hands-on exercises rather than technical theory.'
+      },
+      {
+        challenge: 'Concerns about data security and confidentiality when using external AI services',
+        solution: 'Created comprehensive guidelines for data handling, established clear rules for what information can be shared with AI tools, and explored on-premise and privacy-focused AI solutions.'
+      },
+    ],
+
+    impact: [
+      'Enabled the company to make strategic decisions about AI investments with clear understanding of costs, benefits, and implementation requirements',
+      'Equipped 5 employees with practical AI skills, improving productivity in customer communication, brainstorming and market analysis',
+      'Established a framework for responsible AI usage that balances innovation with data security and compliance requirements',
+      'Identified and helped implement 5 quick-win use cases that demonstrated immediate ROI and built organizational confidence in AI technologies',
+      'Created a shift toward AI adoption by demystifying the technology and showing practical, achievable applications'
+    ],
+
+    learnings: [
+      'The importance of meeting stakeholders where they are - focusing on practical, job-relevant applications rather than technical capabilities',
+      'How change management and training are as critical as technology selection when integrating AI into established organizations',
+      'The value of starting with quick wins to build momentum and demonstrate ROI before tackling larger transformation initiatives',
+      'That concerns about AI often stem from lack of understanding - hands-on training and clear guidelines can transform skeptics into advocates',
+      'The need to balance innovation with responsibility, particularly around data security, privacy, and ethical AI usage in regulated industries'
+    ],
+
+    screenshots: [],
+
+    codeSnippets: {},
+
+    links: {
+      github: null,
+      demo: null,
+      documentation: null
+    }
+  },
+
   'work-project-1': {
     id: 'work-project-1',
     type: 'work',
@@ -789,6 +965,7 @@ models:
       documentation: null
     }
   },
+
   'work-project-3': {
     id: 'CRM',
     type: 'work',
@@ -832,85 +1009,6 @@ models:
 
     learnings: [
       'Learning'
-    ],
-
-    screenshots: [],
-
-    codeSnippets: {},
-
-    links: {
-      github: null,
-      demo: null,
-      documentation: null
-    }
-  },
-
-  'work-project-4': {
-    id: 'ai-consulting',
-    type: 'work',
-    title: 'AI Integration Consulting',
-    subtitle: 'Strategic AI consulting and training for a real estate company to integrate AI into internal workflows',
-    year: '2024-2025',
-    role: 'AI Consultant & Trainer',
-    team: 'Solo Consultant',
-    status: 'Completed',
-    tldr: 'Advised executive management of a real estate company on integrating AI technologies into existing business processes. Conducted comprehensive AI training sessions for employees, focusing on practical applications of LLMs, automation tools, and AI-powered workflows to improve operational efficiency.',
-
-    overview: `Provided strategic AI consulting services to the leadership team of a medium-sized real estate company. The engagement included analyzing existing business processes, identifying opportunities for AI integration, and developing a roadmap for implementation. Additionally, delivered hands-on training sessions to employees across different departments, covering practical AI tools and techniques applicable to their daily work.`,
-
-    problem: `The real estate company recognized the potential of AI technologies but lacked the internal expertise to identify where and how to integrate these tools effectively. Employees were aware of AI developments but uncertain about practical applications in their specific roles. The company needed strategic guidance and practical training to bridge the gap between AI potential and actual implementation.`,
-
-    solution: `Conducted a comprehensive consulting engagement that included: (1) Workshops with management to assess current workflows and identify impactful AI use cases, (2) Development of a phased roadmap prioritizing quick wins and long-term transformations, (3) Multiple training sessions tailored to different departments, covering tools like ChatGPT, Claude and workflow automation, (4) Creation of internal documentation and guidelines for responsible AI usage and best practices.`,
-
-    techStack: {
-      'AI Technologies': ['Large Language Models (LLMs)', 'ChatGPT', 'Claude', 'Prompt Engineering'],
-      'Automation & Tools': ['Document Processing AI', 'Workflow Automation', 'API Integration'],
-      'Consulting Areas': ['Process Analysis', 'Change Management', 'Training & Enablement']
-    },
-
-    architecture: {
-      components: [
-        { name: 'Strategic Assessment', description: 'Analyzed existing business processes across departments to identify AI integration opportunities with the highest ROI.' },
-        { name: 'Executive Workshops', description: 'Conducted strategy sessions with C-level executives to align AI initiatives with business goals and develop implementation roadmap.' },
-        { name: 'Employee Training Program', description: 'Delivered hands-on training sessions covering practical AI applications, including prompt engineering, document automation, and workflow optimization.' },
-        { name: 'Implementation Guidelines', description: 'Created internal documentation for AI tool usage, security considerations, and best practices for responsible AI deployment.' }
-      ]
-    },
-
-    metrics: {
-      'Training Sessions': '8+ workshops',
-      'Employees Trained': '25+',
-      'Departments Covered': '4',
-      'Use Cases Identified': '15+',
-      'Quick Wins Implemented': '5',
-      'Project Duration': '4 months'
-    },
-
-    challenges: [
-      {
-        challenge: 'Varying levels of technical literacy and AI understanding among employees',
-        solution: 'Developed tiered training content with beginner, intermediate, and advanced tracks. Focused on practical demonstrations and hands-on exercises rather than technical theory.'
-      },
-      {
-        challenge: 'Concerns about data security and confidentiality when using external AI services',
-        solution: 'Created comprehensive guidelines for data handling, established clear rules for what information can be shared with AI tools, and explored on-premise and privacy-focused AI solutions.'
-      },
-    ],
-
-    impact: [
-      'Enabled the company to make strategic decisions about AI investments with clear understanding of costs, benefits, and implementation requirements',
-      'Equipped 5 employees with practical AI skills, improving productivity in customer communication, brainstorming and market analysis',
-      'Established a framework for responsible AI usage that balances innovation with data security and compliance requirements',
-      'Identified and helped implement 5 quick-win use cases that demonstrated immediate ROI and built organizational confidence in AI technologies',
-      'Created a shift toward AI adoption by demystifying the technology and showing practical, achievable applications'
-    ],
-
-    learnings: [
-      'The importance of meeting stakeholders where they are - focusing on practical, job-relevant applications rather than technical capabilities',
-      'How change management and training are as critical as technology selection when integrating AI into established organizations',
-      'The value of starting with quick wins to build momentum and demonstrate ROI before tackling larger transformation initiatives',
-      'That concerns about AI often stem from lack of understanding - hands-on training and clear guidelines can transform skeptics into advocates',
-      'The need to balance innovation with responsibility, particularly around data security, privacy, and ethical AI usage in regulated industries'
     ],
 
     screenshots: [],
