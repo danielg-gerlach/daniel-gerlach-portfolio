@@ -196,337 +196,1103 @@ def detect_chart_type(columns: list, sample_row: dict) -> str:
     }
   },
 
-  'data-pipeline-observability': {
-    id: 'pipeline-observability',
+  'rag-technical-docs': {
+    id: 'rag-technical-docs',
     type: 'personal',
-    title: 'Data Pipeline Observability Dashboard',
-    subtitle: 'Centralized monitoring and alerting system for tracking data pipeline health and performance',
+    title: 'RAG Technical Documentation Assistant',
+    subtitle: 'Retrieval-Augmented Generation system for querying technical documentation using Gemini and ChromaDB',
     year: '2025',
-    role: 'Data Engineer',
+    role: 'AI Engineer',
     team: 'Solo project',
     status: 'In Development',
-    tldr: 'Building a centralized observability system for data pipelines with PostgreSQL for metrics storage and Streamlit for visualization. Features configurable threshold-based alerting, historical trend analysis, and integration with dbt/Airflow. Tracks runtime, record counts, data quality checks, and provides actionable alerts for pipeline failures.',
+    tldr: 'Building a RAG pipeline that ingests technical documentation (API docs, engineering specs, whitepapers), chunks and embeds them into ChromaDB, and uses Gemini to answer technical questions with source citations. Implements semantic search, context window optimization, and evaluation metrics for retrieval quality.',
 
-    overview: 'Developing a practical observability dashboard for monitoring data pipeline health across multiple ETL/ELT jobs. The system collects operational metrics (runtime, row counts, status codes, data quality results) in a centralized PostgreSQL database and presents them through an interactive Streamlit dashboard with configurable alerting thresholds.',
+    overview: `Developing a production-ready RAG (Retrieval-Augmented Generation) system designed for technical documentation. Engineers can upload API documentation, system specs, or technical whitepapers and ask natural language questions. The system chunks documents intelligently, generates embeddings, stores them in ChromaDB for semantic search, retrieves relevant context, and uses Google Gemini to generate accurate technical answers with source citations.`,
 
-    problem: 'Data pipelines can fail silently - completing without errors but processing zero records, taking unusually long, or producing poor quality data. Without centralized monitoring, data engineers spend hours manually checking logs across different systems to diagnose issues, leading to delayed detection of data problems and loss of stakeholder trust.',
+    problem: `Engineers waste hours searching through scattered technical documentation. LLMs have knowledge cutoffs and can't access internal docs or recent API changes. Traditional keyword search misses semantic meaning - searching "authentication" won't find docs about "OAuth tokens". Simply pasting entire docs into LLM context is expensive, hits token limits, and reduces answer quality for specific technical questions.`,
 
-    solution: 'Planning to build a lightweight instrumentation library that any pipeline (Python scripts, dbt models, Airflow DAGs) can use to log metrics to a central PostgreSQL database. A Streamlit dashboard will provide real-time and historical views of pipeline health, with configurable threshold-based alerts (e.g., "alert if runtime > 2x average" or "alert if row count = 0").',
+    solution: `Building a RAG pipeline with four stages: (1) Document ingestion with intelligent chunking that preserves code blocks and technical context, (2) Embedding generation and vector storage in ChromaDB, (3) Semantic retrieval of the most relevant chunks for each query, (4) LLM response generation with Gemini using retrieved context and source attribution. Optimized for technical content including code snippets, API references, and configuration examples.`,
 
     techStack: {
-      'Backend': ['Python', 'SQLAlchemy', 'Pandas', 'psycopg2'],
-      'Dashboard': ['Streamlit', 'Plotly', 'Altair'],
-      'Database': ['PostgreSQL', 'TimescaleDB (planned)'],
-      'Integration': ['dbt artifacts', 'Airflow callbacks', 'Great Expectations'],
-      'Infrastructure': ['Docker', 'docker-compose']
+      'LLM & Embeddings': ['Google Gemini API', 'Gemini Embedding Model'],
+      'Vector Database': ['ChromaDB'],
+      'Document Processing': ['PyPDF2', 'LangChain Text Splitters', 'BeautifulSoup'],
+      'Backend': ['FastAPI', 'Python'],
+      'Frontend': ['Streamlit'],
+      'Evaluation': ['RAGAS', 'Custom metrics']
     },
 
     architecture: {
       components: [
-        { name: 'Pipeline Instrumentation', description: 'Lightweight Python decorator/context manager that wraps pipeline functions to automatically capture metrics (start time, end time, row counts, errors).' },
-        { name: 'Metrics Database', description: 'PostgreSQL database with tables for pipeline_runs, pipeline_configs (threshold settings), and alert_history. Planning to use TimescaleDB extension for efficient time-series queries.' },
-        { name: 'Alert Engine', description: 'SQL-based rule evaluation that runs on each new pipeline execution. Compares current metrics against configurable thresholds and historical baselines.' },
-        { name: 'Observability Dashboard', description: 'Multi-page Streamlit application with pipeline health overview, trend charts, alert configuration UI, and detailed run logs.' },
-        { name: 'Integration Layer', description: 'Connectors for dbt (parse manifest.json for test results), Airflow (custom callback), and Great Expectations (ingest validation results).' }
+        { name: 'Document Processor', description: 'Extracts text from PDFs, Markdown, and HTML. Uses custom splitter that preserves code blocks, tables, and technical structure during chunking.' },
+        { name: 'Embedding Pipeline', description: 'Generates vector embeddings using Gemini embedding model with task_type optimized for retrieval. Handles batching for large document sets.' },
+        { name: 'Vector Store', description: 'ChromaDB instance with persistent storage, metadata filtering by doc type and section, and similarity search with configurable top-k retrieval.' },
+        { name: 'Retrieval Engine', description: 'Semantic search with MMR (Maximum Marginal Relevance) for diverse results. Re-ranking for improved relevance on technical queries.' },
+        { name: 'Generation Layer', description: 'Gemini LLM with custom prompt template for technical Q&A. Enforces citation of sources, handles code formatting, and manages context window limits.' },
+        { name: 'Evaluation Module', description: 'Measures retrieval precision, answer faithfulness, and technical accuracy using RAGAS framework and custom metrics.' }
       ]
     },
 
     metrics: {
-      'Monitored Pipelines': '10+',
-      'Tracked Metrics': '8 (runtime, rows, tests, etc.)',
-      'Alert Types': '5 (threshold, trend, zero-rows, etc.)',
-      'Dashboard Load Time': '<2s',
-      'Metric Retention': '90 days',
-      'Alert Latency': '<30s'
+      'Chunk Size': '512 tokens (configurable)',
+      'Chunk Overlap': '50 tokens',
+      'Top-K Retrieval': '5 chunks default',
+      'Embedding Dimensions': '768',
+      'Response Time': '<3s end-to-end',
+      'Supported Formats': 'PDF, Markdown, HTML, TXT'
     },
 
     challenges: [
       {
-        challenge: 'Making thresholds flexible for pipelines with different normal behaviors.',
-        solution: 'Planning to implement per-pipeline configuration with both absolute thresholds (e.g., max_runtime: 3600s) and relative thresholds (e.g., 2x rolling 7-day average). Dashboard UI will allow easy threshold tuning.'
+        challenge: 'Preserving code blocks and technical formatting during chunking.',
+        solution: 'Implementing custom text splitter that detects code fences (```) and keeps code blocks intact. Falls back to splitting at paragraph boundaries rather than mid-sentence for technical prose.'
       },
       {
-        challenge: 'Avoiding alert fatigue from too many false positives.',
-        solution: 'Will implement alert suppression (don\'t re-alert within X hours), severity levels (warning vs. critical), and trend-based alerting (3 consecutive slow runs) rather than single-point alerts.'
+        challenge: 'Determining optimal chunk size that balances context preservation with retrieval precision.',
+        solution: 'Implementing configurable chunking with recursive text splitter. Testing chunk sizes from 256-1024 tokens and measuring retrieval quality. Using overlap to prevent context loss at chunk boundaries.'
       },
       {
-        challenge: 'Integrating with existing tools without disrupting production pipelines.',
-        solution: 'Designing instrumentation as non-blocking - if logging fails, pipeline continues. Using simple API (one function call) and planning webhook integrations for Slack/email notifications.'
+        challenge: 'Handling queries that require information from multiple documentation sections.',
+        solution: 'Using MMR-based retrieval to get diverse chunks rather than semantically similar ones. Implementing iterative retrieval for complex queries that synthesize multiple sources.'
       },
       {
-        challenge: 'Comparing pipeline runs over time when source data volumes change.',
-        solution: 'Planning to track both absolute metrics (1000 rows) and ratios (0.95 of expected rows based on source count). Will implement "expected row count" feature based on upstream table sizes.'
+        challenge: 'Ensuring LLM answers are grounded in retrieved context and not hallucinated.',
+        solution: 'Prompt engineering that explicitly instructs citation of sources. Post-processing to verify claims against retrieved chunks. Implementing faithfulness scoring in evaluation pipeline.'
+      },
+      {
+        challenge: 'Managing ChromaDB collection size and query performance as document count grows.',
+        solution: 'Implementing collection partitioning by document type, metadata filtering to narrow search scope, and periodic index optimization.'
       }
     ],
 
     impact: [
-      'Will reduce mean time to detection (MTTD) for pipeline issues from hours to minutes',
-      'Planning to provide single pane of glass for monitoring all data pipelines across the organization',
-      'Aiming to eliminate manual log checking by centralizing all pipeline metrics in one dashboard',
-      'Will enable proactive issue detection through trend analysis and configurable alerting'
+      'Enables engineers to query technical documentation in natural language, reducing time to find answers from 15+ minutes to seconds',
+      'Provides traceable answers with source citations, building trust in AI-generated technical guidance',
+      'Handles internal documentation that public LLMs cannot access',
+      'Creates reusable RAG pipeline pattern applicable to any technical documentation use case'
     ],
 
     learnings: [
-      'Learning that simple, well-configured threshold alerts are more practical than complex ML models for most pipeline monitoring scenarios',
-      'Understanding the importance of making instrumentation effortless - if it takes more than 2 lines of code, adoption suffers',
-      'Exploring how to balance alerting sensitivity - too loose and you miss issues, too tight and you get alert fatigue',
-      'Recognizing that good observability requires both technical metrics (runtime) and business metrics (row counts, data quality)'
+      'Chunking strategy has massive impact on retrieval quality - too small loses context, too large reduces precision',
+      'Technical content requires special handling - code blocks, tables, and structured data need custom splitting logic',
+      'Embedding model choice matters as much as LLM choice for RAG quality',
+      'Evaluation is critical - without metrics like faithfulness and relevance, you cannot improve the system systematically',
+      'Hybrid search (semantic + keyword) often outperforms pure semantic search for specific technical terms and function names'
     ],
 
     screenshots: [
-      { title: 'Pipeline Health Overview', url: '/projects/pipeline-dashboard-main.png' },
-      { title: 'Historical Trends & Alerts', url: '/projects/pipeline-trends.png' },
-      { title: 'Alert Configuration UI', url: '/projects/pipeline-config.png' },
-      { title: 'Detailed Run Logs', url: '/projects/pipeline-logs.png' }
+      { title: 'Document Upload & Processing', url: '/projects/rag-upload.png' },
+      { title: 'Technical Q&A Interface with Citations', url: '/projects/rag-qa.png' },
+      { title: 'Retrieval Evaluation Dashboard', url: '/projects/rag-eval.png' }
     ],
 
     codeSnippets: {
-      'Pipeline Instrumentation Decorator': `
-# Simple decorator to automatically log pipeline metrics
-from pipeline_monitor import log_execution
-from datetime import datetime
+      'Technical Document Chunking': `
+# Intelligent chunking that preserves code blocks and technical structure
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from PyPDF2 import PdfReader
+import re
 
-@log_execution(pipeline_name="daily_sales_etl")
-def run_sales_pipeline():
-    """Example pipeline function with automatic monitoring"""
-    # Extract
-    raw_data = extract_from_source()
-    
-    # Transform
-    clean_data = transform_data(raw_data)
-    
-    # Load
-    rows_loaded = load_to_warehouse(clean_data)
-    
-    # Return metrics for logging
-    return {
-        "rows_processed": len(raw_data),
-        "rows_loaded": rows_loaded,
-        "status": "success"
-    }
-
-# The decorator automatically captures:
-# - Start/end time (duration)
-# - Success/failure status
-# - Any custom metrics returned by function
-# - Error messages if exception occurs
-      `,
-
-      'Rule-Based Alert Evaluation': `
--- SQL query to evaluate alerts for each pipeline run
--- Runs automatically after each pipeline execution
-WITH pipeline_stats AS (
-  SELECT 
-    pipeline_name,
-    AVG(duration_seconds) as avg_duration,
-    STDDEV(duration_seconds) as stddev_duration,
-    AVG(rows_processed) as avg_rows
-  FROM pipeline_runs
-  WHERE 
-    run_timestamp > CURRENT_DATE - INTERVAL '7 days'
-    AND status = 'success'
-  GROUP BY pipeline_name
-),
-current_run AS (
-  SELECT * FROM pipeline_runs 
-  WHERE run_id = :current_run_id
-)
-SELECT 
-  cr.pipeline_name,
-  cr.run_id,
-  CASE
-    -- Zero rows processed
-    WHEN cr.rows_processed = 0 
-      THEN 'CRITICAL: Zero rows processed'
-    
-    -- Runtime exceeds 2x average
-    WHEN cr.duration_seconds > (ps.avg_duration * 2)
-      THEN 'WARNING: Runtime ' || 
-           ROUND((cr.duration_seconds / ps.avg_duration), 1) || 
-           'x slower than average'
-    
-    -- Row count dropped >30% from average
-    WHEN cr.rows_processed < (ps.avg_rows * 0.7)
-      THEN 'WARNING: Row count ' ||
-           ROUND(((ps.avg_rows - cr.rows_processed) / ps.avg_rows * 100), 0) ||
-           '% below average'
-    
-    -- Pipeline failed
-    WHEN cr.status = 'failed'
-      THEN 'CRITICAL: Pipeline execution failed'
-    
-    ELSE 'OK'
-  END as alert_message,
-  cr.duration_seconds,
-  ps.avg_duration,
-  cr.rows_processed,
-  ps.avg_rows
-FROM current_run cr
-JOIN pipeline_stats ps ON cr.pipeline_name = ps.pipeline_name;
-      `,
-
-      'Streamlit Dashboard - Health Overview': `
-# Main dashboard page showing all pipeline statuses
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-
-st.title("🔍 Pipeline Observability Dashboard")
-
-# Fetch latest runs for all pipelines
-latest_runs = get_latest_pipeline_runs()
-
-# Create status summary metrics
-col1, col2, col3, col4 = st.columns(4)
-col1.metric("Healthy", len(latest_runs[latest_runs['status'] == 'success']))
-col2.metric("Failed", len(latest_runs[latest_runs['status'] == 'failed']))
-col3.metric("Warnings", len(latest_runs[latest_runs['has_alert'] == True]))
-col4.metric("Total Pipelines", len(latest_runs))
-
-# Pipeline health table with status indicators
-st.subheader("Pipeline Status")
-for _, row in latest_runs.iterrows():
-    with st.expander(f"{'✅' if row['status']=='success' else '❌'} {row['pipeline_name']}"):
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Duration", f"{row['duration_seconds']}s")
-        col2.metric("Rows", f"{row['rows_processed']:,}")
-        col3.metric("Last Run", row['run_timestamp'].strftime('%Y-%m-%d %H:%M'))
+class TechnicalDocumentChunker:
+    def __init__(self, chunk_size: int = 512, chunk_overlap: int = 50):
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
         
-        if row['has_alert']:
-            st.warning(f"⚠️ {row['alert_message']}")
+        # Custom separators prioritizing technical document structure
+        self.splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            length_function=len,
+            separators=[
+                "\\n## ",      # Markdown H2 headers
+                "\\n### ",     # Markdown H3 headers
+                "\\n\\n",      # Paragraph breaks
+                "\\n",         # Line breaks
+                ". ",          # Sentences
+                " ",           # Words
+                ""
+            ]
+        )
+    
+    def _extract_code_blocks(self, text: str) -> tuple[str, dict]:
+        """Extract code blocks and replace with placeholders."""
+        code_blocks = {}
+        pattern = r'\`\`\`[\w]*\n[\s\S]*?\`\`\`'
+        
+        def replacer(match):
+            placeholder = f"__CODE_BLOCK_{len(code_blocks)}__"
+            code_blocks[placeholder] = match.group(0)
+            return placeholder
+        
+        processed_text = re.sub(pattern, replacer, text)
+        return processed_text, code_blocks
+    
+    def _restore_code_blocks(self, chunks: list[str], code_blocks: dict) -> list[str]:
+        """Restore code blocks in chunks."""
+        restored = []
+        for chunk in chunks:
+            for placeholder, code in code_blocks.items():
+                chunk = chunk.replace(placeholder, code)
+            restored.append(chunk)
+        return restored
+    
+    def chunk_document(self, text: str, metadata: dict) -> list[dict]:
+        """
+        Chunk technical document while preserving code blocks.
+        Returns list of chunks with metadata.
+        """
+        # Extract code blocks to prevent splitting them
+        processed_text, code_blocks = self._extract_code_blocks(text)
+        
+        # Split text
+        raw_chunks = self.splitter.split_text(processed_text)
+        
+        # Restore code blocks
+        chunks = self._restore_code_blocks(raw_chunks, code_blocks)
+        
+        # Add metadata to each chunk
+        return [
+            {
+                "text": chunk,
+                "metadata": {
+                    **metadata,
+                    "chunk_index": i,
+                    "has_code": "\`\`\`" in chunk
+                }
+            }
+            for i, chunk in enumerate(chunks)
+        ]
+`,
 
-# Runtime trend chart
-st.subheader("Pipeline Runtime Trends (Last 7 Days)")
-trend_data = get_pipeline_trends(days=7)
-fig = px.line(trend_data, x='run_timestamp', y='duration_seconds', 
-              color='pipeline_name', title='Execution Time Over Time')
-st.plotly_chart(fig)
-      `
+      'ChromaDB Vector Store': `
+# Vector storage and retrieval with ChromaDB
+import chromadb
+from chromadb.config import Settings
+import google.generativeai as genai
+
+class TechnicalDocsVectorStore:
+    def __init__(self, collection_name: str = "technical_docs"):
+        self.client = chromadb.PersistentClient(
+            path="./chroma_db",
+            settings=Settings(anonymized_telemetry=False)
+        )
+        self.collection = self.client.get_or_create_collection(
+            name=collection_name,
+            metadata={"hnsw:space": "cosine"}
+        )
+        
+        # Configure Gemini
+        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+    
+    def add_documents(self, chunks: list[dict]):
+        """Embed and store document chunks."""
+        texts = [c["text"] for c in chunks]
+        metadatas = [c["metadata"] for c in chunks]
+        ids = [f"chunk_{i}_{c['metadata'].get('doc_name', 'unknown')}" 
+               for i, c in enumerate(chunks)]
+        
+        # Generate embeddings with Gemini
+        embeddings = self._embed_texts(texts)
+        
+        self.collection.add(
+            documents=texts,
+            embeddings=embeddings,
+            metadatas=metadatas,
+            ids=ids
+        )
+        
+        return len(chunks)
+    
+    def query(self, question: str, top_k: int = 5, 
+              filter_dict: dict = None) -> list[dict]:
+        """Retrieve most relevant chunks for a technical question."""
+        query_embedding = self._embed_texts([question])[0]
+        
+        query_params = {
+            "query_embeddings": [query_embedding],
+            "n_results": top_k,
+            "include": ["documents", "metadatas", "distances"]
+        }
+        
+        if filter_dict:
+            query_params["where"] = filter_dict
+        
+        results = self.collection.query(**query_params)
+        
+        return [
+            {
+                "text": doc,
+                "metadata": meta,
+                "relevance_score": 1 - dist  # Convert distance to similarity
+            }
+            for doc, meta, dist in zip(
+                results["documents"][0],
+                results["metadatas"][0],
+                results["distances"][0]
+            )
+        ]
+    
+    def _embed_texts(self, texts: list[str]) -> list[list[float]]:
+        """Generate embeddings using Gemini."""
+        embeddings = []
+        for text in texts:
+            result = genai.embed_content(
+                model="models/embedding-001",
+                content=text,
+                task_type="retrieval_document"
+            )
+            embeddings.append(result["embedding"])
+        return embeddings
+`,
+
+      'RAG Query Pipeline': `
+# Complete RAG pipeline for technical documentation Q&A
+import google.generativeai as genai
+
+class TechnicalDocsRAG:
+    def __init__(self, vector_store: TechnicalDocsVectorStore):
+        self.vector_store = vector_store
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        
+    def query(self, question: str, doc_filter: dict = None) -> dict:
+        """
+        Full RAG pipeline: retrieve context and generate technical answer.
+        """
+        # Step 1: Retrieve relevant chunks
+        retrieved = self.vector_store.query(
+            question, 
+            top_k=5,
+            filter_dict=doc_filter
+        )
+        
+        if not retrieved:
+            return {
+                "answer": "No relevant documentation found for this question.",
+                "sources": []
+            }
+        
+        # Step 2: Build context with source tracking
+        context_parts = []
+        for i, chunk in enumerate(retrieved):
+            doc_name = chunk['metadata'].get('doc_name', 'Unknown')
+            section = chunk['metadata'].get('section', '')
+            source_label = f"[Source {i+1}: {doc_name}"
+            if section:
+                source_label += f" - {section}"
+            source_label += "]"
+            context_parts.append(f"{source_label}\\n{chunk['text']}")
+        
+        context = "\\n\\n---\\n\\n".join(context_parts)
+        
+        # Step 3: Generate answer with technical prompt
+        prompt = f"""You are a technical documentation assistant. Answer the question based ONLY on the provided documentation context.
+
+Rules:
+- Always cite your sources using [Source N] notation
+- Preserve code formatting using markdown code blocks
+- If the documentation doesn't contain enough information, say so clearly
+- Be precise and technical in your explanations
+
+Documentation Context:
+{context}
+
+Question: {question}
+
+Technical Answer:"""
+
+        response = self.model.generate_content(prompt)
+        
+        return {
+            "answer": response.text,
+            "sources": [
+                {
+                    "doc_name": c["metadata"].get("doc_name", "Unknown"),
+                    "section": c["metadata"].get("section", ""),
+                    "text_preview": c["text"][:200] + "...",
+                    "relevance_score": round(c["relevance_score"], 3),
+                    "has_code": c["metadata"].get("has_code", False)
+                }
+                for c in retrieved
+            ],
+            "chunks_retrieved": len(retrieved)
+        }
+`
     },
 
     links: {
-      github: 'https://github.com/danielg-gerlach/pipeline-observability-dashboard',
+      github: 'https://github.com/danielg-gerlach/rag-technical-docs',
       demo: null,
       documentation: null
     }
   },
 
-  'orchestrated-dbt-f1-analytics': {
-    id: 'orchestrated-dbt-f1-analytics',
+  'snowflake-saas-dwh': {
+    id: 'snowflake-saas-dwh',
     type: 'personal',
-    title: 'F1 Analytics Pipeline',
-    subtitle: 'An end-to-end, orchestrated ELT pipeline for F1 historical data deployed with Docker',
+    title: 'Snowflake SaaS Analytics Data Warehouse',
+    subtitle: 'Production-grade dimensional data warehouse for SaaS product analytics with SCD Type 2, incremental loads, and dbt',
     year: '2025',
     role: 'Data Engineer',
     team: 'Solo project',
     status: 'In Development',
-    tldr: 'Building a full ELT pipeline using dbt for transformations and DuckDB as a warehouse, orchestrated by Apache Airflow. Planning to containerize the entire stack with Docker, scheduling daily runs to ingest raw data, run dbt models, and execute data quality tests automatically. This will create a reliable, automated system for F1 analytics.',
+    tldr: 'Building a dimensional data warehouse in Snowflake for SaaS product analytics. Implements star schema with subscription, usage, and revenue fact tables. Features SCD Type 2 for tracking customer and plan changes over time, incremental loading patterns, and full dbt project with tests and documentation. Covers key SaaS metrics: MRR, churn, LTV, feature adoption.',
 
-    overview: 'Developing a fully automated, end-to-end ELT pipeline for historical Formula 1 race data. The entire pipeline will be orchestrated by Apache Airflow, which will handle scheduling, task dependencies, and retries. Raw data will be ingested and loaded into a DuckDB data warehouse. dbt Core will then be triggered to transform the data into an analytics-ready dimensional model. The whole environment will be containerized via Docker for easy and reproducible deployment.',
+    overview: `Developing a production-grade data warehouse on Snowflake specifically designed for SaaS product analytics. The project ingests raw subscription data, usage events, and billing information, transforming them into a star schema optimized for analyzing customer lifecycle, revenue metrics, and product engagement. Implements slowly changing dimensions (SCD Type 2) to track how customers, subscriptions, and pricing plans change over time - critical for accurate cohort analysis and historical reporting.`,
 
-    problem: 'Analytical data pipelines require more than just transformation logic; they need to be scheduled, monitored, and be resilient to failure. Manually running ingestion and dbt scripts is not scalable or reliable for providing stakeholders with timely, accurate data.',
+    problem: `SaaS companies need to track complex metrics like MRR movements, customer churn, expansion revenue, and feature adoption over time. Raw transactional data doesn't support these analytics - subscription changes overwrite history, making it impossible to answer "what was this customer's plan 6 months ago?" Without proper dimensional modeling, analysts write complex queries that produce inconsistent metrics across teams.`,
 
-    solution: 'Planning to develop an Airflow DAG that will orchestrate the entire process. A `BashOperator` will first ingest raw data. The `Cosmos` provider will then be used to dynamically parse the dbt project and create a corresponding task group in Airflow, perfectly preserving the dependency graph. This DAG will run on a daily schedule, ensuring the entire pipeline from raw CSVs to analytics-ready tables is automated and reliable.',
+    solution: `Building a three-layer data warehouse architecture: (1) Raw/Staging layer that lands source data from application database and billing system, (2) Integration layer that applies business logic, SCD Type 2 handling for customers and subscriptions, and standardizes event data, (3) Presentation layer with star schema optimized for SaaS analytics including pre-calculated MRR, churn flags, and usage aggregations. Using dbt for all transformations with comprehensive testing.`,
 
     techStack: {
-      'Orchestration': ['Apache Airflow', 'Docker', 'docker-compose'],
-      'Data Transformation': ['dbt Core', 'Cosmos (Airflow Provider)'],
-      'Data Warehouse': ['DuckDB'],
-      'Languages & Tools': ['SQL', 'Python', 'YAML', 'Jinja']
+      'Data Warehouse': ['Snowflake'],
+      'Transformation': ['dbt Core', 'SQL', 'Jinja'],
+      'Orchestration': ['Snowflake Tasks', 'dbt Cloud (planned)'],
+      'Data Quality': ['dbt tests', 'dbt expectations'],
+      'Version Control': ['Git', 'GitHub'],
+      'Documentation': ['dbt docs', 'ERD diagrams']
     },
 
     architecture: {
       components: [
-        { name: 'Containerization', description: 'Docker and docker-compose define and run the entire multi-container application (Airflow, Postgres backend, etc.).' },
-        { name: 'Orchestration Layer', description: 'Apache Airflow schedules, executes, and monitors the DAG containing all pipeline tasks.' },
-        { name: 'Ingestion Task', description: 'A Python script, run via an Airflow operator, downloads raw CSV data.' },
-        { name: 'Transformation Task Group', description: 'The `Cosmos` provider automatically generates Airflow tasks for each dbt model, test, and snapshot.' },
-        { name: 'Analytical Database', description: 'A file-based DuckDB instance acts as the fast, local data warehouse.' }
+        { name: 'Staging Layer (RAW)', description: 'Landing zone for source data from application Postgres DB and Stripe billing. Implements COPY INTO from S3 with file metadata tracking and deduplication.' },
+        { name: 'Integration Layer (INT)', description: 'Business logic application, data type standardization, and SCD Type 2 processing using dbt snapshots for customers, subscriptions, and pricing plans.' },
+        { name: 'Presentation Layer (MART)', description: 'Star schema with conformed dimensions and fact tables. Optimized for BI tool consumption with proper clustering keys on date and customer.' },
+        { name: 'Fact Tables', description: 'fact_subscriptions (grain: subscription state per day), fact_usage_events (grain: individual usage event), fact_mrr_movements (grain: MRR change event), fact_invoices (grain: invoice line item).' },
+        { name: 'Dimension Tables', description: 'dim_customers (SCD2), dim_subscriptions (SCD2), dim_plans (SCD2), dim_features, dim_date.' },
+        { name: 'Metrics Layer', description: 'Pre-calculated business metrics: MRR by cohort, churn rates, LTV estimates, feature adoption rates, usage percentiles.' }
       ]
     },
 
     metrics: {
-      'dbt Models': '15+',
-      'Data Tests': '20+',
-      'Schedule': 'Daily',
-      'Containerized': 'Yes',
-      'Stack Cost': '$0 (100% Free & Open Source)',
-      'Airflow Tasks': 'Auto-generated'
+      'Fact Tables': '4',
+      'Dimension Tables': '5',
+      'SCD Type 2 Tables': '3 (customers, subscriptions, plans)',
+      'dbt Models': '30+',
+      'dbt Tests': '60+',
+      'Load Pattern': 'Incremental (daily)',
+      'Sample Data': '50K customers, 3 years history'
     },
 
     challenges: [
       {
-        challenge: 'Integrating dbt project dependencies seamlessly into Airflow.',
-        solution: 'Planning to utilize the open-source `Cosmos` provider, which will auto-generate Airflow tasks from the dbt project DAG, perfectly preserving model dependencies and streamlining the integration.'
+        challenge: 'Implementing SCD Type 2 efficiently for high-volume subscription changes.',
+        solution: 'Using dbt snapshots with timestamp strategy for change detection. Configuring appropriate clustering on surrogate keys and effective dates for query performance. Implementing merge pattern for updates rather than delete+insert.'
       },
       {
-        challenge: 'Managing a multi-container local development environment.',
-        solution: 'Will define all services, networks, and volumes in a `docker-compose.yml` file, allowing the entire stack to be spun up or down with a single command.'
+        challenge: 'Calculating MRR movements (new, expansion, contraction, churn) accurately.',
+        solution: 'Building fact_mrr_movements table that compares each subscription state to its previous state. Categorizing changes based on MRR delta and subscription status. Handling edge cases like reactivations and plan changes on same day.'
+      },
+      {
+        challenge: 'Designing incremental loads that handle late-arriving usage events.',
+        solution: 'Implementing lookback windows in incremental models (3-day default for subscriptions, 7-day for usage events). Using dbt incremental strategy with merge for upserts. Adding reconciliation checks between source counts and warehouse counts.'
+      },
+      {
+        challenge: 'Maintaining referential integrity between facts and dimensions with SCD2.',
+        solution: 'Using surrogate keys throughout. Implementing point-in-time lookups that join facts to the correct dimension record based on effective dates. Adding dbt tests to validate referential integrity.'
+      },
+      {
+        challenge: 'Optimizing Snowflake costs while maintaining query performance for dashboards.',
+        solution: 'Implementing proper clustering keys based on common query patterns (date, customer_id). Using transient tables for staging. Configuring appropriate warehouse sizes per workload. Monitoring with Snowflake Resource Monitor.'
       }
     ],
 
     impact: [
-      'Will automate the entire data workflow, eliminating manual runs and ensuring data is always fresh',
-      'Planning to increase pipeline reliability with Airflow\'s built-in retry and alerting mechanisms',
-      'Aiming to create a fully documented and reproducible data pipeline using dbt and Airflow'
+      'Creates single source of truth for SaaS metrics, eliminating inconsistent calculations across teams',
+      'Enables historical analysis with SCD Type 2 - accurately track customer journey and subscription changes over time',
+      'Implements data quality gates that catch issues before they reach executive dashboards',
+      'Provides full data lineage through dbt documentation, making impact analysis straightforward',
+      'Demonstrates production-grade data engineering patterns valued by employers'
     ],
 
     learnings: [
-      'Learning how to build and manage a production-style data pipeline locally using a containerized Airflow environment',
-      'Exploring the power of tools like Cosmos to abstract away the complexity of integrating dbt with Airflow',
-      'Understanding the importance of orchestration for creating robust, scalable, and maintainable data systems'
+      'SaaS metrics have nuanced definitions - MRR calculation alone has multiple edge cases (prorations, trials, annual-to-monthly conversions)',
+      'SCD Type 2 is essential for SaaS analytics - "as-of" reporting is required for cohort analysis and accurate churn calculation',
+      'Grain decisions are critical - subscription facts need daily grain to track status changes, but usage events need event-level grain',
+      'dbt tests are not optional - they are the contract between data engineers and finance/product teams who rely on these metrics',
+      'Incremental loading requires careful thought about late-arriving data, especially for usage events that may be batched'
     ],
 
     screenshots: [
-      { title: 'Airflow DAG for F1 Pipeline', url: '/projects/airflow-f1-dag.png' },
-      { title: 'dbt Project Lineage Graph', url: '/projects/dbt-f1-dag.png' },
-      { title: 'dbt Data Test Results', url: '/projects/dbt-f1-test-results.png' }
+      { title: 'Star Schema ERD', url: '/projects/snowflake-saas-erd.png' },
+      { title: 'dbt Lineage Graph', url: '/projects/snowflake-saas-dag.png' },
+      { title: 'MRR Dashboard', url: '/projects/snowflake-saas-mrr.png' }
     ],
 
     codeSnippets: {
-      'Airflow DAG Definition (dag.py)': `
-# This Python file defines the Airflow DAG for the F1 project.
-from cosmos.providers.dbt.dag import DbtDag
-from pendulum import datetime
+      'SCD Type 2 Customer Snapshot': `
+-- snapshots/snap_customers.sql
+-- Tracks historical changes to customer dimension
+{% snapshot snap_customers %}
 
-# Define the dbt project parameters for Cosmos
-f1_dbt_project = {
-    "dbt_project_name": "f1_analytics",
-    "dbt_root_path": "/usr/local/airflow/dags/dbt/f1_analytics",
-    "dbt_models_dir": "models",
-    "dbt_snapshots_dir": "snapshots",
-}
+{{
+    config(
+      target_schema='integration',
+      strategy='timestamp',
+      unique_key='customer_id',
+      updated_at='updated_at',
+      invalidate_hard_deletes=True
+    )
+}}
 
-# Use DbtDag to automatically create the DAG from the dbt project
-f1_dag = DbtDag(
-    dag_id="f1_dbt_pipeline",
-    schedule_interval="@daily",
-    start_date=datetime(2023, 1, 1),
-    catchup=False,
-    **f1_dbt_project,
+SELECT
+    customer_id,
+    email,
+    company_name,
+    company_size_bucket,
+    industry,
+    acquisition_channel,
+    signup_date,
+    customer_status,  -- 'active', 'churned', 'paused'
+    health_score,
+    assigned_csm,
+    billing_country,
+    created_at,
+    updated_at
+FROM {{ source('raw', 'customers') }}
+
+{% endsnapshot %}
+
+-- This creates SCD Type 2 with:
+-- dbt_valid_from: when this record version became active
+-- dbt_valid_to: when this record version was superseded (NULL if current)
+-- dbt_scd_id: unique identifier for each record version
+`,
+
+      'MRR Movements Fact Table': `
+-- models/marts/fact_mrr_movements.sql
+-- Tracks all MRR changes with movement categorization
+{{
+    config(
+        materialized='incremental',
+        unique_key='mrr_movement_id',
+        incremental_strategy='merge'
+    )
+}}
+
+WITH subscription_states AS (
+    SELECT 
+        *,
+        LAG(mrr_amount) OVER (
+            PARTITION BY customer_id 
+            ORDER BY effective_date
+        ) AS previous_mrr,
+        LAG(subscription_status) OVER (
+            PARTITION BY customer_id 
+            ORDER BY effective_date
+        ) AS previous_status,
+        LAG(plan_id) OVER (
+            PARTITION BY customer_id 
+            ORDER BY effective_date
+        ) AS previous_plan_id
+    FROM {{ ref('int_subscription_daily') }}
+    {% if is_incremental() %}
+    WHERE effective_date >= (
+        SELECT DATEADD(day, -7, MAX(movement_date)) 
+        FROM {{ this }}
+    )
+    {% endif %}
+),
+
+movements AS (
+    SELECT
+        {{ dbt_utils.generate_surrogate_key([
+            'customer_id', 
+            'effective_date'
+        ]) }} AS mrr_movement_id,
+        
+        customer_id,
+        subscription_id,
+        effective_date AS movement_date,
+        
+        -- Current state
+        mrr_amount AS current_mrr,
+        subscription_status AS current_status,
+        plan_id AS current_plan_id,
+        
+        -- Previous state
+        COALESCE(previous_mrr, 0) AS previous_mrr,
+        previous_status,
+        previous_plan_id,
+        
+        -- Calculate MRR delta
+        mrr_amount - COALESCE(previous_mrr, 0) AS mrr_delta,
+        
+        -- Categorize movement type
+        CASE
+            -- New customer (no previous record)
+            WHEN previous_status IS NULL AND subscription_status = 'active'
+                THEN 'new'
+            
+            -- Churned (was active, now cancelled)
+            WHEN previous_status = 'active' AND subscription_status = 'cancelled'
+                THEN 'churn'
+            
+            -- Reactivation (was cancelled, now active)
+            WHEN previous_status = 'cancelled' AND subscription_status = 'active'
+                THEN 'reactivation'
+            
+            -- Expansion (MRR increased while active)
+            WHEN previous_status = 'active' 
+                AND subscription_status = 'active'
+                AND mrr_amount > previous_mrr
+                THEN 'expansion'
+            
+            -- Contraction (MRR decreased while active)
+            WHEN previous_status = 'active' 
+                AND subscription_status = 'active'
+                AND mrr_amount < previous_mrr
+                THEN 'contraction'
+            
+            -- No change
+            ELSE 'no_change'
+        END AS movement_type
+        
+    FROM subscription_states
+    WHERE 
+        -- Only include rows where something changed
+        mrr_amount != COALESCE(previous_mrr, 0)
+        OR subscription_status != previous_status
+        OR previous_status IS NULL
 )
-        `,
-      'dbt Data Test (schema.yml)': `
-# This YAML defines tests for the stg_races model.
-# dbt will automatically check these conditions on every run.
+
+SELECT * FROM movements
+WHERE movement_type != 'no_change'
+`,
+
+      'Incremental Usage Events Fact': `
+-- models/marts/fact_usage_events.sql
+-- Incremental fact table for product usage analytics
+{{
+    config(
+        materialized='incremental',
+        unique_key='event_id',
+        incremental_strategy='merge',
+        cluster_by=['event_date', 'customer_key']
+    )
+}}
+
+WITH usage_events AS (
+    SELECT * FROM {{ ref('stg_usage_events') }}
+    {% if is_incremental() %}
+    -- 7-day lookback for late-arriving events
+    WHERE event_timestamp >= (
+        SELECT DATEADD(day, -7, MAX(event_timestamp)) 
+        FROM {{ this }}
+    )
+    {% endif %}
+),
+
+-- Point-in-time join to get correct dimension keys
+customer_dimension AS (
+    SELECT * FROM {{ ref('dim_customers') }}
+),
+
+feature_dimension AS (
+    SELECT * FROM {{ ref('dim_features') }}
+)
+
+SELECT
+    e.event_id,
+    
+    -- Dimension keys (point-in-time lookup for SCD2)
+    c.customer_key,
+    f.feature_key,
+    d.date_key,
+    
+    -- Event details
+    e.event_type,
+    e.event_timestamp,
+    DATE(e.event_timestamp) AS event_date,
+    
+    -- Usage metrics
+    e.quantity,
+    e.duration_seconds,
+    e.api_calls,
+    
+    -- Context
+    e.session_id,
+    e.user_id,
+    e.platform,
+    
+    -- Metadata
+    CURRENT_TIMESTAMP() AS loaded_at
+
+FROM usage_events e
+
+-- SCD2 join: get the customer record that was active at event time
+LEFT JOIN customer_dimension c
+    ON e.customer_id = c.customer_id
+    AND e.event_timestamp >= c.dbt_valid_from
+    AND e.event_timestamp < COALESCE(c.dbt_valid_to, '9999-12-31'::TIMESTAMP)
+
+LEFT JOIN feature_dimension f
+    ON e.feature_id = f.feature_id
+
+LEFT JOIN {{ ref('dim_date') }} d
+    ON DATE(e.event_timestamp) = d.calendar_date
+`,
+
+      'Data Quality Tests (schema.yml)': `
+# models/marts/schema.yml
 version: 2
 
 models:
-  - name: stg_races
+  - name: fact_mrr_movements
+    description: "MRR movement events tracking new, expansion, contraction, churn, reactivation"
     columns:
-      - name: race_id
+      - name: mrr_movement_id
+        description: "Surrogate key for movement event"
         tests:
           - unique
           - not_null
-      - name: race_year
+      
+      - name: movement_type
+        description: "Type of MRR movement"
         tests:
           - accepted_values:
-              values: range(1950, 2026) # Ensures year is within a valid range
-        `
+              values: ['new', 'expansion', 'contraction', 'churn', 'reactivation']
+      
+      - name: mrr_delta
+        description: "Change in MRR (can be negative for churn/contraction)"
+        tests:
+          - not_null
+          # Expansion should have positive delta
+          - dbt_utils.expression_is_true:
+              expression: "NOT (movement_type = 'expansion' AND mrr_delta <= 0)"
+          # Churn should have negative delta
+          - dbt_utils.expression_is_true:
+              expression: "NOT (movement_type = 'churn' AND mrr_delta >= 0)"
+
+  - name: dim_customers
+    description: "Customer dimension with SCD Type 2 history"
+    tests:
+      # Only one current record per customer
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - dbt_valid_to
+          where: "dbt_valid_to IS NULL"
+    columns:
+      - name: customer_key
+        tests:
+          - unique
+          - not_null
+      - name: customer_status
+        tests:
+          - accepted_values:
+              values: ['active', 'churned', 'paused', 'trial']
+      - name: company_size_bucket
+        tests:
+          - accepted_values:
+              values: ['1-10', '11-50', '51-200', '201-500', '500+']
+
+  - name: fact_usage_events
+    description: "Product usage events at event grain"
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_key
+`
     },
 
     links: {
-      github: 'https://github.com/YOUR_USERNAME/airflow-dbt-f1-analytics',
+      github: 'https://github.com/danielg-gerlach/snowflake-saas-dwh',
+      demo: null,
+      documentation: null
+    }
+  },
+
+  'iot-streaming-pipeline': {
+    id: 'iot-streaming-pipeline',
+    type: 'personal',
+    title: 'IoT Real-Time Streaming Analytics Pipeline',
+    subtitle: 'End-to-end streaming pipeline for IoT sensor data with Kafka, Spark Structured Streaming, and Delta Lake',
+    year: '2025',
+    role: 'Data Engineer',
+    team: 'Solo project',
+    status: 'In Development',
+    tldr: 'Building a real-time data pipeline that ingests IoT sensor data (temperature, humidity, pressure) via Kafka, processes it with Spark Structured Streaming for anomaly detection and aggregations, and writes to Delta Lake. Implements exactly-once semantics, late data handling, and real-time alerting for sensor threshold breaches.',
+
+    overview: `Developing a production-style streaming data pipeline that processes IoT sensor readings in real-time. Simulated sensors publish telemetry data to Apache Kafka, which is consumed and transformed by Spark Structured Streaming. The pipeline performs real-time anomaly detection, calculates rolling aggregations, and writes results to Delta Lake tables. Supports both real-time dashboards (sub-minute latency) and historical batch analysis on the same data, demonstrating the modern streaming-first approach to IoT analytics.`,
+
+    problem: `IoT deployments generate massive volumes of time-series data that batch pipelines cannot process fast enough. Traditional hourly or daily ETL misses critical events - a temperature spike that damages equipment is useless to detect 6 hours later. Lambda architecture requires maintaining separate batch and streaming codebases. Late-arriving sensor data (due to network issues) and exactly-once processing add complexity that most solutions ignore.`,
+
+    solution: `Implementing a unified streaming architecture using Spark Structured Streaming with Delta Lake as the sink. Sensor data flows through Kafka, gets enriched with device metadata, checked against thresholds for alerting, aggregated into time windows, and written to Delta Lake. This provides exactly-once guarantees, handles late sensor data with watermarks, and enables both streaming queries and batch analytics on the same tables. The entire pipeline is containerized with Docker.`,
+
+    techStack: {
+      'Streaming': ['Apache Kafka', 'Spark Structured Streaming'],
+      'Storage': ['Delta Lake', 'MinIO (S3-compatible)'],
+      'Processing': ['PySpark', 'Python'],
+      'Infrastructure': ['Docker', 'docker-compose'],
+      'Monitoring': ['Kafka UI', 'Spark UI', 'Custom alerting'],
+      'Data Simulation': ['Python Faker', 'NumPy']
+    },
+
+    architecture: {
+      components: [
+        { name: 'IoT Simulator', description: 'Python service generating realistic sensor telemetry (temperature, humidity, pressure, vibration) with configurable anomaly injection and network delay simulation.' },
+        { name: 'Kafka Cluster', description: 'Message broker with topics partitioned by device_id for ordered processing per sensor. Configured with appropriate retention for replay capability.' },
+        { name: 'Stream Processor', description: 'Spark Structured Streaming job consuming from Kafka, enriching with device metadata, detecting anomalies, and computing windowed aggregations.' },
+        { name: 'Anomaly Detection', description: 'Real-time threshold checking and statistical anomaly detection (z-score based) with alert generation for out-of-bounds readings.' },
+        { name: 'Delta Lake Tables', description: 'Bronze (raw telemetry), Silver (cleaned/enriched), Gold (aggregated metrics) layers following medallion architecture.' },
+        { name: 'Alert Sink', description: 'Streaming output for threshold breaches, writing to separate Kafka topic for downstream alerting systems.' }
+      ]
+    },
+
+    metrics: {
+      'Event Throughput': '50K events/sec',
+      'End-to-End Latency': '<10 seconds',
+      'Processing Guarantee': 'Exactly-once',
+      'Late Data Handling': '30 minute watermark',
+      'Simulated Devices': '1000 sensors',
+      'Checkpoint Interval': '15 seconds'
+    },
+
+    challenges: [
+      {
+        challenge: 'Achieving exactly-once semantics for sensor data that cannot be duplicated or lost.',
+        solution: 'Using Spark Structured Streaming with checkpointing enabled and Delta Lake as sink. Delta provides ACID transactions and idempotent writes. Kafka consumer offsets tracked in checkpoint for recovery.'
+      },
+      {
+        challenge: 'Handling late-arriving sensor data due to network connectivity issues.',
+        solution: 'Implementing watermarks with 30-minute threshold suitable for IoT scenarios. Late data within watermark updates aggregations correctly. Data beyond watermark written to late-data table for reconciliation and reprocessing.'
+      },
+      {
+        challenge: 'Real-time anomaly detection without blocking the main processing pipeline.',
+        solution: 'Implementing parallel stream outputs - one for main aggregations, one for anomaly alerts. Using stateless threshold checks for critical alerts (immediate) and stateful rolling statistics for statistical anomalies.'
+      },
+      {
+        challenge: 'Managing device metadata enrichment without slowing down streaming throughput.',
+        solution: 'Broadcasting device metadata as Spark broadcast variable, refreshed every 5 minutes. Avoids shuffle join on every micro-batch. Handles device additions gracefully with null-safe joins.'
+      },
+      {
+        challenge: 'Managing Spark Structured Streaming state for long-running windowed aggregations.',
+        solution: 'Configuring state store with RocksDB backend for large state. Implementing state cleanup based on watermark. Monitoring state size metrics to prevent memory issues.'
+      }
+    ],
+
+    impact: [
+      'Enables real-time IoT monitoring with sub-10-second latency compared to hourly/daily batch jobs',
+      'Detects equipment anomalies immediately, enabling preventive action before damage occurs',
+      'Demonstrates modern streaming architecture that unifies batch and real-time processing',
+      'Shows production patterns: exactly-once, late data handling, checkpointing, alerting',
+      'Creates reusable template for any IoT or time-series streaming use case'
+    ],
+
+    learnings: [
+      'IoT data has unique characteristics - high volume, time-series nature, frequent late arrivals, need for device context',
+      'Watermark tuning is critical for IoT - too tight and you lose data, too loose and aggregations delay',
+      'Delta Lake is essential for streaming IoT - ACID transactions enable exactly-once and simplified architecture',
+      'Anomaly detection needs both threshold-based (simple, fast) and statistical (sophisticated, requires state) approaches',
+      'Local development with Docker is essential - you cannot iterate quickly on cloud-deployed streaming jobs'
+    ],
+
+    screenshots: [
+      { title: 'Architecture Diagram', url: '/projects/iot-streaming-arch.png' },
+      { title: 'Real-Time Sensor Dashboard', url: '/projects/iot-streaming-dashboard.png' },
+      { title: 'Anomaly Alert Stream', url: '/projects/iot-streaming-alerts.png' }
+    ],
+
+    codeSnippets: {
+      'IoT Sensor Simulator': `
+# Realistic IoT sensor data generator with anomaly injection
+from kafka import KafkaProducer
+import json
+import random
+import time
+import numpy as np
+from datetime import datetime
+
+producer = KafkaProducer(
+    bootstrap_servers=['localhost:9092'],
+    value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+    key_serializer=lambda k: k.encode('utf-8')
+)
+
+# Simulated device fleet
+DEVICES = [
+    {"device_id": f"sensor_{i:04d}", 
+     "device_type": random.choice(["temperature", "humidity", "pressure", "vibration"]),
+     "location": random.choice(["plant_a", "plant_b", "warehouse_1", "warehouse_2"]),
+     "baseline_temp": random.uniform(20, 25),
+     "baseline_humidity": random.uniform(40, 60)}
+    for i in range(1000)
+]
+
+def generate_reading(device: dict, inject_anomaly: bool = False) -> dict:
+    """Generate a realistic sensor reading with optional anomaly."""
+    
+    # Base values with normal variation
+    if device["device_type"] == "temperature":
+        value = np.random.normal(device["baseline_temp"], 1.5)
+        unit = "celsius"
+        # Inject temperature spike anomaly
+        if inject_anomaly:
+            value += random.uniform(15, 30)
+    
+    elif device["device_type"] == "humidity":
+        value = np.random.normal(device["baseline_humidity"], 3)
+        unit = "percent"
+        if inject_anomaly:
+            value = random.uniform(90, 100)
+    
+    elif device["device_type"] == "pressure":
+        value = np.random.normal(1013, 5)
+        unit = "hpa"
+        if inject_anomaly:
+            value += random.uniform(-50, 50)
+    
+    else:  # vibration
+        value = abs(np.random.normal(0.5, 0.2))
+        unit = "mm/s"
+        if inject_anomaly:
+            value *= random.uniform(5, 10)
+    
+    # Simulate occasional network delay (late-arriving data)
+    event_time = datetime.utcnow()
+    if random.random() < 0.05:  # 5% of readings are delayed
+        delay_seconds = random.randint(60, 1800)  # 1-30 minutes late
+        event_time = datetime.fromtimestamp(
+            event_time.timestamp() - delay_seconds
+        )
+    
+    return {
+        "device_id": device["device_id"],
+        "device_type": device["device_type"],
+        "location": device["location"],
+        "value": round(value, 2),
+        "unit": unit,
+        "event_time": event_time.isoformat(),
+        "processing_time": datetime.utcnow().isoformat(),
+        "quality_score": random.uniform(0.95, 1.0) if not inject_anomaly else random.uniform(0.7, 0.9)
+    }
+
+def stream_sensor_data(events_per_second: int = 500, anomaly_rate: float = 0.01):
+    """Continuously produce sensor readings to Kafka."""
+    print(f"Starting IoT simulator: {events_per_second} events/sec, {anomaly_rate*100}% anomaly rate")
+    
+    while True:
+        for _ in range(events_per_second):
+            device = random.choice(DEVICES)
+            inject_anomaly = random.random() < anomaly_rate
+            
+            reading = generate_reading(device, inject_anomaly)
+            
+            # Partition by device_id for ordered processing per sensor
+            producer.send(
+                topic='iot-sensor-readings',
+                key=device["device_id"],
+                value=reading
+            )
+        
+        producer.flush()
+        time.sleep(1)
+
+if __name__ == "__main__":
+    stream_sensor_data(events_per_second=500, anomaly_rate=0.01)
+`,
+
+      'Spark Streaming with Anomaly Detection': `
+# IoT stream processing with real-time anomaly detection
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+spark = SparkSession.builder \\
+    .appName("IoTStreamProcessor") \\
+    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \\
+    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \\
+    .getOrCreate()
+
+# Schema for IoT sensor readings
+reading_schema = StructType([
+    StructField("device_id", StringType()),
+    StructField("device_type", StringType()),
+    StructField("location", StringType()),
+    StructField("value", DoubleType()),
+    StructField("unit", StringType()),
+    StructField("event_time", StringType()),
+    StructField("processing_time", StringType()),
+    StructField("quality_score", DoubleType())
+])
+
+# Thresholds for anomaly detection
+THRESHOLDS = {
+    "temperature": {"min": 10, "max": 40, "critical_max": 50},
+    "humidity": {"min": 20, "max": 80, "critical_max": 95},
+    "pressure": {"min": 950, "max": 1050, "critical_max": 1100},
+    "vibration": {"min": 0, "max": 2, "critical_max": 5}
+}
+
+# Read from Kafka
+raw_stream = spark.readStream \\
+    .format("kafka") \\
+    .option("kafka.bootstrap.servers", "localhost:9092") \\
+    .option("subscribe", "iot-sensor-readings") \\
+    .option("startingOffsets", "latest") \\
+    .load()
+
+# Parse JSON and convert timestamps
+parsed_stream = raw_stream \\
+    .select(
+        from_json(col("value").cast("string"), reading_schema).alias("data"),
+        col("timestamp").alias("kafka_timestamp")
+    ) \\
+    .select("data.*", "kafka_timestamp") \\
+    .withColumn("event_timestamp", 
+        to_timestamp(col("event_time"))) \\
+    .withColumn("processing_timestamp", 
+        to_timestamp(col("processing_time"))) \\
+    .withColumn("ingestion_timestamp", current_timestamp())
+
+# Apply watermark for late data handling (30 min for IoT)
+watermarked = parsed_stream \\
+    .withWatermark("event_timestamp", "30 minutes")
+
+# Add anomaly detection flags
+with_anomalies = watermarked \\
+    .withColumn("threshold_breach",
+        when(
+            (col("device_type") == "temperature") & 
+            ((col("value") < 10) | (col("value") > 40)), True
+        ).when(
+            (col("device_type") == "humidity") & 
+            ((col("value") < 20) | (col("value") > 80)), True
+        ).when(
+            (col("device_type") == "pressure") & 
+            ((col("value") < 950) | (col("value") > 1050)), True
+        ).when(
+            (col("device_type") == "vibration") & 
+            (col("value") > 2), True
+        ).otherwise(False)
+    ) \\
+    .withColumn("critical_breach",
+        when(
+            (col("device_type") == "temperature") & (col("value") > 50), True
+        ).when(
+            (col("device_type") == "humidity") & (col("value") > 95), True
+        ).when(
+            (col("device_type") == "vibration") & (col("value") > 5), True
+        ).otherwise(False)
+    )
+
+# Write all readings to Bronze layer
+bronze_query = with_anomalies.writeStream \\
+    .format("delta") \\
+    .outputMode("append") \\
+    .option("checkpointLocation", "/checkpoints/iot_bronze") \\
+    .start("/delta/bronze/iot_readings")
+
+# Filter and write anomalies to separate alert stream
+alerts = with_anomalies \\
+    .filter(col("threshold_breach") | col("critical_breach")) \\
+    .select(
+        col("device_id"),
+        col("device_type"),
+        col("location"),
+        col("value"),
+        col("unit"),
+        col("event_timestamp"),
+        col("threshold_breach"),
+        col("critical_breach"),
+        when(col("critical_breach"), "CRITICAL")
+            .when(col("threshold_breach"), "WARNING")
+            .alias("severity")
+    )
+
+# Write alerts to Kafka for downstream alerting
+alert_query = alerts \\
+    .selectExpr("device_id AS key", "to_json(struct(*)) AS value") \\
+    .writeStream \\
+    .format("kafka") \\
+    .option("kafka.bootstrap.servers", "localhost:9092") \\
+    .option("topic", "iot-alerts") \\
+    .option("checkpointLocation", "/checkpoints/iot_alerts") \\
+    .start()
+`,
+
+      'Windowed Aggregations for Dashboards': `
+# Real-time aggregations for IoT monitoring dashboards
+from pyspark.sql.functions import window, avg, min, max, count, stddev
+
+# 1-minute tumbling window aggregations per device
+device_metrics_1m = watermarked \\
+    .groupBy(
+        window("event_timestamp", "1 minute"),
+        "device_id",
+        "device_type",
+        "location"
+    ) \\
+    .agg(
+        avg("value").alias("avg_value"),
+        min("value").alias("min_value"),
+        max("value").alias("max_value"),
+        stddev("value").alias("stddev_value"),
+        count("*").alias("reading_count"),
+        avg("quality_score").alias("avg_quality")
+    )
+
+# Write to Gold layer for dashboards
+device_metrics_query = device_metrics_1m.writeStream \\
+    .format("delta") \\
+    .outputMode("append") \\
+    .option("checkpointLocation", "/checkpoints/iot_gold_device_1m") \\
+    .start("/delta/gold/device_metrics_1m")
+
+# Location-level aggregations (5-minute windows)
+location_metrics_5m = watermarked \\
+    .groupBy(
+        window("event_timestamp", "5 minutes"),
+        "location",
+        "device_type"
+    ) \\
+    .agg(
+        avg("value").alias("avg_value"),
+        min("value").alias("min_value"),
+        max("value").alias("max_value"),
+        count("*").alias("reading_count"),
+        sum(when(col("quality_score") < 0.9, 1).otherwise(0))
+            .alias("low_quality_count"),
+        countDistinct("device_id").alias("active_devices")
+    )
+
+location_metrics_query = location_metrics_5m.writeStream \\
+    .format("delta") \\
+    .outputMode("append") \\
+    .option("checkpointLocation", "/checkpoints/iot_gold_location_5m") \\
+    .start("/delta/gold/location_metrics_5m")
+
+# Statistical anomaly detection using rolling z-score
+# Requires stateful processing with flatMapGroupsWithState
+# Simplified version using window functions
+rolling_stats = watermarked \\
+    .groupBy(
+        window("event_timestamp", "15 minutes", "1 minute"),
+        "device_id"
+    ) \\
+    .agg(
+        avg("value").alias("rolling_avg"),
+        stddev("value").alias("rolling_stddev"),
+        count("*").alias("sample_count")
+    )
+
+rolling_stats_query = rolling_stats.writeStream \\
+    .format("delta") \\
+    .outputMode("append") \\
+    .option("checkpointLocation", "/checkpoints/iot_rolling_stats") \\
+    .start("/delta/silver/rolling_device_stats")
+`
+    },
+
+    links: {
+      github: 'https://github.com/danielg-gerlach/iot-streaming-pipeline',
       demo: null,
       documentation: null
     }
