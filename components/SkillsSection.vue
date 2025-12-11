@@ -309,7 +309,7 @@
       credentialId: "#67890",
       logoUrl: "/images/logos/datacamp-logo.png",
       inProgress: true,
-      expectedDate: "Q2 2025",
+      expectedDate: "Q1 2026",
       skills: [
         "Data Science Best Practices",
         "Python & SQL",
@@ -346,7 +346,7 @@
       credentialId: "EFGH5678",
       logoUrl: "/images/logos/datacamp-logo.png",
       inProgress: true,
-      expectedDate: "Q2 2025",
+      expectedDate: "Q1 2026",
       skills: [
         "Data Pipelines in the Terminal",
         "Containerization",
