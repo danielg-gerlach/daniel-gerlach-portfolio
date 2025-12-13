@@ -11,7 +11,7 @@ export const projectsData = {
     year: '2026',
     role: 'Data Analyst / BI Developer',
     team: 'Solo project',
-    status: 'Completed',
+    status: 'In Development',
     tldr: 'Created a public, interactive sales analytics dashboard in Tableau that tells a compelling business story through advanced visualizations. Features executive summary with KPIs, regional performance heatmaps, sales funnel analysis, customer segmentation matrix (RFM), and trend analysis with forecasting. Demonstrates data storytelling skills beyond basic chart creation - shows ability to communicate insights that drive business decisions.',
 
     overview: `Developed a professional-grade business intelligence dashboard that demonstrates advanced data visualization and storytelling capabilities. This is not just "charts on a page" - it's a carefully designed analytical narrative that guides executives through key sales insights. The dashboard answers critical business questions: "Where are we winning and losing?", "Which regions need attention?", "What's our sales forecast?", "Which customer segments are most valuable?" Uses Tableau's advanced features including calculated fields, LOD expressions, parameters for dynamic filtering, dashboard actions for interactivity, and custom color palettes for professional presentation. Published to Tableau Public for portfolio demonstration.`,
