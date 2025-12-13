@@ -1,7 +1,7 @@
 <template>
     <section id="articles" class="py-24 px-6 bg-gray-950">
       <div class="max-w-6xl mx-auto">
-        <h2 class="font-mono text-blue-400 text-base mb-2">[4] ARTICLES</h2>
+        <h2 class="font-mono text-blue-400 text-base mb-2">[5] ARTICLES</h2>
         <p class="text-3xl md:text-4xl font-bold mb-3">My Posts on Medium</p>
         <p class="text-gray-400 mb-12">Technical articles about data engineering, analytics, and modern data stack</p>
         

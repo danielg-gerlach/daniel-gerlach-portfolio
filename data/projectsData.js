@@ -3,526 +3,365 @@ export const projectsData = {
   // PERSONAL PROJECTS
   // ============================================
   
-  'nl2sql-interface': {
-    id: 'nl2sql-interface',
+  'executive-sales-dashboard': {
+    id: 'executive-sales-dashboard',
     type: 'personal',
-    title: 'Natural Language to SQL Query Interface',
-    subtitle: 'Chat-based analytics tool using GPT-4o for SQL generation with secure execution',
+    title: 'Executive Sales Performance Dashboard',
+    subtitle: 'Interactive Tableau dashboard telling the story of sales performance with advanced visualizations and drill-down analysis',
     year: '2026',
-    role: 'Full-Stack Developer',
+    role: 'Data Analyst / BI Developer',
     team: 'Solo project',
-    status: 'In Development',
-    tldr: 'Built a chat interface that converts natural language to SQL using GPT-4o, validates queries with SQLGlot, executes them safely against a Postgres database with e-commerce data, and displays results with automatic chart generation. Users can ask "Show me top selling products" and get SQL + results + visualization.',
+    status: 'Completed',
+    tldr: 'Created a public, interactive sales analytics dashboard in Tableau that tells a compelling business story through advanced visualizations. Features executive summary with KPIs, regional performance heatmaps, sales funnel analysis, customer segmentation matrix (RFM), and trend analysis with forecasting. Demonstrates data storytelling skills beyond basic chart creation - shows ability to communicate insights that drive business decisions.',
 
-    overview: `Created a practical natural language to SQL interface that allows non-technical users to query a Postgres database through conversational prompts. The system uses GPT-4o to generate SQL from user questions, validates queries for safety, executes them against a read-only database connection, and automatically visualizes results using Chart.js.`,
+    overview: `Developed a professional-grade business intelligence dashboard that demonstrates advanced data visualization and storytelling capabilities. This is not just "charts on a page" - it's a carefully designed analytical narrative that guides executives through key sales insights. The dashboard answers critical business questions: "Where are we winning and losing?", "Which regions need attention?", "What's our sales forecast?", "Which customer segments are most valuable?" Uses Tableau's advanced features including calculated fields, LOD expressions, parameters for dynamic filtering, dashboard actions for interactivity, and custom color palettes for professional presentation. Published to Tableau Public for portfolio demonstration.`,
 
-    problem: `Business analysts and stakeholders often need to query databases for insights but lack SQL knowledge. Waiting for data engineers to write queries creates bottlenecks. Existing BI tools require learning complex interfaces and pre-defined dashboards don't answer ad-hoc questions.`,
+    problem: `Sales data exists in spreadsheets and databases, but executives don't have time to dig through tables or run SQL queries. They need quick answers to strategic questions during board meetings and quarterly reviews. Basic charts don't tell a story - they just show data. Executives need context: "Is this good or bad?", "Why is this happening?", "What should we do about it?" Many analysts can create visualizations, but few can create compelling data stories that actually influence business decisions. This dashboard demonstrates the difference between showing data and telling a story.`,
 
-    solution: `Built a simple web application with a chat interface where users type questions in plain English (e.g., "What are my top 5 customers by revenue?"). GPT-4o converts this to SQL, SQLGlot validates it for safety, the query runs against a Postgres database with sample e-commerce data, and results are displayed in both table and chart format.`,
+    solution: `Built a multi-page Tableau dashboard with clear narrative flow: (1) Executive Summary page with high-level KPIs (revenue, growth %, target attainment) using dynamic indicators and color coding, (2) Geographic Analysis with sales heatmap showing regional performance and drill-down to individual territories, (3) Sales Funnel visualization tracking conversion rates through pipeline stages with bottleneck identification, (4) Customer Segmentation matrix using RFM analysis to identify high-value customers and at-risk accounts, (5) Trend Analysis with forecasting showing historical performance and projected future revenue. Each page designed with executive users in mind: minimal clutter, clear insights, actionable next steps highlighted.`,
 
     techStack: {
-      'Backend': ['FastAPI', 'SQLGlot', 'psycopg2', 'OpenAI API'],
-      'Frontend': ['React', 'Tailwind CSS', 'Chart.js'],
-      'Database': ['PostgreSQL (with sample e-commerce schema)'],
-      'Infrastructure': ['Docker', 'docker-compose']
+      'Visualization': ['Tableau Desktop', 'Tableau Public'],
+      'Data Preparation': ['Python (pandas)', 'SQL', 'Excel'],
+      'Advanced Features': ['Calculated Fields', 'LOD Expressions', 'Parameters', 'Dashboard Actions', 'Forecasting', 'Sets'],
+      'Design': ['Color Theory', 'Data Storytelling Principles', 'UX Design']
     },
 
     architecture: {
       components: [
-        { name: 'Chat Interface', description: 'Simple React frontend with message history, query input, and results display.' },
-        { name: 'NL2SQL Service', description: 'FastAPI endpoint that sends user question + database schema to GPT-4o, receives generated SQL.' },
-        { name: 'SQL Validator', description: 'SQLGlot parser ensures only SELECT queries, adds LIMIT clause, checks against deny list (DROP, DELETE, etc.).' },
-        { name: 'Query Executor', description: 'Runs validated SQL against Postgres using read-only user, returns results as JSON.' },
-        { name: 'Visualization Engine', description: 'Detects data shape (time series, categories, numeric) and renders appropriate chart type.' }
+        { name: 'Executive Summary Page', description: 'KPI scorecard with current vs. target, YoY growth %, top performing reps. Uses traffic light colors (green/yellow/red) for quick status assessment. Dynamic date range selection via parameters.' },
+        { name: 'Geographic Performance', description: 'Filled map heatmap showing sales by region/territory. Click-through drill-down from country → state → city. Bubble chart showing market size vs. market share by territory.' },
+        { name: 'Sales Funnel Analysis', description: 'Horizontal funnel chart showing leads → qualified → proposal → closed, with conversion rates between stages. Identifies bottlenecks where prospects drop off.' },
+        { name: 'Customer Segmentation', description: 'Scatter plot matrix positioning customers by recency (last purchase date) and monetary value (total revenue). Color coded by segment (Champions, Loyal, At Risk, Lost) based on RFM analysis.' },
+        { name: 'Trend & Forecast', description: 'Dual-axis line chart: actual monthly revenue + trend line with confidence bands. Tableau native forecasting for next quarter projections. Annotations for significant events (product launches, campaigns).' },
+        { name: 'Interactivity Layer', description: 'Dashboard actions enable clicking on region → filters entire dashboard to that region. Parameters allow switching between metrics (revenue, units, profit). Tooltips show detailed context on hover.' }
       ]
     },
 
     metrics: {
-      'Response Time': '<4s end-to-end',
-      'SQL Accuracy': '~85% (generates valid SQL)',
-      'Safety': '100% (no writes possible)',
-      'Row Limit': '200 max',
-      'Sample Data': '5 tables, 10K rows'
+      'Dashboard Pages': '5 connected views',
+      'Visualizations': '15+ charts',
+      'Calculated Fields': '20+ custom metrics',
+      'Interactivity': 'Full drill-down and filtering',
+      'Data Points': '100K+ sales transactions',
+      'Customers': '10K+',
+      'Time Range': '3 years (2022-2024)',
+      'Public URL': 'Tableau Public profile'
     },
 
     challenges: [
       {
-        challenge: 'Preventing SQL injection and malicious queries like DROP TABLE.',
-        solution: 'Three-layer defense: (1) GPT-4o system prompt instructs SELECT only, (2) SQLGlot AST parser validates query structure, (3) Read-only database user with no write permissions.'
+        challenge: 'Making the dashboard tell a story rather than just displaying charts.',
+        solution: 'Designed clear narrative flow across pages: start with "what" (KPIs), then "where" (geography), "why" (funnel bottlenecks), "who" (customer segments), and "what\'s next" (forecast). Added text annotations explaining key insights. Used consistent color scheme throughout to reduce cognitive load.'
       },
       {
-        challenge: 'Providing enough schema context to GPT-4o without exceeding token limits.',
-        solution: 'Included table names, column names with types, and sample row for each table in system prompt. For 5 tables this fits comfortably. For larger schemas, could implement table selection step.'
+        challenge: 'Balancing detail with executive-level simplicity - too much data overwhelms, too little lacks credibility.',
+        solution: 'Implemented progressive disclosure: start with high-level summary, enable drill-down for details. Used dashboard actions so clicking a region shows detail without cluttering main view. Tooltips provide context without adding to visual complexity.'
       },
       {
-        challenge: 'Handling ambiguous user questions that could map to multiple queries.',
-        solution: 'Added conversation history context and clarifying questions. For example, if user asks "show sales", system asks "Which time period: last month, last year, or all time?"'
+        challenge: 'Creating professional-looking visualizations that stand out in portfolio.',
+        solution: 'Applied data visualization best practices: removed chart junk, used pre-attentive attributes (color, size) strategically, aligned to grid, consistent typography. Chose muted professional color palette instead of default Tableau colors. Added clean headers and white space.'
       },
       {
-        challenge: 'Auto-generating appropriate chart types from arbitrary query results.',
-        solution: 'Simple heuristic: if result has date/time column → line chart, if categorical + numeric → bar chart, if single number → metric card, else → table only.'
+        challenge: 'Making RFM customer segmentation interpretable for non-technical executives.',
+        solution: 'Created clear segment names (Champions, Loyal, At Risk, Lost) with plain-English definitions. Used intuitive quadrant layout in scatter plot. Added reference lines showing segment boundaries. Tooltips explain what each segment means and suggest actions (e.g., "At Risk: Engage with retention campaign").'
       }
     ],
 
     impact: [
-      'Reduced time for business analysts to get insights from 30 minutes (request → data engineer → results) to under 5 seconds',
-      'Demonstrated practical application of LLMs for data democratization',
-      'Created reusable pattern that could be adapted to any Postgres database by updating schema in prompt'
+      'Demonstrates ability to communicate data insights to non-technical stakeholders - critical for data analyst and BI developer roles',
+      'Shows mastery of Tableau beyond basic charts - LOD expressions, parameters, and dashboard actions prove advanced skills',
+      'Creates portfolio piece that recruiters can actually interact with (Tableau Public link) rather than just screenshots',
+      'Exhibits understanding of business context, not just technical visualization - dashboard answers real strategic questions',
+      'Differentiates from candidates who only show SQL/Python skills without visualization expertise'
     ],
 
     learnings: [
-      'GPT-4o is remarkably good at generating SQL from natural language when given clear schema context',
-      'Security must be defense-in-depth: cannot rely solely on LLM to prevent malicious queries',
-      'Simple validation (SQLGlot AST parsing) is more reliable than regex for SQL safety',
-      'User experience matters: showing the generated SQL builds trust and helps users learn',
-      'Most business questions map to simple aggregations (GROUP BY, SUM, COUNT) which GPT-4o handles well'
+      'Good dashboards tell stories - they have a beginning (context), middle (analysis), and end (recommendations)',
+      'Less is more - removing unnecessary elements makes insights clearer than adding more charts',
+      'Color is a language - consistent color encoding (e.g., always red = below target) reduces cognitive load and speeds comprehension',
+      'Interactivity must be purposeful - every click should reveal something valuable, not just exist because Tableau allows it',
+      'Design for your audience - executives need different dashboards than analysts (summary vs. detail, decisions vs. exploration)',
+      'Tableau Public is incredibly valuable for portfolios - live, interactive dashboards impress far more than static screenshots or PDFs'
     ],
 
     screenshots: [
-      { title: 'Chat Interface with Query', url: '/projects/nl2sql-chat.png' },
-      { title: 'Generated SQL & Results', url: '/projects/nl2sql-results.png' },
-      { title: 'Auto-generated Bar Chart', url: '/projects/nl2sql-chart.png' }
+      { title: 'Executive Summary KPI View', url: '/projects/tableau-executive-summary.png' },
+      { title: 'Geographic Performance Heatmap', url: '/projects/tableau-geography.png' },
+      { title: 'Customer Segmentation Matrix', url: '/projects/tableau-segmentation.png' }
     ],
 
     codeSnippets: {
-      'SQL Validation with SQLGlot': `
-# Validate and sanitize SQL queries before execution
-from sqlglot import parse_one
-from sqlglot import exp
+      'RFM Customer Segmentation (Calculated Fields)': `// Tableau Calculated Fields for RFM Analysis
+// ============================================
 
-SQL_DENY_LIST = ['drop', 'delete', 'update', 'insert', 
-                 'alter', 'create', 'truncate', 'exec']
+// RECENCY: Days since last purchase
+// ============================================
+// Uses LOD expression to get most recent order per customer
+DATEDIFF('day', {FIXED [Customer ID]: MAX([Order Date])}, TODAY())
 
-def validate_sql(sql: str) -> tuple[bool, str]:
-    """
-    Validates SQL query for safety.
-    Returns (is_valid, sanitized_sql or error_message)
-    """
-    sql_lower = sql.lower()
-    
-    # Check deny list
-    for keyword in SQL_DENY_LIST:
-        if keyword in sql_lower:
-            return False, f"Forbidden keyword: {keyword}"
-    
-    try:
-        # Parse SQL to AST
-        parsed = parse_one(sql, read="postgres")
-        
-        # Only allow SELECT statements
-        if not isinstance(parsed, exp.Select):
-            return False, "Only SELECT queries allowed"
-        
-        # Enforce row limit for performance
-        if not parsed.args.get("limit"):
-            parsed = parsed.limit(200)
-        
-        return True, str(parsed)
-        
-    except Exception as e:
-        return False, f"Invalid SQL: {str(e)}"
-`,
+// Recency Score (1-5, where 5 = most recent)
+// Using NTILE equivalent with RANK percentile
+IF [Days Since Last Purchase] <= PERCENTILE([Days Since Last Purchase], 0.2) THEN 5
+ELSEIF [Days Since Last Purchase] <= PERCENTILE([Days Since Last Purchase], 0.4) THEN 4
+ELSEIF [Days Since Last Purchase] <= PERCENTILE([Days Since Last Purchase], 0.6) THEN 3
+ELSEIF [Days Since Last Purchase] <= PERCENTILE([Days Since Last Purchase], 0.8) THEN 2
+ELSE 1
+END
 
-      'NL2SQL with GPT-4o': `
-# Generate SQL from natural language using GPT-4o
-from openai import OpenAI
+// ============================================
+// FREQUENCY: Number of orders
+// ============================================
+{FIXED [Customer ID]: COUNTD([Order ID])}
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+// Frequency Score (1-5, where 5 = most frequent)
+IF [Order Count] >= PERCENTILE([Order Count], 0.8) THEN 5
+ELSEIF [Order Count] >= PERCENTILE([Order Count], 0.6) THEN 4
+ELSEIF [Order Count] >= PERCENTILE([Order Count], 0.4) THEN 3
+ELSEIF [Order Count] >= PERCENTILE([Order Count], 0.2) THEN 2
+ELSE 1
+END
 
-def generate_sql(user_question: str, schema: str) -> str:
-    """
-    Converts natural language question to SQL.
-    Schema contains table/column info for context.
-    """
-    system_prompt = f"""You are a SQL expert. Convert user questions to PostgreSQL queries.
+// ============================================
+// MONETARY: Total customer value
+// ============================================
+{FIXED [Customer ID]: SUM([Revenue])}
 
-Database Schema:
-{schema}
+// Monetary Score (1-5, where 5 = highest spending)
+IF [Total Customer Revenue] >= PERCENTILE([Total Customer Revenue], 0.8) THEN 5
+ELSEIF [Total Customer Revenue] >= PERCENTILE([Total Customer Revenue], 0.6) THEN 4
+ELSEIF [Total Customer Revenue] >= PERCENTILE([Total Customer Revenue], 0.4) THEN 3
+ELSEIF [Total Customer Revenue] >= PERCENTILE([Total Customer Revenue], 0.2) THEN 2
+ELSE 1
+END
 
-Rules:
-- Only generate SELECT statements
-- Always include LIMIT clause
-- Use clear aliases
-- Return only the SQL query, no explanations
-"""
+// ============================================
+// SEGMENT NAME: Business-friendly labels
+// ============================================
+IF [Recency Score] >= 4 AND [Frequency Score] >= 4 AND [Monetary Score] >= 4
+THEN "Champions"
+ELSEIF [Recency Score] >= 3 AND [Frequency Score] >= 3 AND [Monetary Score] >= 3
+THEN "Loyal Customers"
+ELSEIF [Recency Score] >= 4 AND [Frequency Score] <= 2 AND [Monetary Score] <= 2
+THEN "New Customers"
+ELSEIF [Recency Score] <= 2 AND [Frequency Score] >= 3 AND [Monetary Score] >= 3
+THEN "At Risk"
+ELSEIF [Recency Score] <= 2 AND [Frequency Score] <= 2
+THEN "Lost"
+ELSEIF [Monetary Score] >= 4
+THEN "Big Spenders"
+ELSE "Regular"
+END
 
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_question}
-        ],
-        temperature=0.1  # Low temperature for consistent SQL
-    )
-    
-    return response.choices[0].message.content.strip()
-`,
-
-      'Chart Type Detection': `
-# Simple heuristic to determine appropriate chart type
-def detect_chart_type(columns: list, sample_row: dict) -> str:
-    """
-    Analyzes query results and suggests visualization.
-    Returns: 'line', 'bar', 'metric', or 'table'
-    """
-    if len(columns) == 1:
-        return 'metric'  # Single value like COUNT(*)
-    
-    # Look for temporal columns
-    temporal_keywords = ['date', 'time', 'month', 'year']
-    has_temporal = any(
-        keyword in col.lower() 
-        for col in columns 
-        for keyword in temporal_keywords
-    )
-    
-    if has_temporal:
-        return 'line'  # Time series data
-    
-    # Check if second column is numeric
-    if len(columns) >= 2:
-        second_val = sample_row.get(columns[1])
-        if isinstance(second_val, (int, float)):
-            return 'bar'  # Categorical + numeric
-    
-    return 'table'  # Default to table view
-`
+// ============================================
+// Usage in Scatter Plot:
+// ============================================
+// X-Axis: [Days Since Last Purchase] (Recency)
+// Y-Axis: [Total Customer Revenue] (Monetary)  
+// Color: [Customer Segment Name]
+// Size: [Customer Lifetime Value]
+// Detail: [Customer ID]`
     },
 
     links: {
-      github: 'https://github.com/danielg-gerlach/nl2sql-interface',
-      demo: null,
-      documentation: null
+      github: 'https://github.com/danielg-gerlach/executive-sales-dashboard',
+      demo: 'https://public.tableau.com/app/profile/yourname/viz/ExecutiveSalesDashboard',
+      documentation: 'https://github.com/danielg-gerlach/executive-sales-dashboard/blob/main/README.md'
     }
   },
 
-  'rag-technical-docs': {
-    id: 'rag-technical-docs',
+  'databricks-lakehouse-iot': {
+    id: 'databricks-lakehouse-iot',
     type: 'personal',
-    title: 'RAG Technical Documentation Assistant',
-    subtitle: 'Retrieval-Augmented Generation system for querying technical documentation using Gemini and ChromaDB',
+    title: 'IoT Analytics Lakehouse on Databricks',
+    subtitle: 'Modern data lakehouse using Delta Lake, medallion architecture, and batch processing for IoT sensor analytics',
     year: '2026',
-    role: 'AI Engineer',
+    role: 'Data Engineer',
     team: 'Solo project',
     status: 'In Development',
-    tldr: 'Building a RAG pipeline that ingests technical documentation (API docs, engineering specs, whitepapers), chunks and embeds them into ChromaDB, and uses Gemini to answer technical questions with source citations. Implements semantic search, context window optimization, and evaluation metrics for retrieval quality.',
+    tldr: 'Built a production-grade data lakehouse on Databricks Community Edition using Delta Lake and medallion architecture (bronze/silver/gold layers). Processes 10M+ simulated IoT sensor events from smart manufacturing equipment using PySpark batch transformations. Demonstrates modern lakehouse patterns: ACID transactions, schema evolution, time travel, data quality checks, and optimized analytics queries.',
 
-    overview: `Developing a production-ready RAG (Retrieval-Augmented Generation) system designed for technical documentation. Engineers can upload API documentation, system specs, or technical whitepapers and ask natural language questions. The system chunks documents intelligently, generates embeddings, stores them in ChromaDB for semantic search, retrieves relevant context, and uses Google Gemini to generate accurate technical answers with source citations.`,
+    overview: `Developed a comprehensive data lakehouse solution on Databricks that processes IoT sensor data from manufacturing equipment. The project demonstrates the modern "lakehouse" architecture that combines the flexibility of data lakes with the structure and reliability of data warehouses. Implements the medallion architecture pattern with bronze (raw data), silver (cleaned/conformed), and gold (business-level aggregates) layers. Uses Delta Lake for ACID transactions, schema enforcement, and time travel capabilities. Shows real-world patterns for handling high-volume batch processing, incremental loads, and enabling both operational and analytical queries.`,
 
-    problem: `Engineers waste hours searching through scattered technical documentation. LLMs have knowledge cutoffs and can't access internal docs or recent API changes. Traditional keyword search misses semantic meaning - searching "authentication" won't find docs about "OAuth tokens". Simply pasting entire docs into LLM context is expensive, hits token limits, and reduces answer quality for specific technical questions.`,
+    problem: `Manufacturing companies generate millions of IoT sensor events daily from equipment monitoring (temperature, vibration, pressure, energy consumption). Traditional batch warehouses can't provide the flexibility needed for exploratory analytics and data science, while pure data lakes lack data quality guarantees and create messy data swamps. Analysts need to answer both real-time questions ("Show me equipment operating outside safe parameters") and historical questions ("What was average machine utilization last quarter?"). They also need confidence that data quality issues won't corrupt analytics. Traditional architectures force choosing between data lake flexibility and warehouse reliability - the lakehouse pattern provides both.`,
 
-    solution: `Building a RAG pipeline with four stages: (1) Document ingestion with intelligent chunking that preserves code blocks and technical context, (2) Embedding generation and vector storage in ChromaDB, (3) Semantic retrieval of the most relevant chunks for each query, (4) LLM response generation with Gemini using retrieved context and source attribution. Optimized for technical content including code snippets, API references, and configuration examples.`,
+    solution: `Built a lakehouse on Databricks using Delta Lake that unifies data lake flexibility with warehouse reliability. Bronze layer ingests raw JSON sensor events, preserving all original data for reprocessing. Silver layer applies data quality rules, deduplicates events, standardizes timestamps, and conforms data types using PySpark transformations. Gold layer creates business-ready aggregates: equipment_health_metrics (hourly rollups by machine), anomaly_detection_events (flagged outliers), predictive_maintenance_features (ML-ready aggregations). All layers use Delta Lake for ACID guarantees, enabling time travel for debugging, schema evolution for changing requirements, and optimized query performance through partitioning and Z-ordering.`,
 
     techStack: {
-      'LLM & Embeddings': ['Google Gemini API', 'Gemini Embedding Model'],
-      'Vector Database': ['ChromaDB'],
-      'Document Processing': ['PyPDF2', 'LangChain Text Splitters', 'BeautifulSoup'],
-      'Backend': ['FastAPI', 'Python'],
-      'Frontend': ['Streamlit'],
-      'Evaluation': ['RAGAS', 'Custom metrics']
+      'Platform': ['Databricks Community Edition', 'Apache Spark 3.5', 'Delta Lake'],
+      'Languages': ['Python', 'PySpark', 'SQL'],
+      'Storage': ['Delta Lake Tables', 'DBFS (Databricks File System)'],
+      'Processing': ['Batch Jobs', 'Incremental Processing'],
+      'Notebooks': ['Databricks Notebooks', 'Version control integration'],
+      'Data Generation': ['Python Faker', 'Custom IoT event generator']
     },
 
     architecture: {
       components: [
-        { name: 'Document Processor', description: 'Extracts text from PDFs, Markdown, and HTML. Uses custom splitter that preserves code blocks, tables, and technical structure during chunking.' },
-        { name: 'Embedding Pipeline', description: 'Generates vector embeddings using Gemini embedding model with task_type optimized for retrieval. Handles batching for large document sets.' },
-        { name: 'Vector Store', description: 'ChromaDB instance with persistent storage, metadata filtering by doc type and section, and similarity search with configurable top-k retrieval.' },
-        { name: 'Retrieval Engine', description: 'Semantic search with MMR (Maximum Marginal Relevance) for diverse results. Re-ranking for improved relevance on technical queries.' },
-        { name: 'Generation Layer', description: 'Gemini LLM with custom prompt template for technical Q&A. Enforces citation of sources, handles code formatting, and manages context window limits.' },
-        { name: 'Evaluation Module', description: 'Measures retrieval precision, answer faithfulness, and technical accuracy using RAGAS framework and custom metrics.' }
+        { name: 'Bronze Layer (Raw)', description: 'Landing zone for raw IoT sensor events ingested as JSON. Schema inference and evolution enabled. Append-only Delta tables preserve complete history for reprocessing. Minimal transformations - add ingestion timestamp only.' },
+        { name: 'Silver Layer (Cleaned)', description: 'Cleaned and conformed data with PySpark transformations: deduplication by sensor_id + timestamp, null handling, timestamp standardization to UTC, type casting, data quality checks (range validation for sensor values), quality flags added but bad data preserved.' },
+        { name: 'Gold Layer (Aggregates)', description: 'Business-level aggregates optimized for analytics: hourly equipment metrics, daily anomaly summaries, predictive maintenance feature engineering. Partitioned by date for query performance, Z-ordered by equipment_id for faster filtering.' },
+        { name: 'Batch Processing Pipeline', description: 'Incremental batch processing pattern: identify new/changed data since last run, process only delta, merge results into target tables. Idempotent jobs that can be safely re-run.' },
+        { name: 'Data Quality Framework', description: 'Expectations validated at silver layer: sensor values within valid ranges, mandatory fields present, timestamp monotonicity per sensor, duplicate detection and flagging. Quality summary metrics tracked over time.' },
+        { name: 'Time Travel & Versioning', description: 'Delta Lake time travel enables querying historical versions, rollback of bad writes, and audit trails. Vacuum command manages retention policies (7-day default). Table history tracked with versioning.' }
       ]
     },
 
     metrics: {
-      'Chunk Size': '512 tokens (configurable)',
-      'Chunk Overlap': '50 tokens',
-      'Top-K Retrieval': '5 chunks default',
-      'Embedding Dimensions': '768',
-      'Response Time': '<3s end-to-end',
-      'Supported Formats': 'PDF, Markdown, HTML, TXT'
+      'Total Events': '10M+ sensor readings',
+      'Sensors Tracked': '500 devices',
+      'Equipment': '100 machines',
+      'Time Range': '6 months simulated data',
+      'Layers': '3 (Bronze/Silver/Gold)',
+      'Delta Tables': '8',
+      'Processing Mode': 'Batch with incremental patterns',
+      'Data Quality Rules': '12 checks',
+      'Partitioning': 'Date-based on silver/gold layers',
+      'Performance': 'Optimized with Z-ordering'
     },
 
     challenges: [
       {
-        challenge: 'Preserving code blocks and technical formatting during chunking.',
-        solution: 'Implementing custom text splitter that detects code fences (```) and keeps code blocks intact. Falls back to splitting at paragraph boundaries rather than mid-sentence for technical prose.'
+        challenge: 'Handling schema evolution as new sensor types are added without breaking downstream pipelines.',
+        solution: 'Enabled schema evolution in Delta Lake with mergeSchema option. Bronze layer uses schema inference to accept new fields automatically. Silver layer uses schema validation to flag unexpected changes. Gold layer uses explicit column selection to be resilient to bronze/silver additions.'
       },
       {
-        challenge: 'Determining optimal chunk size that balances context preservation with retrieval precision.',
-        solution: 'Implementing configurable chunking with recursive text splitter. Testing chunk sizes from 256-1024 tokens and measuring retrieval quality. Using overlap to prevent context loss at chunk boundaries.'
+        challenge: 'Processing 10M events efficiently in Databricks Community Edition with limited compute resources.',
+        solution: 'Implemented smart partitioning (by date) and file sizing. Used Delta Lake liquid clustering for better data skipping. Avoided expensive operations like full table scans. Used broadcast joins for small dimension tables. Generated data in Parquet format pre-compressed for faster initial loads.'
       },
       {
-        challenge: 'Handling queries that require information from multiple documentation sections.',
-        solution: 'Using MMR-based retrieval to get diverse chunks rather than semantically similar ones. Implementing iterative retrieval for complex queries that synthesize multiple sources.'
+        challenge: 'Detecting sensor anomalies (outliers) without complex ML models initially.',
+        solution: 'Implemented statistical anomaly detection using PySpark: calculated rolling mean and standard deviation per sensor over 24-hour windows using window functions. Flagged values >3 standard deviations from mean as anomalies. Created gold table of anomaly_events for investigation.'
       },
       {
-        challenge: 'Ensuring LLM answers are grounded in retrieved context and not hallucinated.',
-        solution: 'Prompt engineering that explicitly instructs citation of sources. Post-processing to verify claims against retrieved chunks. Implementing faithfulness scoring in evaluation pipeline.'
-      },
-      {
-        challenge: 'Managing ChromaDB collection size and query performance as document count grows.',
-        solution: 'Implementing collection partitioning by document type, metadata filtering to narrow search scope, and periodic index optimization.'
+        challenge: 'Ensuring data quality while preserving bad data for investigation and reprocessing.',
+        solution: 'Added is_valid_range and is_null_value boolean flags at silver layer rather than filtering out bad records. Gold layer filters to only valid data. Allows data quality team to investigate issues without data loss and enables reprocessing with improved logic.'
       }
     ],
 
     impact: [
-      'Enables engineers to query technical documentation in natural language, reducing time to find answers from 15+ minutes to seconds',
-      'Provides traceable answers with source citations, building trust in AI-generated technical guidance',
-      'Handles internal documentation that public LLMs cannot access',
-      'Creates reusable RAG pipeline pattern applicable to any technical documentation use case'
+      'Demonstrates modern lakehouse architecture that unifies data lake flexibility with warehouse reliability - critical for cloud data engineering roles',
+      'Shows hands-on experience with Delta Lake and Databricks, which are rapidly becoming industry standards (used by Netflix, Comcast, H&M, Shell)',
+      'Proves ability to handle large-scale batch processing with proper partitioning and optimization strategies',
+      'Exhibits understanding of medallion architecture pattern used in production data platforms at enterprises',
+      'Portfolio-ready project that can be shared via Databricks Community Edition notebooks exported to GitHub'
     ],
 
     learnings: [
-      'Chunking strategy has massive impact on retrieval quality - too small loses context, too large reduces precision',
-      'Technical content requires special handling - code blocks, tables, and structured data need custom splitting logic',
-      'Embedding model choice matters as much as LLM choice for RAG quality',
-      'Evaluation is critical - without metrics like faithfulness and relevance, you cannot improve the system systematically',
-      'Hybrid search (semantic + keyword) often outperforms pure semantic search for specific technical terms and function names'
+      'Delta Lake solves real pain points that data lakes have: schema enforcement prevents bad data, ACID transactions prevent partial writes, time travel enables debugging and rollback',
+      'Medallion architecture (bronze/silver/gold) provides clear separation of concerns and makes data lineage obvious - bronze never deletes data (reprocessing insurance), silver is source of truth, gold is optimized for consumption',
+      'PySpark window functions are incredibly powerful for time-series analytics - can calculate rolling aggregations, lead/lag values, and rank events efficiently at scale',
+      'Data quality shouldn\'t mean data deletion - preserving "bad" data with quality flags enables investigation and reprocessing',
+      'Databricks notebooks are excellent for documenting data engineering work - mixing code, visualizations, and markdown creates self-documenting pipelines that impress recruiters',
+      'Partitioning and Z-ordering are essential for query performance on large datasets - choosing the right partition columns based on query patterns matters significantly'
     ],
 
     screenshots: [
-      { title: 'Document Upload & Processing', url: '/projects/rag-upload.png' },
-      { title: 'Technical Q&A Interface with Citations', url: '/projects/rag-qa.png' },
-      { title: 'Retrieval Evaluation Dashboard', url: '/projects/rag-eval.png' }
+      { title: 'Medallion Architecture Diagram', url: '/projects/databricks-medallion.png' },
+      { title: 'Delta Lake Time Travel Query', url: '/projects/databricks-timetravel.png' },
+      { title: 'Data Quality Dashboard', url: '/projects/databricks-quality.png' }
     ],
 
     codeSnippets: {
-      'Technical Document Chunking': `
-# Intelligent chunking that preserves code blocks and technical structure
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from PyPDF2 import PdfReader
-import re
+      'Silver Layer Transformation with Data Quality': `# notebooks/silver_sensor_events.py
+# Silver layer: Clean and conform IoT sensor data with quality checks
 
-class TechnicalDocumentChunker:
-    def __init__(self, chunk_size: int = 512, chunk_overlap: int = 50):
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
-        
-        # Custom separators prioritizing technical document structure
-        self.splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
-            length_function=len,
-            separators=[
-                "\\n## ",      # Markdown H2 headers
-                "\\n### ",     # Markdown H3 headers
-                "\\n\\n",      # Paragraph breaks
-                "\\n",         # Line breaks
-                ". ",          # Sentences
-                " ",           # Words
-                ""
-            ]
-        )
+from pyspark.sql import functions as F
+from pyspark.sql.window import Window
+from delta.tables import DeltaTable
+
+# Read from bronze layer (raw events)
+bronze_df = spark.read.format("delta").table("bronze_iot.sensor_events")
+
+# Define valid ranges for sensor types
+valid_ranges = {
+    "temperature": (-50, 150),  # Celsius
+    "vibration": (0, 100),      # mm/s
+    "pressure": (0, 200),       # PSI
+    "power_consumption": (0, 500)  # kW
+}
+
+def is_within_range(sensor_type, value):
+    """Check if sensor value is within valid range"""
+    if sensor_type not in valid_ranges:
+        return True  # Unknown sensor types pass (captured for review)
+    min_val, max_val = valid_ranges[sensor_type]
+    return (value >= min_val) and (value <= max_val)
+
+# Register UDF for range validation
+from pyspark.sql.types import BooleanType
+is_within_range_udf = F.udf(is_within_range, BooleanType())
+
+# Silver transformation
+silver_df = (
+    bronze_df
+    # Standardize timestamp to UTC
+    .withColumn("event_timestamp_utc", 
+        F.to_utc_timestamp("event_timestamp", "UTC"))
     
-    def _extract_code_blocks(self, text: str) -> tuple[str, dict]:
-        """Extract code blocks and replace with placeholders."""
-        code_blocks = {}
-        pattern = r'\`\`\`[\w]*\n[\s\S]*?\`\`\`'
-        
-        def replacer(match):
-            placeholder = f"__CODE_BLOCK_{len(code_blocks)}__"
-            code_blocks[placeholder] = match.group(0)
-            return placeholder
-        
-        processed_text = re.sub(pattern, replacer, text)
-        return processed_text, code_blocks
+    # Type casting and null handling
+    .withColumn("sensor_value", F.col("sensor_value").cast("double"))
+    .withColumn("equipment_id", F.col("equipment_id").cast("string"))
     
-    def _restore_code_blocks(self, chunks: list[str], code_blocks: dict) -> list[str]:
-        """Restore code blocks in chunks."""
-        restored = []
-        for chunk in chunks:
-            for placeholder, code in code_blocks.items():
-                chunk = chunk.replace(placeholder, code)
-            restored.append(chunk)
-        return restored
+    # Add data quality flags
+    .withColumn("is_valid_range", 
+        is_within_range_udf(F.col("sensor_type"), F.col("sensor_value")))
+    .withColumn("is_null_value", F.col("sensor_value").isNull())
     
-    def chunk_document(self, text: str, metadata: dict) -> list[dict]:
-        """
-        Chunk technical document while preserving code blocks.
-        Returns list of chunks with metadata.
-        """
-        # Extract code blocks to prevent splitting them
-        processed_text, code_blocks = self._extract_code_blocks(text)
-        
-        # Split text
-        raw_chunks = self.splitter.split_text(processed_text)
-        
-        # Restore code blocks
-        chunks = self._restore_code_blocks(raw_chunks, code_blocks)
-        
-        # Add metadata to each chunk
-        return [
-            {
-                "text": chunk,
-                "metadata": {
-                    **metadata,
-                    "chunk_index": i,
-                    "has_code": "\`\`\`" in chunk
-                }
-            }
-            for i, chunk in enumerate(chunks)
-        ]
-`,
-
-      'ChromaDB Vector Store': `
-# Vector storage and retrieval with ChromaDB
-import chromadb
-from chromadb.config import Settings
-import google.generativeai as genai
-
-class TechnicalDocsVectorStore:
-    def __init__(self, collection_name: str = "technical_docs"):
-        self.client = chromadb.PersistentClient(
-            path="./chroma_db",
-            settings=Settings(anonymized_telemetry=False)
-        )
-        self.collection = self.client.get_or_create_collection(
-            name=collection_name,
-            metadata={"hnsw:space": "cosine"}
-        )
-        
-        # Configure Gemini
-        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+    # Deduplication: keep latest event per sensor + timestamp
+    .withColumn("row_num", 
+        F.row_number().over(
+            Window.partitionBy("sensor_id", "event_timestamp_utc")
+            .orderBy(F.col("ingestion_time").desc())
+        ))
+    .filter(F.col("row_num") == 1)
+    .drop("row_num")
     
-    def add_documents(self, chunks: list[dict]):
-        """Embed and store document chunks."""
-        texts = [c["text"] for c in chunks]
-        metadatas = [c["metadata"] for c in chunks]
-        ids = [f"chunk_{i}_{c['metadata'].get('doc_name', 'unknown')}" 
-               for i, c in enumerate(chunks)]
-        
-        # Generate embeddings with Gemini
-        embeddings = self._embed_texts(texts)
-        
-        self.collection.add(
-            documents=texts,
-            embeddings=embeddings,
-            metadatas=metadatas,
-            ids=ids
-        )
-        
-        return len(chunks)
+    # Add processing metadata
+    .withColumn("processed_at", F.current_timestamp())
+    .withColumn("silver_layer_version", F.lit("v1.0"))
     
-    def query(self, question: str, top_k: int = 5, 
-              filter_dict: dict = None) -> list[dict]:
-        """Retrieve most relevant chunks for a technical question."""
-        query_embedding = self._embed_texts([question])[0]
-        
-        query_params = {
-            "query_embeddings": [query_embedding],
-            "n_results": top_k,
-            "include": ["documents", "metadatas", "distances"]
-        }
-        
-        if filter_dict:
-            query_params["where"] = filter_dict
-        
-        results = self.collection.query(**query_params)
-        
-        return [
-            {
-                "text": doc,
-                "metadata": meta,
-                "relevance_score": 1 - dist  # Convert distance to similarity
-            }
-            for doc, meta, dist in zip(
-                results["documents"][0],
-                results["metadatas"][0],
-                results["distances"][0]
-            )
-        ]
-    
-    def _embed_texts(self, texts: list[str]) -> list[list[float]]:
-        """Generate embeddings using Gemini."""
-        embeddings = []
-        for text in texts:
-            result = genai.embed_content(
-                model="models/embedding-001",
-                content=text,
-                task_type="retrieval_document"
-            )
-            embeddings.append(result["embedding"])
-        return embeddings
-`,
+    # Select final schema
+    .select(
+        "event_id",
+        "sensor_id", "equipment_id",
+        "equipment_type",
+        "sensor_type",
+        "sensor_value",
+        "event_timestamp_utc",
+        "is_valid_range",
+        "is_null_value",
+        "processed_at",
+        "silver_layer_version"
+    )
+)
 
-      'RAG Query Pipeline': `
-# Complete RAG pipeline for technical documentation Q&A
-import google.generativeai as genai
+# Write to Silver Delta table with partitioning
+(silver_df
+    .write
+    .format("delta")
+    .mode("overwrite")  # For initial load; use merge for incremental
+    .option("mergeSchema", "true")  # Allow schema evolution
+    .partitionBy("event_timestamp_utc")
+    .saveAsTable("silver_iot.sensor_events"))
 
-class TechnicalDocsRAG:
-    def __init__(self, vector_store: TechnicalDocsVectorStore):
-        self.vector_store = vector_store
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
-        
-    def query(self, question: str, doc_filter: dict = None) -> dict:
-        """
-        Full RAG pipeline: retrieve context and generate technical answer.
-        """
-        # Step 1: Retrieve relevant chunks
-        retrieved = self.vector_store.query(
-            question, 
-            top_k=5,
-            filter_dict=doc_filter
-        )
-        
-        if not retrieved:
-            return {
-                "answer": "No relevant documentation found for this question.",
-                "sources": []
-            }
-        
-        # Step 2: Build context with source tracking
-        context_parts = []
-        for i, chunk in enumerate(retrieved):
-            doc_name = chunk['metadata'].get('doc_name', 'Unknown')
-            section = chunk['metadata'].get('section', '')
-            source_label = f"[Source {i+1}: {doc_name}"
-            if section:
-                source_label += f" - {section}"
-            source_label += "]"
-            context_parts.append(f"{source_label}\\n{chunk['text']}")
-        
-        context = "\\n\\n---\\n\\n".join(context_parts)
-        
-        # Step 3: Generate answer with technical prompt
-        prompt = f"""You are a technical documentation assistant. Answer the question based ONLY on the provided documentation context.
+# Data quality summary
+quality_summary = silver_df.agg(
+    F.count("*").alias("total_events"),
+    F.sum(F.when(~F.col("is_valid_range"), 1).otherwise(0)).alias("out_of_range_events"),
+    F.sum(F.when(F.col("is_null_value"), 1).otherwise(0)).alias("null_value_events"),
+    F.countDistinct("equipment_id").alias("unique_equipment"),
+    F.min("event_timestamp_utc").alias("earliest_event"),
+    F.max("event_timestamp_utc").alias("latest_event")
+)
 
-Rules:
-- Always cite your sources using [Source N] notation
-- Preserve code formatting using markdown code blocks
-- If the documentation doesn't contain enough information, say so clearly
-- Be precise and technical in your explanations
-
-Documentation Context:
-{context}
-
-Question: {question}
-
-Technical Answer:"""
-
-        response = self.model.generate_content(prompt)
-        
-        return {
-            "answer": response.text,
-            "sources": [
-                {
-                    "doc_name": c["metadata"].get("doc_name", "Unknown"),
-                    "section": c["metadata"].get("section", ""),
-                    "text_preview": c["text"][:200] + "...",
-                    "relevance_score": round(c["relevance_score"], 3),
-                    "has_code": c["metadata"].get("has_code", False)
-                }
-                for c in retrieved
-            ],
-            "chunks_retrieved": len(retrieved)
-        }
-`
+display(quality_summary)`
     },
 
     links: {
-      github: 'https://github.com/danielg-gerlach/rag-technical-docs',
+      github: 'https://github.com/danielg-gerlach/databricks-lakehouse-iot',
       demo: null,
-      documentation: null
+      documentation: 'https://github.com/danielg-gerlach/databricks-lakehouse-iot/blob/main/README.md'
     }
   },
 
@@ -904,395 +743,6 @@ models:
 
     links: {
       github: 'https://github.com/danielg-gerlach/snowflake-saas-dwh',
-      demo: null,
-      documentation: null
-    }
-  },
-
-  'iot-streaming-pipeline': {
-    id: 'iot-streaming-pipeline',
-    type: 'personal',
-    title: 'IoT Real-Time Streaming Analytics Pipeline',
-    subtitle: 'End-to-end streaming pipeline for IoT sensor data with Kafka, Spark Structured Streaming, and Delta Lake',
-    year: '2026',
-    role: 'Data Engineer',
-    team: 'Solo project',
-    status: 'In Development',
-    tldr: 'Building a real-time data pipeline that ingests IoT sensor data (temperature, humidity, pressure) via Kafka, processes it with Spark Structured Streaming for anomaly detection and aggregations, and writes to Delta Lake. Implements exactly-once semantics, late data handling, and real-time alerting for sensor threshold breaches.',
-
-    overview: `Developing a production-style streaming data pipeline that processes IoT sensor readings in real-time. Simulated sensors publish telemetry data to Apache Kafka, which is consumed and transformed by Spark Structured Streaming. The pipeline performs real-time anomaly detection, calculates rolling aggregations, and writes results to Delta Lake tables. Supports both real-time dashboards (sub-minute latency) and historical batch analysis on the same data, demonstrating the modern streaming-first approach to IoT analytics.`,
-
-    problem: `IoT deployments generate massive volumes of time-series data that batch pipelines cannot process fast enough. Traditional hourly or daily ETL misses critical events - a temperature spike that damages equipment is useless to detect 6 hours later. Lambda architecture requires maintaining separate batch and streaming codebases. Late-arriving sensor data (due to network issues) and exactly-once processing add complexity that most solutions ignore.`,
-
-    solution: `Implementing a unified streaming architecture using Spark Structured Streaming with Delta Lake as the sink. Sensor data flows through Kafka, gets enriched with device metadata, checked against thresholds for alerting, aggregated into time windows, and written to Delta Lake. This provides exactly-once guarantees, handles late sensor data with watermarks, and enables both streaming queries and batch analytics on the same tables. The entire pipeline is containerized with Docker.`,
-
-    techStack: {
-      'Streaming': ['Apache Kafka', 'Spark Structured Streaming'],
-      'Storage': ['Delta Lake', 'MinIO (S3-compatible)'],
-      'Processing': ['PySpark', 'Python'],
-      'Infrastructure': ['Docker', 'docker-compose'],
-      'Monitoring': ['Kafka UI', 'Spark UI', 'Custom alerting'],
-      'Data Simulation': ['Python Faker', 'NumPy']
-    },
-
-    architecture: {
-      components: [
-        { name: 'IoT Simulator', description: 'Python service generating realistic sensor telemetry (temperature, humidity, pressure, vibration) with configurable anomaly injection and network delay simulation.' },
-        { name: 'Kafka Cluster', description: 'Message broker with topics partitioned by device_id for ordered processing per sensor. Configured with appropriate retention for replay capability.' },
-        { name: 'Stream Processor', description: 'Spark Structured Streaming job consuming from Kafka, enriching with device metadata, detecting anomalies, and computing windowed aggregations.' },
-        { name: 'Anomaly Detection', description: 'Real-time threshold checking and statistical anomaly detection (z-score based) with alert generation for out-of-bounds readings.' },
-        { name: 'Delta Lake Tables', description: 'Bronze (raw telemetry), Silver (cleaned/enriched), Gold (aggregated metrics) layers following medallion architecture.' },
-        { name: 'Alert Sink', description: 'Streaming output for threshold breaches, writing to separate Kafka topic for downstream alerting systems.' }
-      ]
-    },
-
-    metrics: {
-      'Event Throughput': '50K events/sec',
-      'End-to-End Latency': '<10 seconds',
-      'Processing Guarantee': 'Exactly-once',
-      'Late Data Handling': '30 minute watermark',
-      'Simulated Devices': '1000 sensors',
-      'Checkpoint Interval': '15 seconds'
-    },
-
-    challenges: [
-      {
-        challenge: 'Achieving exactly-once semantics for sensor data that cannot be duplicated or lost.',
-        solution: 'Using Spark Structured Streaming with checkpointing enabled and Delta Lake as sink. Delta provides ACID transactions and idempotent writes. Kafka consumer offsets tracked in checkpoint for recovery.'
-      },
-      {
-        challenge: 'Handling late-arriving sensor data due to network connectivity issues.',
-        solution: 'Implementing watermarks with 30-minute threshold suitable for IoT scenarios. Late data within watermark updates aggregations correctly. Data beyond watermark written to late-data table for reconciliation and reprocessing.'
-      },
-      {
-        challenge: 'Real-time anomaly detection without blocking the main processing pipeline.',
-        solution: 'Implementing parallel stream outputs - one for main aggregations, one for anomaly alerts. Using stateless threshold checks for critical alerts (immediate) and stateful rolling statistics for statistical anomalies.'
-      },
-      {
-        challenge: 'Managing device metadata enrichment without slowing down streaming throughput.',
-        solution: 'Broadcasting device metadata as Spark broadcast variable, refreshed every 5 minutes. Avoids shuffle join on every micro-batch. Handles device additions gracefully with null-safe joins.'
-      },
-      {
-        challenge: 'Managing Spark Structured Streaming state for long-running windowed aggregations.',
-        solution: 'Configuring state store with RocksDB backend for large state. Implementing state cleanup based on watermark. Monitoring state size metrics to prevent memory issues.'
-      }
-    ],
-
-    impact: [
-      'Enables real-time IoT monitoring with sub-10-second latency compared to hourly/daily batch jobs',
-      'Detects equipment anomalies immediately, enabling preventive action before damage occurs',
-      'Demonstrates modern streaming architecture that unifies batch and real-time processing',
-      'Shows production patterns: exactly-once, late data handling, checkpointing, alerting',
-      'Creates reusable template for any IoT or time-series streaming use case'
-    ],
-
-    learnings: [
-      'IoT data has unique characteristics - high volume, time-series nature, frequent late arrivals, need for device context',
-      'Watermark tuning is critical for IoT - too tight and you lose data, too loose and aggregations delay',
-      'Delta Lake is essential for streaming IoT - ACID transactions enable exactly-once and simplified architecture',
-      'Anomaly detection needs both threshold-based (simple, fast) and statistical (sophisticated, requires state) approaches',
-      'Local development with Docker is essential - you cannot iterate quickly on cloud-deployed streaming jobs'
-    ],
-
-    screenshots: [
-      { title: 'Architecture Diagram', url: '/projects/iot-streaming-arch.png' },
-      { title: 'Real-Time Sensor Dashboard', url: '/projects/iot-streaming-dashboard.png' },
-      { title: 'Anomaly Alert Stream', url: '/projects/iot-streaming-alerts.png' }
-    ],
-
-    codeSnippets: {
-      'IoT Sensor Simulator': `
-# Realistic IoT sensor data generator with anomaly injection
-from kafka import KafkaProducer
-import json
-import random
-import time
-import numpy as np
-from datetime import datetime
-
-producer = KafkaProducer(
-    bootstrap_servers=['localhost:9092'],
-    value_serializer=lambda v: json.dumps(v).encode('utf-8'),
-    key_serializer=lambda k: k.encode('utf-8')
-)
-
-# Simulated device fleet
-DEVICES = [
-    {"device_id": f"sensor_{i:04d}", 
-     "device_type": random.choice(["temperature", "humidity", "pressure", "vibration"]),
-     "location": random.choice(["plant_a", "plant_b", "warehouse_1", "warehouse_2"]),
-     "baseline_temp": random.uniform(20, 25),
-     "baseline_humidity": random.uniform(40, 60)}
-    for i in range(1000)
-]
-
-def generate_reading(device: dict, inject_anomaly: bool = False) -> dict:
-    """Generate a realistic sensor reading with optional anomaly."""
-    
-    # Base values with normal variation
-    if device["device_type"] == "temperature":
-        value = np.random.normal(device["baseline_temp"], 1.5)
-        unit = "celsius"
-        # Inject temperature spike anomaly
-        if inject_anomaly:
-            value += random.uniform(15, 30)
-    
-    elif device["device_type"] == "humidity":
-        value = np.random.normal(device["baseline_humidity"], 3)
-        unit = "percent"
-        if inject_anomaly:
-            value = random.uniform(90, 100)
-    
-    elif device["device_type"] == "pressure":
-        value = np.random.normal(1013, 5)
-        unit = "hpa"
-        if inject_anomaly:
-            value += random.uniform(-50, 50)
-    
-    else:  # vibration
-        value = abs(np.random.normal(0.5, 0.2))
-        unit = "mm/s"
-        if inject_anomaly:
-            value *= random.uniform(5, 10)
-    
-    # Simulate occasional network delay (late-arriving data)
-    event_time = datetime.utcnow()
-    if random.random() < 0.05:  # 5% of readings are delayed
-        delay_seconds = random.randint(60, 1800)  # 1-30 minutes late
-        event_time = datetime.fromtimestamp(
-            event_time.timestamp() - delay_seconds
-        )
-    
-    return {
-        "device_id": device["device_id"],
-        "device_type": device["device_type"],
-        "location": device["location"],
-        "value": round(value, 2),
-        "unit": unit,
-        "event_time": event_time.isoformat(),
-        "processing_time": datetime.utcnow().isoformat(),
-        "quality_score": random.uniform(0.95, 1.0) if not inject_anomaly else random.uniform(0.7, 0.9)
-    }
-
-def stream_sensor_data(events_per_second: int = 500, anomaly_rate: float = 0.01):
-    """Continuously produce sensor readings to Kafka."""
-    print(f"Starting IoT simulator: {events_per_second} events/sec, {anomaly_rate*100}% anomaly rate")
-    
-    while True:
-        for _ in range(events_per_second):
-            device = random.choice(DEVICES)
-            inject_anomaly = random.random() < anomaly_rate
-            
-            reading = generate_reading(device, inject_anomaly)
-            
-            # Partition by device_id for ordered processing per sensor
-            producer.send(
-                topic='iot-sensor-readings',
-                key=device["device_id"],
-                value=reading
-            )
-        
-        producer.flush()
-        time.sleep(1)
-
-if __name__ == "__main__":
-    stream_sensor_data(events_per_second=500, anomaly_rate=0.01)
-`,
-
-      'Spark Streaming with Anomaly Detection': `
-# IoT stream processing with real-time anomaly detection
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
-from pyspark.sql.types import *
-
-spark = SparkSession.builder \\
-    .appName("IoTStreamProcessor") \\
-    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \\
-    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \\
-    .getOrCreate()
-
-# Schema for IoT sensor readings
-reading_schema = StructType([
-    StructField("device_id", StringType()),
-    StructField("device_type", StringType()),
-    StructField("location", StringType()),
-    StructField("value", DoubleType()),
-    StructField("unit", StringType()),
-    StructField("event_time", StringType()),
-    StructField("processing_time", StringType()),
-    StructField("quality_score", DoubleType())
-])
-
-# Thresholds for anomaly detection
-THRESHOLDS = {
-    "temperature": {"min": 10, "max": 40, "critical_max": 50},
-    "humidity": {"min": 20, "max": 80, "critical_max": 95},
-    "pressure": {"min": 950, "max": 1050, "critical_max": 1100},
-    "vibration": {"min": 0, "max": 2, "critical_max": 5}
-}
-
-# Read from Kafka
-raw_stream = spark.readStream \\
-    .format("kafka") \\
-    .option("kafka.bootstrap.servers", "localhost:9092") \\
-    .option("subscribe", "iot-sensor-readings") \\
-    .option("startingOffsets", "latest") \\
-    .load()
-
-# Parse JSON and convert timestamps
-parsed_stream = raw_stream \\
-    .select(
-        from_json(col("value").cast("string"), reading_schema).alias("data"),
-        col("timestamp").alias("kafka_timestamp")
-    ) \\
-    .select("data.*", "kafka_timestamp") \\
-    .withColumn("event_timestamp", 
-        to_timestamp(col("event_time"))) \\
-    .withColumn("processing_timestamp", 
-        to_timestamp(col("processing_time"))) \\
-    .withColumn("ingestion_timestamp", current_timestamp())
-
-# Apply watermark for late data handling (30 min for IoT)
-watermarked = parsed_stream \\
-    .withWatermark("event_timestamp", "30 minutes")
-
-# Add anomaly detection flags
-with_anomalies = watermarked \\
-    .withColumn("threshold_breach",
-        when(
-            (col("device_type") == "temperature") & 
-            ((col("value") < 10) | (col("value") > 40)), True
-        ).when(
-            (col("device_type") == "humidity") & 
-            ((col("value") < 20) | (col("value") > 80)), True
-        ).when(
-            (col("device_type") == "pressure") & 
-            ((col("value") < 950) | (col("value") > 1050)), True
-        ).when(
-            (col("device_type") == "vibration") & 
-            (col("value") > 2), True
-        ).otherwise(False)
-    ) \\
-    .withColumn("critical_breach",
-        when(
-            (col("device_type") == "temperature") & (col("value") > 50), True
-        ).when(
-            (col("device_type") == "humidity") & (col("value") > 95), True
-        ).when(
-            (col("device_type") == "vibration") & (col("value") > 5), True
-        ).otherwise(False)
-    )
-
-# Write all readings to Bronze layer
-bronze_query = with_anomalies.writeStream \\
-    .format("delta") \\
-    .outputMode("append") \\
-    .option("checkpointLocation", "/checkpoints/iot_bronze") \\
-    .start("/delta/bronze/iot_readings")
-
-# Filter and write anomalies to separate alert stream
-alerts = with_anomalies \\
-    .filter(col("threshold_breach") | col("critical_breach")) \\
-    .select(
-        col("device_id"),
-        col("device_type"),
-        col("location"),
-        col("value"),
-        col("unit"),
-        col("event_timestamp"),
-        col("threshold_breach"),
-        col("critical_breach"),
-        when(col("critical_breach"), "CRITICAL")
-            .when(col("threshold_breach"), "WARNING")
-            .alias("severity")
-    )
-
-# Write alerts to Kafka for downstream alerting
-alert_query = alerts \\
-    .selectExpr("device_id AS key", "to_json(struct(*)) AS value") \\
-    .writeStream \\
-    .format("kafka") \\
-    .option("kafka.bootstrap.servers", "localhost:9092") \\
-    .option("topic", "iot-alerts") \\
-    .option("checkpointLocation", "/checkpoints/iot_alerts") \\
-    .start()
-`,
-
-      'Windowed Aggregations for Dashboards': `
-# Real-time aggregations for IoT monitoring dashboards
-from pyspark.sql.functions import window, avg, min, max, count, stddev
-
-# 1-minute tumbling window aggregations per device
-device_metrics_1m = watermarked \\
-    .groupBy(
-        window("event_timestamp", "1 minute"),
-        "device_id",
-        "device_type",
-        "location"
-    ) \\
-    .agg(
-        avg("value").alias("avg_value"),
-        min("value").alias("min_value"),
-        max("value").alias("max_value"),
-        stddev("value").alias("stddev_value"),
-        count("*").alias("reading_count"),
-        avg("quality_score").alias("avg_quality")
-    )
-
-# Write to Gold layer for dashboards
-device_metrics_query = device_metrics_1m.writeStream \\
-    .format("delta") \\
-    .outputMode("append") \\
-    .option("checkpointLocation", "/checkpoints/iot_gold_device_1m") \\
-    .start("/delta/gold/device_metrics_1m")
-
-# Location-level aggregations (5-minute windows)
-location_metrics_5m = watermarked \\
-    .groupBy(
-        window("event_timestamp", "5 minutes"),
-        "location",
-        "device_type"
-    ) \\
-    .agg(
-        avg("value").alias("avg_value"),
-        min("value").alias("min_value"),
-        max("value").alias("max_value"),
-        count("*").alias("reading_count"),
-        sum(when(col("quality_score") < 0.9, 1).otherwise(0))
-            .alias("low_quality_count"),
-        countDistinct("device_id").alias("active_devices")
-    )
-
-location_metrics_query = location_metrics_5m.writeStream \\
-    .format("delta") \\
-    .outputMode("append") \\
-    .option("checkpointLocation", "/checkpoints/iot_gold_location_5m") \\
-    .start("/delta/gold/location_metrics_5m")
-
-# Statistical anomaly detection using rolling z-score
-# Requires stateful processing with flatMapGroupsWithState
-# Simplified version using window functions
-rolling_stats = watermarked \\
-    .groupBy(
-        window("event_timestamp", "15 minutes", "1 minute"),
-        "device_id"
-    ) \\
-    .agg(
-        avg("value").alias("rolling_avg"),
-        stddev("value").alias("rolling_stddev"),
-        count("*").alias("sample_count")
-    )
-
-rolling_stats_query = rolling_stats.writeStream \\
-    .format("delta") \\
-    .outputMode("append") \\
-    .option("checkpointLocation", "/checkpoints/iot_rolling_stats") \\
-    .start("/delta/silver/rolling_device_stats")
-`
-    },
-
-    links: {
-      github: 'https://github.com/danielg-gerlach/iot-streaming-pipeline',
       demo: null,
       documentation: null
     }

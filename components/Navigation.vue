@@ -84,6 +84,7 @@
     { id: 'about', name: 'ABOUT', key: 'nav.about' },
     { id: 'projects', name: 'PROJECTS', key: 'nav.projects' },
     { id: 'skills', name: 'SKILLS', key: 'nav.skills' },
+    { id: 'certifications', name: 'CERTIFICATIONS', key: 'nav.certifications' },
     { id: 'articles', name: 'ARTICLES', key: 'nav.articles' }
   ]
   

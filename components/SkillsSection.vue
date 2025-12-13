@@ -128,10 +128,10 @@
         </transition>
         
         <!-- Certifications Section -->
-        <div class="mt-40">
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4">Certifications</h2>
-          <div class="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-6"></div>
-          <p class="text-xl text-gray-400 text-center mb-20">
+        <div id="certifications" class="mt-32">
+          <h2 class="font-mono text-blue-400 text-base mb-2">[4] CERTIFICATIONS</h2>
+          <p class="text-3xl md:text-4xl font-bold mb-3">Courses & Certificates</p>
+          <p class="text-gray-400 text-lg mb-12">
             During my studies, I've also gained some experience through certifications & online courses.
           </p>
           
@@ -181,17 +181,9 @@
                 </div>
               </div>
               
-              <!-- Verify Link or Expected Date -->
-              <div class="border-t border-gray-800 pt-6">
-                <a v-if="cert.verifyUrl && !cert.inProgress" 
-                   :href="cert.verifyUrl" 
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium">
-                  <span>Verify Certificate</span>
-                  <ExternalLinkIcon class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <div v-else-if="cert.inProgress" class="text-gray-400 font-medium">
+              <!-- Expected Date for In Progress -->
+              <div v-if="cert.inProgress" class="border-t border-gray-800 pt-6">
+                <div class="text-gray-400 font-medium">
                   Expected: {{ cert.expectedDate }}
                 </div>
               </div>
