@@ -21,7 +21,7 @@ export const projectsData = {
     solution: `Built a multi-page Tableau dashboard with clear narrative flow: (1) Executive Summary page with high-level KPIs (revenue, growth %, target attainment) using dynamic indicators and color coding, (2) Geographic Analysis with sales heatmap showing regional performance and drill-down to individual territories, (3) Sales Funnel visualization tracking conversion rates through pipeline stages with bottleneck identification, (4) Customer Segmentation matrix using RFM analysis to identify high-value customers and at-risk accounts, (5) Trend Analysis with forecasting showing historical performance and projected future revenue. Each page designed with executive users in mind: minimal clutter, clear insights, actionable next steps highlighted.`,
 
     techStack: {
-      'Visualization': ['Tableau Desktop', 'Tableau Public'],
+      'Visualization': ['Tableau Public'],
       'Data Preparation': ['Python (pandas)', 'SQL', 'Excel'],
       'Advanced Features': ['Calculated Fields', 'LOD Expressions', 'Parameters', 'Dashboard Actions', 'Forecasting', 'Sets'],
       'Design': ['Color Theory', 'Data Storytelling Principles', 'UX Design']

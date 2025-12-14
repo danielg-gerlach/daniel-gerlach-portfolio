@@ -71,16 +71,16 @@
               <span class="text-white">{{ project.title }}</span>
             </div>
             
-            <div class="flex items-center gap-4 mb-8">
-              <h1 class="text-4xl md:text-6xl font-bold">
+            <div class="mb-8">
+              <h1 class="text-4xl md:text-6xl font-bold mb-3">
                 <span class="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
                   {{ project.title }}
                 </span>
               </h1>
-              <span v-if="project.type === 'work'" class="px-3 py-1 bg-purple-900/50 text-purple-400 text-sm rounded-full border border-purple-800">
+              <span v-if="project.type === 'work'" class="inline-block px-3 py-1 bg-purple-900/50 text-purple-400 text-sm rounded-full border border-purple-800">
                 Work Project
               </span>
-              <span v-if="project.type === 'personal'" class="px-3 py-1 bg-blue-900/50 text-blue-400 text-sm rounded-full border border-blue-800">
+              <span v-if="project.type === 'personal'" class="inline-block px-3 py-1 bg-blue-900/50 text-blue-400 text-sm rounded-full border border-blue-800">
                 Personal Project
               </span>
             </div>
@@ -207,8 +207,8 @@
           </div>
         </section>
   
-        <!-- Tabs Navigation - Simplified for mobile -->
-        <section class="sticky top-[69px] z-40 bg-black/95 backdrop-blur-md border-b border-gray-800">
+        <!-- Tabs Navigation - Hidden for In Development projects -->
+        <section v-if="project.status !== 'In Development'" class="sticky top-[69px] z-40 bg-black/95 backdrop-blur-md border-b border-gray-800">
           <div class="max-w-7xl mx-auto px-6">
             <div class="flex space-x-2 md:space-x-8 overflow-x-auto scrollbar-hide">
               <button
@@ -236,8 +236,24 @@
         <section class="py-16 px-6">
           <div class="max-w-7xl mx-auto">
             
+            <!-- In Development Notice -->
+            <div v-if="project.status === 'In Development'" class="animate-fadeIn">
+              <div class="bg-gray-900/50 border border-gray-700 rounded-xl p-8 text-center">
+                <div class="flex justify-center mb-4">
+                  <div class="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center">
+                    <Clock class="w-8 h-8 text-blue-400" />
+                  </div>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-300 mb-2">Project In Development</h3>
+                <p class="text-gray-500 max-w-md mx-auto">
+                  This project is currently being built. The TL;DR above provides the key summary. 
+                  Full details, technical documentation, and code samples will be available once completed.
+                </p>
+              </div>
+            </div>
+            
             <!-- Overview Tab -->
-            <div v-if="activeTab === 'overview'" class="space-y-16 animate-fadeIn">
+            <div v-if="activeTab === 'overview' && project.status !== 'In Development'" class="space-y-16 animate-fadeIn">
               <!-- Problem & Solution -->
               <div class="grid md:grid-cols-2 gap-8 md:gap-12">
                 <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
@@ -511,9 +527,10 @@
   
   // Check if tab should be disabled for "In Development" projects
   const isTabDisabled = (tabId) => {
-    // Disable Technical, Results, and Code tabs for "In Development" projects
+    // Disable Overview, Technical, Results, and Code tabs for "In Development" projects
+    // Only TL;DR in hero section is shown for these projects
     if (project.value?.status === 'In Development') {
-      return ['technical', 'results', 'code'].includes(tabId)
+      return ['overview', 'technical', 'results', 'code'].includes(tabId)
     }
     return false
   }
