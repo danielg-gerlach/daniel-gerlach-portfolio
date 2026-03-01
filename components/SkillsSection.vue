@@ -3,7 +3,7 @@
       <div class="max-w-6xl mx-auto">
         <h2 class="font-mono text-blue-400 text-base mb-2">[3] SKILLS</h2>
         <p class="text-3xl md:text-4xl font-bold mb-3">Technical Stack</p>
-        <p class="text-gray-400 text-lg mb-12">These are the tools & technologies I've worked with until now</p>
+        <p class="text-gray-400 text-lg mb-12">These are the tools & technologies I've worked with until now.</p>
         
         <!-- Interactive Terminal -->
         <div class="max-w-4xl mx-auto">
