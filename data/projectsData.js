@@ -2,144 +2,80 @@ export const projectsData = {
   // ============================================
   // PERSONAL PROJECTS
   // ============================================
-  
-  'saas-metrics-pipeline': {
-    id: 'saas-metrics-pipeline',
+
+  'developer-analytics-platform': {
+    id: 'developer-analytics-platform',
     type: 'personal',
-    title: 'SaaS Metrics Pipeline + Dashboard',
-    subtitle: 'End-to-end data pipeline generating synthetic SaaS data, modeling it in a star schema with dbt, and serving a live MRR/churn/retention dashboard',
+    title: 'Developer Ecosystem Analytics Platform',
+    subtitle: 'Automated batch data platform tracking developer tool adoption trends across GitHub and Stack Overflow via a medallion architecture',
     year: '2026',
     role: 'Data Engineer',
     team: 'Solo project',
     status: 'In Development',
-    tldr: 'Generate synthetic SaaS product data (users, subscriptions, events, churn) with a Python script using Faker, ingest it into DuckDB, model it into a star schema with dbt (fact_subscriptions, dim_users, dim_plans), and serve a live MRR/churn/retention dashboard in Streamlit.',
+    tldr: 'End-to-end batch data platform ingesting GitHub API and Stack Overflow data daily via Prefect, transforming it through a medallion architecture with dbt on MotherDuck (DuckDB Cloud), and serving a live Evidence.dev dashboard tracking tool adoption trends, community health, and technology growth indices.',
 
-    overview: `End-to-end data engineering project that demonstrates data modeling judgment on a business-relevant domain. SaaS metrics are universal — MRR, churn, retention — and this pipeline covers the full stack from synthetic data generation through warehouse modeling to live dashboard delivery. By defining data from scratch using Faker, the project shows understanding of the business semantics behind data, not just the plumbing.`,
+    overview: `A fully automated batch data platform that answers: "Which data tools are gaining adoption? Where is upskilling worth it?" Daily ingestion from the GitHub REST API and Stack Overflow datasets flows through a Bronze → Silver → Gold medallion architecture on MotherDuck, transformed by dbt with incremental models, tested with automated data quality checks, and deployed as a live Evidence.dev dashboard. CI/CD via GitHub Actions runs dbt on every push and auto-deploys updated docs.`,
 
-    problem: `SaaS companies need reliable, well-modeled data to track subscription metrics like MRR, churn rates, and customer retention. Raw transactional data is messy and doesn't directly answer business questions. Building a pipeline that generates, ingests, models, and visualizes this data end-to-end demonstrates the full breadth of data engineering skills.`,
+    problem: `Engineering managers and developers making technology investment decisions — which tools to adopt, which skills to build — rely on gut feeling and opinion articles rather than data. Public signals exist (GitHub activity, Stack Overflow trends, job market data) but are fragmented and unstructured. A reproducible, automated pipeline that consolidates these signals into actionable analytics has direct business value.`,
 
-    solution: `Built a complete pipeline: (1) Python script using Faker generates realistic SaaS product data — users, subscriptions, usage events, and churn events. (2) Data is ingested into DuckDB as the analytical warehouse. (3) dbt models transform raw data into a star schema with fact_subscriptions, dim_users, and dim_plans. (4) A Streamlit dashboard serves live MRR, churn, and retention metrics. (5) GitHub Actions automates the pipeline for continuous data refreshes.`,
+    solution: `Built an end-to-end pipeline: (1) Prefect orchestrates daily incremental extraction from GitHub REST API (stars, forks, issues for top DE/AI tools) and Stack Overflow public datasets. (2) Raw JSON/Parquet lands in MotherDuck Bronze layer, unchanged for auditability. (3) dbt Silver layer cleans, deduplicates, and types the data. (4) dbt Gold layer computes tool adoption trends, community health scores, and monthly growth indices. (5) Evidence.dev dashboard deployed on Vercel serves live analytics. GitHub Actions CI/CD runs dbt tests on every push.`,
 
     techStack: {
-      'Data Generation': ['Python', 'Faker'],
-      'Data Warehouse': ['DuckDB'],
-      'Transformation': ['dbt'],
-      'Orchestration': ['GitHub Actions'],
-      'Visualization': ['Streamlit']
+      'Orchestration': ['Prefect Cloud'],
+      'Storage / Warehouse': ['MotherDuck', 'DuckDB'],
+      'Transformation': ['dbt Core', 'dbt-duckdb adapter'],
+      'Data Quality': ['dbt Tests (built-in + custom)'],
+      'CI/CD': ['GitHub Actions'],
+      'Visualization': ['Evidence.dev'],
+      'Language': ['Python 3.11+'],
+      'Containerization': ['Docker Compose']
     },
 
     architecture: {
       components: [
-        { name: 'Data Generation', description: 'Python script using Faker to generate synthetic SaaS product data: users, subscriptions, usage events, and churn events with realistic distributions.' },
-        { name: 'Ingestion', description: 'Raw generated data ingested into DuckDB as the lightweight analytical warehouse.' },
-        { name: 'Transformation (dbt)', description: 'Star schema modeled with dbt: fact_subscriptions, dim_users, dim_plans. Business logic for MRR calculation, churn detection, and retention cohorts.' },
-        { name: 'Orchestration', description: 'GitHub Actions workflow automates data generation, dbt runs, and dashboard refresh on a schedule.' },
-        { name: 'Dashboard', description: 'Streamlit app serving live MRR, churn rate, and retention metrics with interactive filtering.' }
-      ]
-    },
-
-    metrics: {
-      'Data Models': 'Star schema (facts + dimensions)',
-      'Key Metrics': 'MRR, Churn Rate, Retention',
-      'Pipeline': 'Fully automated via GitHub Actions',
-      'Dashboard': 'Live Streamlit app'
-    },
-
-    challenges: [
-      {
-        challenge: 'Generating realistic synthetic SaaS data that reflects real-world subscription patterns.',
-        solution: 'Designed Faker-based generators with realistic distributions for subscription durations, plan upgrades/downgrades, churn probabilities, and seasonal usage patterns.'
-      },
-      {
-        challenge: 'Modeling MRR movements accurately including edge cases like mid-cycle plan changes.',
-        solution: 'Implemented careful dbt logic to handle new subscriptions, expansions, contractions, and churns with proper effective dating in the fact table.'
-      }
-    ],
-
-    impact: [
-      'Demonstrates full DE stack proficiency: data generation, warehousing, transformation, orchestration, and visualization',
-      'Shows data modeling judgment on a universally understood business domain (SaaS metrics)',
-      'Proves ability to define data from scratch — understanding business semantics, not just plumbing'
-    ],
-
-    learnings: [
-      'Defining data from scratch forces deep understanding of business semantics — what constitutes a churn event, how MRR movements are categorized',
-      'DuckDB is remarkably powerful as a lightweight analytical warehouse for projects that don\'t need cloud infrastructure',
-      'dbt brings software engineering best practices (version control, testing, documentation) to data transformation'
-    ],
-
-    screenshots: [],
-
-    codeSnippets: {},
-
-    links: {
-      github: 'https://github.com/danielg-gerlach/saas-metrics-pipeline',
-      demo: null,
-      documentation: null
-    }
-  },
-
-  'databricks-lakehouse-pipeline': {
-    id: 'databricks-lakehouse-pipeline',
-    type: 'personal',
-    title: 'Databricks Lakehouse Pipeline',
-    subtitle: 'Medallion architecture (Bronze → Silver → Gold) on Databricks Community Edition for SaaS analytics using Delta Lake',
-    year: '2026',
-    role: 'Data Engineer',
-    team: 'Solo project',
-    status: 'In Development',
-    tldr: 'Build a medallion architecture (Bronze → Silver → Gold) on Databricks Community Edition using synthetic SaaS data. Ingest raw CSV/JSON into Bronze, clean and validate in Silver, aggregate business metrics in Gold. Uses Delta Lake format throughout to demonstrate lakehouse patterns used in DACH enterprise data engineering.',
-
-    overview: `Implements the medallion lakehouse architecture on Databricks Community Edition using the same synthetic SaaS dataset from the SaaS Metrics Pipeline project. Raw data lands in Bronze as CSV/JSON, is cleaned and validated in Silver, and aggregated into business-ready metrics in Gold. Delta Lake format is used throughout for ACID transactions, schema enforcement, and time travel. Demonstrates the exact stack used in DACH enterprise DE roles.`,
-
-    problem: `Enterprise data platforms need a structured approach to progressively refine raw data into analytics-ready assets. The medallion architecture (Bronze → Silver → Gold) is the industry standard pattern for lakehouse platforms, and hands-on experience with Databricks and Delta Lake is essential for data engineering roles in the DACH region.`,
-
-    solution: `Built a three-layer lakehouse on Databricks Community Edition: (1) Bronze layer ingests raw CSV/JSON files preserving all original data. (2) Silver layer applies data quality rules, deduplication, type casting, and standardization using PySpark transformations. (3) Gold layer creates business-ready aggregates for SaaS metrics analysis. All layers stored as Delta Lake tables with proper partitioning.`,
-
-    techStack: {
-      'Platform': ['Databricks Community Edition'],
-      'Processing': ['PySpark', 'Apache Spark 3.5'],
-      'Storage': ['Delta Lake'],
-      'Languages': ['Python', 'SQL (Databricks notebooks)']
-    },
-
-    architecture: {
-      components: [
-        { name: 'Bronze Layer (Raw)', description: 'Landing zone for raw CSV/JSON SaaS data. Schema inference enabled, append-only Delta tables preserve complete history. Minimal transformation — only ingestion metadata added.' },
-        { name: 'Silver Layer (Cleaned)', description: 'PySpark transformations: deduplication, null handling, type casting, timestamp standardization, data quality validation with flags. Bad data preserved with quality indicators.' },
-        { name: 'Gold Layer (Aggregates)', description: 'Business-level aggregates: SaaS metrics rollups, cohort analysis tables, churn summaries. Partitioned by date, optimized for analytics queries.' },
-        { name: 'Delta Lake Features', description: 'ACID transactions, schema evolution, time travel for debugging and audit, optimized file management with OPTIMIZE and VACUUM.' }
+        { name: 'Ingestion (Prefect)', description: 'Daily Prefect flow extracts GitHub repository stats (stars, forks, issues) for top 20 DE/AI tools and Stack Overflow tag activity. Incremental load logic — only new/changed records per run. Rate-limit handling with exponential backoff for GitHub API.' },
+        { name: 'Bronze Layer (MotherDuck)', description: 'Raw JSON/Parquet files archived unchanged in MotherDuck. Append-only, no transformations — full audit trail of source data.' },
+        { name: 'Silver Layer (dbt)', description: 'dbt Staging → Intermediate models: deduplication, type casting, timestamp normalization, schema tests (not_null, unique, accepted_values). Custom macros for surrogate key generation and safe division.' },
+        { name: 'Gold Layer (dbt)', description: 'Analytical aggregates: tool adoption trends over time, monthly growth index per technology category, community health indicators, tool co-occurrence patterns. Incremental models for daily-growing tables.' },
+        { name: 'Evidence.dev Dashboard', description: 'SQL-native dashboard deployed to Vercel showing tool adoption trends, Stack Overflow activity, and monthly technology growth indices with interactive filtering.' },
+        { name: 'CI/CD (GitHub Actions)', description: 'On every push: dbt run → dbt test → dbt docs generate → deploy docs to GitHub Pages. Failing tests block deployment.' }
       ]
     },
 
     metrics: {
       'Architecture': 'Medallion (Bronze/Silver/Gold)',
-      'Storage Format': 'Delta Lake',
-      'Processing': 'PySpark batch',
-      'Platform': 'Databricks Community Edition'
+      'Warehouse': 'MotherDuck (DuckDB Cloud)',
+      'Orchestration': 'Prefect Cloud (daily schedule)',
+      'Data Quality': 'Automated dbt tests on every run',
+      'Dashboard': 'Live on Vercel (Evidence.dev)',
+      'CI/CD': 'GitHub Actions'
     },
 
     challenges: [
       {
-        challenge: 'Working within Databricks Community Edition compute limitations while demonstrating production patterns.',
-        solution: 'Optimized data volumes and processing patterns to work within CE constraints while keeping the architecture identical to what would run on a full Databricks workspace.'
+        challenge: 'Implementing truly incremental loads for GitHub API data without a native watermark.',
+        solution: 'Used dbt incremental models with a custom `max_loaded_at` watermark tracked per source table, ensuring only new records are appended per daily run — avoiding full reloads and controlling API usage.'
       },
       {
-        challenge: 'Implementing proper data quality checks without a dedicated framework.',
-        solution: 'Built custom PySpark validation functions with quality flags at the Silver layer, preserving bad records for investigation while filtering them from Gold aggregates.'
+        challenge: 'Building dbt models that go beyond basic SELECT transformations.',
+        solution: 'Implemented staging → intermediate → mart layer separation, custom macros (generate_surrogate_key, safe_divide), incremental strategies per table growth rate, and custom generic tests beyond built-in schema checks.'
+      },
+      {
+        challenge: 'Making the dashboard deploy automatically without manual intervention.',
+        solution: 'GitHub Actions pipeline runs dbt, generates updated docs, and triggers an Evidence.dev rebuild on Vercel on every successful push — fully hands-off after initial setup.'
       }
     ],
 
     impact: [
-      'Demonstrates hands-on experience with Databricks and Delta Lake — the dominant lakehouse stack in DACH enterprise data engineering',
-      'Shows understanding of medallion architecture patterns used in production data platforms',
-      'Proves ability to implement data quality practices within a lakehouse framework'
+      'Demonstrates production-grade DE fundamentals: incremental ingestion, medallion architecture, dbt best practices, automated data quality, and CI/CD — all in one project',
+      'Generates real, quantifiable insights from live public data — not just synthetic toy datasets',
+      'Evidence.dev + MotherDuck stack signals awareness of the modern, lightweight data platform tooling increasingly used in startups and scale-ups'
     ],
 
     learnings: [
-      'Delta Lake solves real pain points: schema enforcement prevents bad data, ACID transactions prevent partial writes, time travel enables debugging',
-      'Medallion architecture provides clear separation of concerns — bronze never deletes data, silver is source of truth, gold is optimized for consumption',
-      'Community Edition is fully sufficient to demonstrate enterprise lakehouse patterns'
+      'Incremental load design forces you to think about data freshness, deduplication, and late-arriving records from the start — not as an afterthought',
+      'dbt incremental models require understanding of how your warehouse handles merges and inserts at the storage level',
+      'Evidence.dev is a serious alternative to Streamlit for data products — SQL-native, version-controlled, and deployable as a static site'
     ],
 
     screenshots: [],
@@ -147,7 +83,93 @@ export const projectsData = {
     codeSnippets: {},
 
     links: {
-      github: 'https://github.com/danielg-gerlach/databricks-lakehouse-pipeline',
+      github: 'https://github.com/danielg-gerlach/developer-analytics-platform',
+      demo: null,
+      documentation: null
+    }
+  },
+
+  'german-job-market-pipeline': {
+    id: 'german-job-market-pipeline',
+    type: 'personal',
+    title: 'German Job Market Intelligence Pipeline',
+    subtitle: 'LLM-powered pipeline extracting structured insights from German Data & AI job postings via the Bundesagentur für Arbeit API',
+    year: '2026',
+    role: 'Data / AI Engineer',
+    team: 'Solo project',
+    status: 'In Development',
+    tldr: 'Automated pipeline ingesting Data & AI job postings daily from the Bundesagentur für Arbeit REST API, extracting structured data (tools, salary, seniority, remote policy) via GPT-4o-mini with Pydantic Structured Outputs, storing in PostgreSQL, transforming with dbt, and serving a Streamlit dashboard showing real German job market intelligence — including tool demand heatmaps, salary bands, and remote trends.',
+
+    overview: `A production-grade LLM extraction pipeline that turns unstructured German job postings into queryable, analytically useful data. The Bundesagentur für Arbeit API provides free access to hundreds of Data & AI job listings daily — but in raw free-text form. GPT-4o-mini with Pydantic Structured Outputs extracts a typed schema (required tools, salary range, seniority level, remote policy, industry) from each posting. Prefect orchestrates daily runs with cost monitoring, caching, and three-tier error handling. dbt transforms the structured data into analytical Gold tables. A Streamlit dashboard surfaces real market intelligence: which tools dominate, what salaries look like by seniority, how remote-friendly the market actually is.`,
+
+    problem: `The German Data & AI job market produces hundreds of new postings daily — all in unstructured free text. Quantitative market analysis (which tools are demanded in 60% of roles? what does a Junior DE actually earn in Stuttgart?) requires either massive manual effort or a structured extraction layer. The Bundesagentur für Arbeit API provides the raw data for free, but it's analytically worthless without an LLM extraction layer to convert prose into schema.`,
+
+    solution: `Built a full pipeline: (1) Prefect daily flow ingests job postings from Bundesagentur REST API, stores raw text as Parquet (audit archive). (2) GPT-4o-mini with OpenAI Structured Outputs + Pydantic v2 extracts a typed JobExtraction schema per posting — tools required, salary, seniority, remote policy, confidence score. (3) Hash-based caching prevents duplicate LLM calls. (4) Three-tier error handling: API failures → exponential backoff, low-confidence extractions → flagged table, Pydantic validation errors → single retry then manual review queue. (5) LLM cost monitoring tracked in PostgreSQL (llm_call_log). (6) dbt Gold layer: tool demand mart, salary bands, remote trends. (7) Streamlit dashboard serves live market intelligence.`,
+
+    techStack: {
+      'Orchestration': ['Prefect Cloud'],
+      'LLM': ['OpenAI GPT-4o-mini', 'Structured Outputs'],
+      'Validation': ['Pydantic v2'],
+      'Database': ['PostgreSQL', 'Supabase'],
+      'Transformation': ['dbt Core', 'dbt-postgres adapter'],
+      'Dashboard': ['Streamlit'],
+      'Language': ['Python 3.11+'],
+      'Containerization': ['Docker Compose']
+    },
+
+    architecture: {
+      components: [
+        { name: 'Ingestion (Bundesagentur API)', description: 'Daily Prefect flow hits the free Bundesagentur für Arbeit REST API, filtering for Data & IT roles. Raw job posting text archived as Parquet files for full auditability.' },
+        { name: 'LLM Extraction Layer', description: 'GPT-4o-mini with OpenAI Structured Outputs parses each posting into a typed Pydantic schema: required_tools, nice_to_have_tools, salary_min/max_eur, seniority_level, remote_policy, job_domain, years_experience_min, company_size, industry, extraction_confidence.' },
+        { name: 'Cost Monitoring & Caching', description: 'Hash-based cache prevents re-processing already extracted jobs. llm_call_log table tracks every API call: tokens_input, tokens_output, cost_eur, success, model — full cost transparency per run.' },
+        { name: 'Error Handling (3-tier)', description: 'API failures: exponential backoff (3 retries). Low confidence (<0.6): written to jobs_flagged table, never silently dropped. Pydantic validation error: one automatic retry with error context in prompt, then manual review flag.' },
+        { name: 'dbt Analytics Layer', description: 'dim_tools (normalized tool names), fct_job_tool_bridge (many-to-many), mart_tool_demand (tool frequency trends), mart_salary_bands (percentiles by seniority + domain), mart_remote_trend (remote policy over time).' },
+        { name: 'Streamlit Dashboard', description: 'Tool demand heatmap, salary bands by seniority level, remote trend over time, top tool co-occurrences, live LLM cost log — all from real extracted data.' }
+      ]
+    },
+
+    metrics: {
+      'Data Source': 'Bundesagentur für Arbeit REST API (free)',
+      'LLM': 'GPT-4o-mini with Structured Outputs',
+      'Validation': 'Pydantic v2 typed schema',
+      'Cost Monitoring': 'Per-call tracking in PostgreSQL',
+      'Error Handling': '3-tier (retry / flag / review)',
+      'Orchestration': 'Prefect (daily schedule)'
+    },
+
+    challenges: [
+      {
+        challenge: 'Ensuring LLM extraction quality without manual labeling of training data.',
+        solution: 'Used GPT-4o-mini Structured Outputs (not prompt engineering + JSON parsing) for schema-enforced extraction, plus a confidence score field. Low-confidence results are routed to a review queue rather than silently polluting the analytical tables.'
+      },
+      {
+        challenge: 'Controlling LLM costs at scale across daily runs over weeks.',
+        solution: 'Implemented hash-based job ID caching (no duplicate calls), per-call cost logging in a dedicated PostgreSQL table, and budgeted the extraction at ~$0.15/1M tokens for GPT-4o-mini — the cost dashboard is part of the Streamlit app itself.'
+      },
+      {
+        challenge: 'Normalizing tool names extracted by the LLM (e.g. "PySpark" vs "Apache Spark" vs "Spark").',
+        solution: 'Built a dim_tools dbt model with a canonical name mapping table, applied during the Gold layer transformation to ensure consistent tool aggregation in the demand mart.'
+      }
+    ],
+
+    impact: [
+      'Generates real, publishable market insights from live German job data — not synthetic datasets',
+      'Demonstrates production LLM engineering patterns: structured outputs, cost monitoring, error classification, caching — the exact concerns that separate junior from production-grade AI engineering',
+      'Directly relevant domain for DACH job market positioning: the dashboard answers real questions every DE/AI candidate in Germany has'
+    ],
+
+    learnings: [
+      'Pydantic Structured Outputs with OpenAI is strictly more reliable than prompt engineering + JSON parsing — schema enforcement happens at the API level, not in your code',
+      'LLM cost monitoring is not optional in production — tracking token usage per job and per run is the difference between a controlled pipeline and an unexpected API bill',
+      'Confidence scores as first-class fields in extraction schemas force you to design for uncertainty rather than assuming the LLM is always right'
+    ],
+
+    screenshots: [],
+
+    codeSnippets: {},
+
+    links: {
+      github: 'https://github.com/danielg-gerlach/german-job-market-pipeline',
       demo: null,
       documentation: null
     }
@@ -229,7 +251,7 @@ export const projectsData = {
       documentation: null
     }
   },
-  
+
   'data-pipeline': {
     id: 'data-pipeline',
     type: 'personal',
@@ -320,7 +342,7 @@ export const projectsData = {
     ON
       evt.user_id = usr.user_id
     GROUP BY
-      1, 2 -- Group by the first and second columns (month and plan)
+      1, 2
     ORDER BY
       activity_month DESC
   );
@@ -416,14 +438,8 @@ export const projectsData = {
     ],
 
     screenshots: [],
-
     codeSnippets: {},
-
-    links: {
-      github: null,
-      demo: null,
-      documentation: null
-    }
+    links: { github: null, demo: null, documentation: null }
   },
 
   'ai-consulting': {
@@ -475,34 +491,26 @@ export const projectsData = {
       {
         challenge: 'Concerns about data security and confidentiality when using external AI services',
         solution: 'Created comprehensive guidelines for data handling, established clear rules for what information can be shared with AI tools, and explored on-premise and privacy-focused AI solutions.'
-      },
+      }
     ],
 
     impact: [
       'Enabled the company to make strategic decisions about AI investments with clear understanding of costs, benefits, and implementation requirements',
-      'Equipped 5 employees with practical AI skills, improving productivity in customer communication, brainstorming and market analysis',
+      'Equipped 25+ employees with practical AI skills, improving productivity in customer communication, brainstorming and market analysis',
       'Established a framework for responsible AI usage that balances innovation with data security and compliance requirements',
-      'Identified and helped implement 5 quick-win use cases that demonstrated immediate ROI and built organizational confidence in AI technologies',
-      'Created a shift toward AI adoption by demystifying the technology and showing practical, achievable applications'
+      'Identified and helped implement 5 quick-win use cases that demonstrated immediate ROI and built organizational confidence in AI technologies'
     ],
 
     learnings: [
       'The importance of meeting stakeholders where they are - focusing on practical, job-relevant applications rather than technical capabilities',
       'How change management and training are as critical as technology selection when integrating AI into established organizations',
       'The value of starting with quick wins to build momentum and demonstrate ROI before tackling larger transformation initiatives',
-      'That concerns about AI often stem from lack of understanding - hands-on training and clear guidelines can transform skeptics into advocates',
-      'The need to balance innovation with responsibility, particularly around data security, privacy, and ethical AI usage in regulated industries'
+      'That concerns about AI often stem from lack of understanding - hands-on training and clear guidelines can transform skeptics into advocates'
     ],
 
     screenshots: [],
-
     codeSnippets: {},
-
-    links: {
-      github: null,
-      demo: null,
-      documentation: null
-    }
+    links: { github: null, demo: null, documentation: null }
   },
 
   'work-project-1': {
@@ -571,21 +579,14 @@ export const projectsData = {
 
     learnings: [
       'Educational content that provides genuine value builds trust and naturally positions services as solutions',
-      'Revealing complexity through interactive self-assessment is more effective than directly telling prospects they need help',
       'Automated workflows that serve both user and business needs (results email + agent notification) maximize efficiency',
       'Progressive disclosure (showing questions one at a time) reduces cognitive load and increases engagement',
       'Mobile optimization is essential as majority of users access the quiz from mobile devices'
     ],
 
     screenshots: [],
-
     codeSnippets: {},
-
-    links: {
-      github: null,
-      demo: null,
-      documentation: null
-    }
+    links: { github: null, demo: null, documentation: null }
   },
 
   'work-project-2': {
@@ -601,14 +602,14 @@ export const projectsData = {
 
     overview: `Built a comprehensive analytics dashboard that transforms quiz response data into actionable business insights. The dashboard enables the CEO and real estate team to track individual quiz takers, analyze response patterns across all questions, and identify common knowledge gaps among potential customers. By visualizing how users answer specific questions, the dashboard reveals which aspects of private property sales cause the most uncertainty, enabling the company to develop targeted services, refine their consulting approach, and create educational content that addresses actual customer pain points.`,
 
-    problem: `After launching the lead generation quiz, the CEO needed visibility into not just how many people took the quiz, but specifically how they answered each question. Understanding which regulations, legal requirements, or process steps confused potential customers would enable data-driven decisions about service offerings and consulting focus areas. Without centralized analytics, valuable insights about customer knowledge gaps and pain points were locked in individual quiz responses, making it impossible to identify patterns or prioritize service development around actual customer needs.`,
+    problem: `After launching the lead generation quiz, the CEO needed visibility into not just how many people took the quiz, but specifically how they answered each question. Understanding which regulations, legal requirements, or process steps confused potential customers would enable data-driven decisions about service offerings and consulting focus areas.`,
 
-    solution: `Developed a full-featured analytics dashboard using Nuxt.js and TypeScript that provides both individual and aggregated views of quiz data. The dashboard shows detailed profiles of each quiz taker alongside visualizations of answer distributions across all questions. Interactive charts reveal which questions have the lowest correct answer rates, indicating common knowledge gaps. This insight allows the CEO to see, for example, that 70% of users struggle with disclosure requirements, suggesting a market need for disclosure consulting services. The dashboard also tracks completion rates and drop-off points to continuously optimize the quiz and service offerings.`,
+    solution: `Developed a full-featured analytics dashboard using Nuxt.js and TypeScript that provides both individual and aggregated views of quiz data. Interactive charts reveal which questions have the lowest correct answer rates, indicating common knowledge gaps. The dashboard also tracks completion rates and drop-off points to continuously optimize the quiz and service offerings.`,
 
     techStack: {
       'Frontend': ['Nuxt.js', 'Tailwind CSS', 'Chart.js'],
       'Backend': ['TypeScript', 'JavaScript', 'Node.js'],
-      'Database & Authentication': ['PostgreSQL', 'Supabase'],
+      'Database & Authentication': ['PostgreSQL', 'Supabase']
     },
 
     architecture: {
@@ -632,36 +633,25 @@ export const projectsData = {
     challenges: [
       {
         challenge: 'Creating meaningful visualizations that reveal actionable business insights from quiz responses',
-        solution: 'Designed multi-level analytics: overview metrics for quick status checks, question-by-question breakdowns for knowledge gap analysis, and individual user profiles for personalized follow-up. Used intuitive charts with clear labels focusing on actionable insights.'
+        solution: 'Designed multi-level analytics: overview metrics for quick status checks, question-by-question breakdowns for knowledge gap analysis, and individual user profiles for personalized follow-up.'
       }
     ],
 
     impact: [
       'Enabled CEO to identify that 70% of users struggle with disclosure requirements, leading to new disclosure consulting service launch',
-      'Revealed common pain points in legal documentation, informing development of simplified documentation templates',
       'Reduced time to review and respond to new leads by 70% through centralized lead management',
-      'Provided data-driven insights for refining consulting call scripts to address specific knowledge gaps',
-      'Identified quiz optimization opportunities by analyzing drop-off rates, leading to 15% improvement in completion rates',
-      'Enabled targeting of marketing content to address the most common areas of confusion among prospects'
+      'Identified quiz optimization opportunities by analyzing drop-off rates, leading to 15% improvement in completion rates'
     ],
 
     learnings: [
       'Aggregated answer analysis reveals market needs better than individual lead data alone',
       'Visualizing knowledge gaps transforms quiz responses from lead data into strategic business intelligence',
-      'Dashboard design should serve multiple purposes: lead management for sales team, strategic insights for leadership',
-      'Real-time data updates enhance user experience but require careful optimization to avoid performance issues',
       'Pattern recognition in user responses can directly inform product and service development'
     ],
 
     screenshots: [],
-
     codeSnippets: {},
-
-    links: {
-      github: null,
-      demo: null,
-      documentation: null
-    }
+    links: { github: null, demo: null, documentation: null }
   },
 
   'work-project-3': {
@@ -670,7 +660,7 @@ export const projectsData = {
     title: 'CRM System Integration & Set-Up',
     subtitle: 'Integrated and set up a CRM system for managing customer relationships and sales processes for 10+ real estate agents',
     year: '2025',
-    role: 'Your Role (Part-time)',
+    role: 'Consultant',
     team: 'Solo',
     status: 'In Development',
     tldr: 'Integrating and customizing CRM solution for 10+ real estate agents to manage properties, deals, and customer relationships. Planning to unify property and activity management, improve workflow efficiency and give agents more time for customer service.',
@@ -680,7 +670,7 @@ export const projectsData = {
     solution: `An organized and customized CRM system for property, deal, and customer management. This solves both needs and provides one unified solution which benefits costs and the technical setup.`,
 
     techStack: {
-      'General': ['Consulting', 'Customer communication'],
+      'General': ['Consulting', 'Customer communication']
     },
 
     architecture: {
@@ -689,15 +679,10 @@ export const projectsData = {
       ]
     },
 
-    metrics: {
-      'Key Metric': 'Value'
-    },
+    metrics: { 'Key Metric': 'Value' },
 
     challenges: [
-      {
-        challenge: 'Challenge',
-        solution: 'Solution'
-      }
+      { challenge: 'Challenge', solution: 'Solution' }
     ],
 
     impact: [
@@ -705,18 +690,10 @@ export const projectsData = {
       'Business owners and real-estate agents now have more time to serve their customers instead of managing tasks & properties.'
     ],
 
-    learnings: [
-      'Learning'
-    ],
+    learnings: ['Learning'],
 
     screenshots: [],
-
     codeSnippets: {},
-
-    links: {
-      github: null,
-      demo: null,
-      documentation: null
-    }
+    links: { github: null, demo: null, documentation: null }
   }
 }
